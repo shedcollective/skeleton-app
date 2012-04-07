@@ -1,0 +1,26 @@
+#  Options not set in httpd.conf
+#  - - - - - - - - - - - - - - - - - - - - - - - -
+Options +FollowSymlinks -Indexes
+
+#  Set some PHP vars which cannot be set using ini_set();
+#  - - - - - - - - - - - - - - - - - - - - - - - -
+php_value upload_max_filesize 15M
+php_value post_max_size 20M
+php_value max_execution_time 200
+php_value max_input_time 200
+
+#  GZip content for extra oomph. :>
+#  - - - - - - - - - - - - - - - - - - - - - - - -
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+
+
+#  Rewriting magic.
+#  - - - - - - - - - - - - - - - - - - - - - - - -
+RewriteEngine on
+
+#  CodeIgniter Rule
+#  Unless requesting a valid file send to index.php
+#  - - - - - - - - - - - - - - - - - - - - - - - -
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
