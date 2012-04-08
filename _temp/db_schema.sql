@@ -10,6 +10,16 @@
 # Generation Time: 2012-04-07 23:47:04 +0000
 # ************************************************************
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
 # Dump of table db_version
 # ------------------------------------------------------------
 
@@ -586,58 +596,6 @@ CREATE TABLE `url_short` (
 
 
 
-# Dump of table user
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user`;
-
-CREATE TABLE `user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_md5` char(32) DEFAULT NULL,
-  `auth_method_id` int(11) unsigned NOT NULL DEFAULT '1',
-  `group_id` int(11) unsigned NOT NULL,
-  `fb_token` varchar(255) DEFAULT NULL,
-  `fb_id` bigint(20) unsigned DEFAULT NULL,
-  `linkedin_id` varchar(15) DEFAULT NULL,
-  `linkedin_token` varchar(50) DEFAULT NULL,
-  `linkedin_secret` varchar(50) DEFAULT NULL,
-  `ip_address` char(16) NOT NULL,
-  `last_ip` char(16) DEFAULT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(40) DEFAULT '',
-  `password_md5` char(32) DEFAULT NULL,
-  `salt` varchar(40) DEFAULT NULL,
-  `email` varchar(255) NOT NULL DEFAULT '',
-  `activation_code` varchar(40) DEFAULT NULL,
-  `forgotten_password_code` varchar(40) DEFAULT NULL,
-  `remember_code` varchar(40) DEFAULT NULL,
-  `created_on` int(11) unsigned NOT NULL,
-  `last_login` int(11) unsigned NOT NULL,
-  `last_seen` int(11) unsigned NOT NULL,
-  `active` tinyint(1) unsigned DEFAULT NULL,
-  `temp_pw` tinyint(1) unsigned DEFAULT NULL,
-  `failed_login_count` tinyint(4) unsigned DEFAULT '0',
-  `failed_login_expires` int(11) unsigned DEFAULT NULL,
-  `last_update` int(11) unsigned DEFAULT NULL,
-  `user_acl` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email_unique` (`email`),
-  KEY `group_id` (`group_id`),
-  KEY `auth_method_id` (`auth_method_id`),
-  KEY `email_index` (`email`),
-  KEY `fb_token` (`fb_token`),
-  KEY `fb_id` (`fb_id`),
-  KEY `id_md5` (`id_md5`),
-  KEY `password_md5` (`password_md5`),
-  KEY `activation_code` (`activation_code`),
-  KEY `email` (`email`),
-  KEY `forgotten_password_code` (`forgotten_password_code`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`id`),
-  CONSTRAINT `user_ibfk_2` FOREIGN KEY (`auth_method_id`) REFERENCES `user_auth_method` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 # Dump of table user_auth_method
 # ------------------------------------------------------------
 
@@ -692,6 +650,56 @@ VALUES
 
 /*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
 UNLOCK TABLES;
+
+# Dump of table user
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_md5` char(32) DEFAULT NULL,
+  `auth_method_id` int(11) unsigned NOT NULL DEFAULT '1',
+  `group_id` int(11) unsigned NOT NULL,
+  `fb_token` varchar(255) DEFAULT NULL,
+  `fb_id` bigint(20) unsigned DEFAULT NULL,
+  `linkedin_id` varchar(15) DEFAULT NULL,
+  `linkedin_token` varchar(50) DEFAULT NULL,
+  `linkedin_secret` varchar(50) DEFAULT NULL,
+  `ip_address` char(16) NOT NULL,
+  `last_ip` char(16) DEFAULT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(40) DEFAULT '',
+  `password_md5` char(32) DEFAULT NULL,
+  `salt` varchar(40) DEFAULT NULL,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned NOT NULL,
+  `last_seen` int(11) unsigned NOT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `temp_pw` tinyint(1) unsigned DEFAULT NULL,
+  `failed_login_count` tinyint(4) unsigned DEFAULT '0',
+  `failed_login_expires` int(11) unsigned DEFAULT NULL,
+  `last_update` int(11) unsigned DEFAULT NULL,
+  `user_acl` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_unique` (`email`),
+  KEY `group_id` (`group_id`),
+  KEY `auth_method_id` (`auth_method_id`),
+  KEY `email_index` (`email`),
+  KEY `fb_token` (`fb_token`),
+  KEY `fb_id` (`fb_id`),
+  KEY `id_md5` (`id_md5`),
+  KEY `password_md5` (`password_md5`),
+  KEY `activation_code` (`activation_code`),
+  KEY `email` (`email`),
+  KEY `forgotten_password_code` (`forgotten_password_code`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`id`),
+  CONSTRAINT `user_ibfk_2` FOREIGN KEY (`auth_method_id`) REFERENCES `user_auth_method` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 # Dump of table user_meta
