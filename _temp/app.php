@@ -19,7 +19,7 @@
  | to the instance of the app in question.
  |
  */
-	define( 'APP_PRIVATE_KEY', '1234567890' );
+	define( 'APP_PRIVATE_KEY', '{{VALUE_APP_PRIVATE_KEY}}' );
 	
 	
  /*
@@ -30,7 +30,7 @@
  | The public facing name of this app.
  |
  */
-	define( 'APP_NAME',	'Nails.' );
+	define( 'APP_NAME',	'{{VALUE_APP_NAME}}' );
 	
 	
  /*
@@ -41,8 +41,8 @@
  | Define the defaults for email sent from this application.
  |
  */
-	define( 'APP_EMAIL_FROM_NAME',	'Shed Collective' );
-	define( 'APP_EMAIL_FROM_EMAIL',	'hello@shedcollective.org' );
+	define( 'APP_EMAIL_FROM_NAME',	'{{VALUE_APP_EMAIL_FROM_EMAIL}}' );
+	define( 'APP_EMAIL_FROM_EMAIL',	'{{VALUE_APP_EMAIL_FROM_NAME}}' );
 
 	
 	
@@ -60,7 +60,7 @@
  | auth,admin
  |
  */
-	define( 'APP_NAILS_MODULES',	'accounts' );
+	define( 'APP_NAILS_MODULES',	'{{VALUE_APP_NAILS_MODULES}}' );
 
 
 	
