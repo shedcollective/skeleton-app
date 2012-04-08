@@ -632,7 +632,7 @@ CREATE TABLE `user_group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `display_name` varchar(20) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL,
+  `description` varchar(500) NOT NULL,
   `default_homepage` varchar(255) NOT NULL,
   `acl` text,
   PRIMARY KEY (`id`),
@@ -644,9 +644,9 @@ LOCK TABLES `user_group` WRITE;
 
 INSERT INTO `user_group` (`id`, `name`, `display_name`, `description`, `default_homepage`, `acl`)
 VALUES
-	(1, 'superuser', 'Superuser', '', '/admin', 'a:2:{s:9:\"superuser\";b:1;s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
-	(2, 'admin', 'Adminsitrator', '', '/admin', 'a:1:{s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
-	(3, 'member', 'Member', '', '/', NULL);
+	(1, 'superuser', 'Superuser', 'Superuser\'s have complete access to all modules in admin regardless of specific module allocations.', '/admin', 'a:2:{s:9:\"superuser\";b:1;s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
+	(2, 'admin', 'Adminsitrator', 'Administrators have access to specific areas within admin.', '/admin', 'a:1:{s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
+	(3, 'member', 'Member', 'Members have no access to admin.', '/', NULL);
 
 /*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
 UNLOCK TABLES;
