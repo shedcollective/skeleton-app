@@ -53,7 +53,8 @@
  | 
  | A comme deliminated list of Nails modules to enable for this app.
  | By listing the module name here the module will be available to the
- | app and will appear in the app's administration.
+ | app and will appear in the app's administration; include custom controllers
+ | specific to this app (these should be placed at controllers/admin/).
  | 
  | Default modules will always be enabled. These are:
  |
