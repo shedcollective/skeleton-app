@@ -644,9 +644,9 @@ LOCK TABLES `user_group` WRITE;
 
 INSERT INTO `user_group` (`id`, `name`, `display_name`, `description`, `default_homepage`, `acl`)
 VALUES
-	(1,'superuser','Superuser','','/admin','a:2:{s:9:\"superuser\";s:1:\"1\";s:5:\"admin\";a:12:{i:0;s:8:\"accounts\";i:1;s:4:\"blog\";i:2;s:7:\"content\";i:3;s:9:\"dashboard\";i:4;s:6:\"emails\";i:5;s:9:\"employers\";i:6;s:3:\"faq\";i:7;s:8:\"feedback\";i:8;s:11:\"internships\";i:9;s:5:\"lists\";i:10;s:6:\"orders\";i:11;s:8:\"settings\";}}'),
-	(2,'admin','Adminsitrator','','/admin','a:1:{s:5:\"admin\";a:11:{i:0;s:8:\"accounts\";i:1;s:4:\"blog\";i:2;s:7:\"content\";i:3;s:9:\"dashboard\";i:4;s:6:\"emails\";i:5;s:9:\"employers\";i:6;s:3:\"faq\";i:7;s:8:\"feedback\";i:8;s:11:\"internships\";i:9;s:5:\"lists\";i:10;s:6:\"orders\";}}'),
-	(3,'member','Member','','/',NULL);
+	(1, 'superuser', 'Superuser', '', '/admin', 'a:2:{s:9:\"superuser\";b:1;s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
+	(2, 'admin', 'Adminsitrator', '', '/admin', 'a:1:{s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
+	(3, 'member', 'Member', '', '/', NULL);
 
 /*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
 UNLOCK TABLES;
