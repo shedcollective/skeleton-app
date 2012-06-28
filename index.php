@@ -25,9 +25,13 @@
  |
  |
  */
- 	if ( ! file_exists( './settings/app.php' ) )
-	 	die( 'ERROR: No app settings file.' );
-	 
+ 	if ( ! file_exists( './settings/app.php' ) ) :
+ 	
+ 		header( 'HTTP/1.1 500 Bad Request' );
+		die( 'ERROR: No app settings file.' );
+	
+	endif;
+	
  	require './settings/app.php';
  	
  	
@@ -40,9 +44,13 @@
  |
  |
  */
- 	if ( ! file_exists( './settings/deploy.php' ) )
-	 	die( 'ERROR: No environment settings file.' );
-	 
+ 	if ( ! file_exists( './settings/deploy.php' ) ) :
+ 	
+ 		header( 'HTTP/1.1 500 Bad Request' );
+		die( 'ERROR: No environment settings file.' );
+	
+	endif;
+	
  	require './settings/deploy.php';
  	
  	
@@ -82,7 +90,7 @@
 	 		//	Fall back, back to plain text
 	 		else :
 	 		
-	 			die( '<h1>Down for maintenance</h1>' );
+	 			echo '<h1>Down for maintenance</h1>';
 	 		
 	 		endif;
 	 		
