@@ -138,10 +138,16 @@
  |
  | The name of the CDN server if available. Trailing slash please.
  | 
- | CDN_SERVER - The publically accessible URL of the CDN server.
- | CDN_PATH   - The absolute path to the CDN
+ | CDN_LIBRARY	- Which CDN driver to use, default is LOCAL.
+ | CDN_MAGIC	- The location of the mimetypes file - for magical mimetype conversions
+ | CDN_SERVER	- The publically accessible URL of the CDN server, only used by LOCAL driver.
+ | CDN_PATH		- The absolute path to the CDN, only used by LOCAL driver.
  |
  */
+	define( 'CDN_DRIVER',	'{{VALUE_DEPLOY_CDN_DRIVER}}' );
+	define( 'CDN_MAGIC',	'{{VALUE_DEPLOY_CDN_MAGIC}}' );
+	
+	//	Local CDN variables
  	define( 'CDN_SERVER',	'{{VALUE_DEPLOY_CDN_URL}}' );
  	define( 'CDN_PATH',		'{{VALUE_DEPLOY_CDN_PATH}}' );
  	
