@@ -1,5 +1,3 @@
 .DS_Store
-*.cache
-assets/cache*
 application/log*
 settings/deploy.php
