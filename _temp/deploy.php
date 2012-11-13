@@ -81,7 +81,8 @@
  | sent to this address, prevents any accidental sending to live users
  |
  */
-	define( 'EMAIL_OVERRIDE', '{{VALUE_DEPLOY_EMAIL_OVERRIDE}}' );
+	define( 'EMAIL_OVERRIDE',	'{{VALUE_DEPLOY_EMAIL_OVERRIDE}}' );
+	define( 'EMAIL_DEBUG',		FALSE );
 	
 	
  /*

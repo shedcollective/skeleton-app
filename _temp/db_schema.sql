@@ -40,50 +40,100 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table emailer_sent
+# Dump of table email_queue
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `emailer_sent`;
+DROP TABLE IF EXISTS `email_queue`;
 
-CREATE TABLE `emailer_sent` (
+CREATE TABLE `email_queue` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ref` char(10) DEFAULT NULL,
-  `to` varchar(255) NOT NULL,
-  `time_sent` int(11) unsigned NOT NULL,
-  `type_id` varchar(50) DEFAULT '',
-  `email_vars` text,
+  `ref` varchar(10) DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_email` varchar(150) DEFAULT NULL,
+  `time_queued` int(11) unsigned NOT NULL,
+  `type_id` int(11) unsigned NOT NULL,
+  `email_vars` longtext,
+  `internal_ref` int(11) unsigned DEFAULT NULL,
+  `queue_id` bigint(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `type_id` (`type_id`),
-  KEY `ref` (`ref`),
-  KEY `to` (`to`)
+  KEY `user_id` (`user_id`),
+  KEY `type_id_2` (`type_id`,`internal_ref`),
+  CONSTRAINT `email_queue_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `email_queue_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `email_queue_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
-# Dump of table emailer_type
+# Dump of table email_queue_archive
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `emailer_type`;
+DROP TABLE IF EXISTS `email_queue_archive`;
 
-CREATE TABLE `emailer_type` (
+CREATE TABLE `email_queue_archive` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `description` varchar(500) DEFAULT NULL,
-  `template_file` varchar(150) NOT NULL DEFAULT '',
-  `template_file_plaintext` varchar(150) NOT NULL DEFAULT '',
-  `subject` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `ref` varchar(10) DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_email` varchar(150) DEFAULT NULL,
+  `time_queued` int(11) unsigned NOT NULL,
+  `type_id` int(11) unsigned NOT NULL,
+  `email_vars` longtext,
+  `internal_ref` int(11) unsigned DEFAULT NULL,
+  `read_count` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type_id` (`type_id`),
+  KEY `user_id` (`user_id`),
+  KEY `type_id_2` (`type_id`,`internal_ref`),
+  CONSTRAINT `email_queue_archive_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `email_queue_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `email_queue_archive_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `emailer_type` WRITE;
-/*!40000 ALTER TABLE `emailer_type` DISABLE KEYS */;
 
-INSERT INTO `emailer_type` (`id`, `name`, `description`, `template_file`, `template_file_plaintext`, `subject`)
+
+# Dump of table email_queue_track_open
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `email_queue_track_open`;
+
+CREATE TABLE `email_queue_track_open` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email_id` int(11) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email_id` (`email_id`),
+  CONSTRAINT `email_queue_track_open_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `email_queue_archive` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table email_queue_type
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `email_queue_type`;
+
+CREATE TABLE `email_queue_type` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_string` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `cron_run` enum('instant','prompt','hourly','daily','weekly-sun','weekly-mon','weekly-tue','weekly-wed','weekly-thur','weekly-fri','weekly-sat','fortnightly','monthly') NOT NULL DEFAULT 'instant',
+  `type` enum('service_acct') NOT NULL DEFAULT 'service_acct',
+  `description` text,
+  `template_file` varchar(150) NOT NULL,
+  `template_file_plaintext` varchar(150) NOT NULL DEFAULT '',
+  `subject` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_string` (`id_string`),
+  KEY `id_string_2` (`id_string`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `email_queue_type` WRITE;
+/*!40000 ALTER TABLE `email_queue_type` DISABLE KEYS */;
+
+INSERT INTO `email_queue_type` (`id`, `id_string`, `name`, `cron_run`, `type`, `description`, `template_file`, `template_file_plaintext`, `subject`)
 VALUES
-	(1,'Nails. Activation/verification',NULL,'','',NULL),
-	(2,'Nails. Forgotten Password',NULL,'','',NULL);
+	(1,'forgotten_password','Forgotten Password - instant','instant','service_acct','Email which is sent when a user requests a password reset.','auth/forgotten_password','auth/forgotten_password_plaintext','Reset your Password');
 
-/*!40000 ALTER TABLE `emailer_type` ENABLE KEYS */;
+/*!40000 ALTER TABLE `email_queue_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
