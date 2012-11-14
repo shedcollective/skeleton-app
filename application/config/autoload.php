@@ -57,7 +57,6 @@ $autoload['libraries'][] = 'database';
 $autoload['libraries'][] = 'session';
 $autoload['libraries'][] = 'encrypt';
 $autoload['libraries'][] = 'asset';
-//$autoload['libraries'] = array();
 
 
 /*
@@ -81,6 +80,7 @@ $autoload['helper'][] = 'text';
 $autoload['helper'][] = 'exception';
 $autoload['helper'][] = 'typography';
 $autoload['helper'][] = 'cdn';
+$autoload['helper'][] = 'event';
 
 
 /*

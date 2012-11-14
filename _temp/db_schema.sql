@@ -137,6 +137,73 @@ VALUES
 UNLOCK TABLES;
 
 
+
+# Dump of table event_type
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `event_type`;
+
+CREATE TABLE `event_type` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_string` varchar(30) NOT NULL DEFAULT '',
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `description` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `event_type` WRITE;
+/*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
+
+INSERT INTO `event_type` (`id`, `id_string`, `name`, `description`)
+VALUES
+	(1,'did_log_in','User logged in','Fired when a user logs in'),
+	(2,'did_log_out','User Logged out','Fired when a user logs out');
+
+/*!40000 ALTER TABLE `event_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+# Dump of table event
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `event`;
+
+CREATE TABLE `event` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type_id` int(11) unsigned DEFAULT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `vars` text,
+  `ref` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `level` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `type` (`type_id`),
+  KEY `type_2` (`type_id`,`created_by`),
+  CONSTRAINT `event_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `event_ibfk_3` FOREIGN KEY (`type_id`) REFERENCES `event_type` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table event_interested_party
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `event_interested_party`;
+
+CREATE TABLE `event_interested_party` (
+  `event_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `read` tinyint(1) unsigned NOT NULL,
+  KEY `event_id` (`event_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `event_interested_party_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `event_interested_party_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table profanity_list
 # ------------------------------------------------------------
 
