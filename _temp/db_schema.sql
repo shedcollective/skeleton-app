@@ -131,8 +131,9 @@ LOCK TABLES `email_queue_type` WRITE;
 
 INSERT INTO `email_queue_type` (`id`, `id_string`, `name`, `cron_run`, `type`, `description`, `template_file`, `template_file_plaintext`, `subject`)
 VALUES
-	(1,'test_email','Test Email - instant','instant','service_acct','Test email template, normally used in admin to test if recipients can receive email sent by the system','utilities/test_email','utilities/test_email_plaintext','Test Email');
-	(2,'forgotten_password','Forgotten Password - instant','instant','service_acct','Email which is sent when a user requests a password reset.','auth/forgotten_password','auth/forgotten_password_plaintext','Reset your Password');
+	(1,'test_email','Test Email - instant','instant','service_acct','Test email template, normally used in admin to test if recipients can receive email sent by the system','utilities/test_email','utilities/test_email_plaintext','Test Email'),
+	(2, 'verify_email', 'Verify Email - instant', 'instant', 'service_acct', 'Email sent with a verification code', 'auth/verify_email', 'auth/verify_email_plaintext', 'Please verify your email address'),
+	(3,'forgotten_password','Forgotten Password - instant','instant','service_acct','Email which is sent when a user requests a password reset.','auth/forgotten_password','auth/forgotten_password_plaintext','Reset your Password');
 
 /*!40000 ALTER TABLE `email_queue_type` ENABLE KEYS */;
 UNLOCK TABLES;
