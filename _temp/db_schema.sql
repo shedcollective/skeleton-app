@@ -804,6 +804,7 @@ CREATE TABLE `user` (
   `failed_login_expires` int(11) unsigned DEFAULT NULL,
   `last_update` int(11) unsigned DEFAULT NULL,
   `user_acl` text,
+  `login_count` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_unique` (`email`),
   KEY `group_id` (`group_id`),
