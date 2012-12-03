@@ -20,6 +20,20 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+# Dump of table admin_help_video
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `admin_help_video`;
+
+CREATE TABLE `admin_help_video` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `vimeo_id` varchar(10) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 # Dump of table db_version
 # ------------------------------------------------------------
 
@@ -764,7 +778,7 @@ LOCK TABLES `user_group` WRITE;
 INSERT INTO `user_group` (`id`, `name`, `display_name`, `description`, `default_homepage`, `acl`)
 VALUES
 	(1, 'superuser', 'Superuser', 'Superuser\'s have complete access to all modules in admin regardless of specific module allocations.', '/admin', 'a:2:{s:9:\"superuser\";b:1;s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
-	(2, 'admin', 'Adminsitrator', 'Administrators have access to specific areas within admin.', '/admin', 'a:1:{s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
+	(2, 'admin', 'Administrator', 'Administrators have access to specific areas within admin.', '/admin', 'a:1:{s:5:\"admin\";a:1:{i:0;s:9:\"dashboard\";}}'),
 	(3, 'member', 'Member', 'Members have no access to admin.', '/', NULL);
 
 /*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
