@@ -57,8 +57,12 @@
  | 
  | Different environments will require different levels of error reporting.
  |
+ | Heads-up: CI intercepts native error handling so to suppress errors from
+ | the output make sure this is set to 0 (errors will still be logged in the
+ | application's error logs however).
+ |
  */
-	error_reporting( {{VALUE_DEPLOY_ERROR_REPORTING}} );
+	error_reporting( E_ALL|E_STRICT );
 	
 	
  /*
