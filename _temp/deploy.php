@@ -6,7 +6,7 @@
  | 
  | Deployment specific settings.
  | 
- | Location: [Name of deployment server/location]
+ | Location: {{VALUE_DEPLOY_ENVIRONMENT}}
  | 
  | 
  | --------------------------------------------------------------------
@@ -42,7 +42,7 @@
  | remote folder used by the main Nails site however it may be desireable
  | to load the files from elsewhere (such as from the APP).
  | 
- | Remote URL: http://nails.shedcollective.org/assets/nails/
+ | Remote URL: http://nailsapp.co.uk/assets/nails/
  | 
  | WITH trailing slash, please.
  |
@@ -151,6 +151,18 @@
 	//	Local CDN variables
  	define( 'CDN_SERVER',	'{{VALUE_DEPLOY_CDN_URL}}' );
  	define( 'CDN_PATH',		'{{VALUE_DEPLOY_CDN_PATH}}' );
+ 	
+ 	
+/*
+ | --------------------------------------------------------------------
+ | CACHE DIRECTORY
+ | --------------------------------------------------------------------
+ | 
+ | A writeable directory which the app can use to write temporary data to.
+ | Trailing slash please.
+ | 
+ */
+	define( 'CACHE_DIR', '{{VALUE_DEPLOY_CACHE_PATH}}' );
  	
  	
 /*
