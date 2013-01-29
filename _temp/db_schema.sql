@@ -220,6 +220,20 @@ CREATE TABLE `event_interested_party` (
 
 
 
+# Dump of table log_cron
+# ------------------------------------------------------------
+
+CREATE TABLE `log_cron` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `task` varchar(150) NOT NULL DEFAULT '',
+  `duration` double NOT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table profanity_list
 # ------------------------------------------------------------
 
