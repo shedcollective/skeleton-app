@@ -1,4 +1,0 @@
-<?=strtoupper( $email_subject )?>
-
----------------
-
