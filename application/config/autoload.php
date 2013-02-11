@@ -53,7 +53,6 @@ $autoload['packages'][] = NAILS_PATH;
 */
 
 $autoload['libraries'][] = 'system/debug';
-$autoload['libraries'][] = 'database';
 $autoload['libraries'][] = 'session';
 $autoload['libraries'][] = 'encrypt';
 $autoload['libraries'][] = 'asset';

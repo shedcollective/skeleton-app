@@ -133,7 +133,6 @@ CREATE TABLE `email_queue_type` (
   `type` enum('service_acct') NOT NULL DEFAULT 'service_acct',
   `description` text,
   `template_file` varchar(150) NOT NULL,
-  `template_file_plaintext` varchar(150) NOT NULL DEFAULT '',
   `subject` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_string` (`id_string`),
@@ -143,11 +142,12 @@ CREATE TABLE `email_queue_type` (
 LOCK TABLES `email_queue_type` WRITE;
 /*!40000 ALTER TABLE `email_queue_type` DISABLE KEYS */;
 
-INSERT INTO `email_queue_type` (`id`, `id_string`, `name`, `cron_run`, `type`, `description`, `template_file`, `template_file_plaintext`, `subject`)
+INSERT INTO `email_queue_type` (`id`, `id_string`, `name`, `cron_run`, `type`, `description`, `template_file`, `subject`)
 VALUES
-	(1,'test_email','Test Email - instant','instant','service_acct','Test email template, normally used in admin to test if recipients can receive email sent by the system','utilities/test_email','utilities/test_email_plaintext','Test Email'),
-	(2, 'verify_email', 'Verify Email - instant', 'instant', 'service_acct', 'Email sent with a verification code', 'auth/verify_email', 'auth/verify_email_plaintext', 'Please verify your email address'),
-	(3,'forgotten_password','Forgotten Password - instant','instant','service_acct','Email which is sent when a user requests a password reset.','auth/forgotten_password','auth/forgotten_password_plaintext','Reset your Password');
+	(1,'test_email','Test Email - instant','instant','service_acct','Test email template, normally used in admin to test if recipients can receive email sent by the system','utilities/test_email','Test Email'),
+	(2,'verify_email', 'Verify Email, generic - instant', 'instant', 'service_acct', 'Email sent with a verification code', 'auth/verify_email', 'auth/verify_email_plaintext', 'Welcome'),
+	(3,'forgotten_password','Forgotten Password - instant','instant','service_acct','Email which is sent when a user requests a password reset.','auth/forgotten_password','Reset your Password');
+
 
 /*!40000 ALTER TABLE `email_queue_type` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -815,7 +815,7 @@ CREATE TABLE `user` (
   `linkedin_secret` varchar(50) DEFAULT NULL,
   `ip_address` char(16) NOT NULL,
   `last_ip` char(16) DEFAULT NULL,
-  `username` varchar(30) NOT NULL,
+  `username` varchar(30) DEFAULT NULL,
   `password` varchar(40) DEFAULT '',
   `password_md5` char(32) DEFAULT NULL,
   `salt` varchar(40) DEFAULT NULL,
@@ -861,6 +861,7 @@ CREATE TABLE `user_meta` (
   `referred_by` int(11) unsigned DEFAULT NULL,
   `first_name` varchar(150) NOT NULL DEFAULT '',
   `last_name` varchar(150) NOT NULL DEFAULT '',
+  `gender` enum('undisclosed','male','female','transgender','other') NOT NULL DEFAULT 'undisclosed',
   `profile_img` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_2` (`user_id`),
