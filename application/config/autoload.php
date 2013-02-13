@@ -94,8 +94,7 @@ $autoload['helper'][] = 'event';
 |
 */
 
-$autoload['config'][] = 'nails_meta';
-$autoload['config'][] = 'nails_ssl';
+$autoload['config'] = array();
 
 
 /*

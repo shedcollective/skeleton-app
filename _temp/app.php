@@ -58,6 +58,18 @@
  |
  */
 	define( 'APP_NAILS_MODULES',	'{{VALUE_APP_NAILS_MODULES}}' );
+ 	
+ 	
+/*
+ | --------------------------------------------------------------------
+ | SSL ROUTING
+ | --------------------------------------------------------------------
+ | 
+ | Whether to enable SSL routing or not for this app (only effective
+ | on production).
+ | 
+ */
+	define( 'SSL_ROUTING', FALSE );
 
 
 	
