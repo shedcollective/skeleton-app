@@ -125,4 +125,5 @@
  | Load up the Main CodeIgniter index file
  | 
  */
- 	include NAILS_PATH . 'CodeIgniter/index.ci.php';
+ 
+ 	include './index.ci.php';
