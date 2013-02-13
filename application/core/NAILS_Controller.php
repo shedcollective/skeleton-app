@@ -21,12 +21,8 @@ class NAILS_Controller extends CORE_NAILS_Controller
 		//	Load NAILS. Assets; this little nugget of CSS will pull in skeleton and
 		//	some common utility styles, such as Super Awesome Buttons.
 		
-		if ( ! $this->_module_is_enabled( 'admin' ) || $this->uri->segment( 1 ) != 'admin' ) :
-		
-			$this->asset->load( 'nails.default.css', TRUE );
-			$this->asset->load( 'nails.default.min.js', TRUE );
-			
-		endif;
+		$this->asset->load( 'nails.default.css', TRUE );
+		$this->asset->load( 'nails.default.min.js', TRUE );
 	}
 }
 

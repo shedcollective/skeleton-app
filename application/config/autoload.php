@@ -52,7 +52,6 @@ $autoload['packages'][] = NAILS_PATH;
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'][] = 'system/debug';
 $autoload['libraries'][] = 'session';
 $autoload['libraries'][] = 'encrypt';
 $autoload['libraries'][] = 'asset';
