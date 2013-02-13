@@ -10,9 +10,7 @@
  | Lead Developer: Pablo de la Peña	(p@shedcollective.org, @hellopablo)
  | Lead Developer: Gary Duncan		(g@shedcollective.org, @gsdd)
  | 
- | Current release:		v2.4.1
- | Released on:			16th March 2012 @ 18:12
- | Release notes:		http://nails.shedcollective.org/release-notes/
+ | Documentation: http://docs.nailsapp.co.uk
  | 
  | CodeIgniter version: v2.1.0
  |
