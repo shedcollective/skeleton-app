@@ -136,7 +136,6 @@
  		
  			//	Suppress all errors on production
  			error_reporting( 0 );
-			define( 'DB_DEBUG', FALSE );
  		
  		break;
  		
@@ -146,7 +145,6 @@
  		
  			//	Show errors everywhere else
  			error_reporting( E_ALL|E_STRICT );
-			define( 'DB_DEBUG', TRUE );
  		
  		break;
  	
