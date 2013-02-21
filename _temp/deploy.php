@@ -47,7 +47,15 @@
  | WITH trailing slash, please.
  |
  */
-	define( 'NAILS_URL', '{{VALUE_DEPLOY_NAILS_URL}}' );
+ 	if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) :
+ 	
+		define( 'NAILS_URL', '{{VALUE_DEPLOY_NAILS_URL_SECURE}}' );
+		
+	else :
+	
+		define( 'NAILS_URL', '{{VALUE_DEPLOY_NAILS_URL}}' );
+	
+	endif;
 	
 	
  /*
