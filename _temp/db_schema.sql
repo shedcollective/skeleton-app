@@ -35,6 +35,62 @@ CREATE TABLE `admin_help_video` (
 
 
 
+# Dump of table date_format_date
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `date_format_date`;
+
+CREATE TABLE `date_format_date` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(40) NOT NULL DEFAULT '',
+  `format` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `date_format_date` WRITE;
+/*!40000 ALTER TABLE `date_format_date` DISABLE KEYS */;
+
+INSERT INTO `date_format_date` (`id`, `label`, `format`)
+VALUES
+	(1, 'DD/MM/YYYY', 'd/m/Y'),
+	(2, 'DD/MM/YY', 'd/m/y'),
+	(3, 'MM/DD/YYYY', 'm/d/Y'),
+	(4, 'MM/DD/YYYY', 'm/d/y'),
+	(5, 'DD-MM-YYYY', 'd-m-Y'),
+	(6, 'DD-MM-YY', 'd-m-y'),
+	(7, 'MM-DD-YYYY', 'm-d-Y'),
+	(8, 'MM-DD-YY', 'm-d-y');
+
+/*!40000 ALTER TABLE `date_format_date` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+# Dump of table date_format_time
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `date_format_time`;
+
+CREATE TABLE `date_format_time` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(40) NOT NULL DEFAULT '',
+  `format` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `date_format_date` WRITE;
+/*!40000 ALTER TABLE `date_format_date` DISABLE KEYS */;
+
+INSERT INTO `date_format_time` (`id`, `label`, `format`)
+VALUES
+	(1, '24 Hour', 'H:i:s'),
+	(2, '12 Hour', 'g:i:s A');
+
+/*!40000 ALTER TABLE `date_format_date` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
 # Dump of table email_queue
 # ------------------------------------------------------------
 
@@ -1904,6 +1960,8 @@ CREATE TABLE `user_meta` (
   `last_name` varchar(150) NOT NULL DEFAULT '',
   `gender` enum('undisclosed','male','female','transgender','other') NOT NULL DEFAULT 'undisclosed',
   `timezone_id` int(11) unsigned NOT NULL DEFAULT '40',
+  `date_format_date_id` int(11) unsigned NOT NULL DEFAULT '1',
+  `date_format_time_id` int(11) unsigned NOT NULL DEFAULT '1',
   `language_id` int(11) unsigned NOT NULL DEFAULT '202',
   `profile_img` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
@@ -1916,6 +1974,8 @@ CREATE TABLE `user_meta` (
   KEY `timezone_id` (`timezone_id`),
   CONSTRAINT `user_meta_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `user_meta_ibfk_4` FOREIGN KEY (`timezone_id`) REFERENCES `timezone` (`id`)
+  CONSTRAINT `user_meta_ibfk_5` FOREIGN KEY (`date_format_date_id`) REFERENCES `date_format_date` (`id`)
+  CONSTRAINT `user_meta_ibfk_6` FOREIGN KEY (`date_format_time_id`) REFERENCES `date_format_time` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
