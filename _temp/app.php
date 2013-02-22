@@ -38,11 +38,13 @@
  | EMAIL DEFAULTS
  | --------------------------------------------------------------------
  | 
- | Define the defaults for email sent from this application.
+ | Define the defaults for email sent from this application and the
+ | email which should receive any error notifications
  |
  */
-	define( 'APP_EMAIL_FROM_NAME',	'{{VALUE_APP_EMAIL_FROM_EMAIL}}' );
-	define( 'APP_EMAIL_FROM_EMAIL',	'{{VALUE_APP_EMAIL_FROM_NAME}}' );
+	define( 'APP_EMAIL_FROM_NAME',	'{{VALUE_APP_EMAIL_FROM_NAME}}' );
+	define( 'APP_EMAIL_FROM_EMAIL',	'{{VALUE_APP_EMAIL_FROM_EMAIL}}' );
+	define( 'APP_EMAIL_DEVELOPER',	'{{VALUE_APP_EMAIL_DEVELOPER}}' );
 
 	
 	
