@@ -131,12 +131,54 @@ CREATE TABLE `email_queue_archive` (
   `email_vars` longtext,
   `internal_ref` int(11) unsigned DEFAULT NULL,
   `read_count` tinyint(3) unsigned NOT NULL,
+  `link_click_count` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `type_id` (`type_id`),
   KEY `user_id` (`user_id`),
   KEY `type_id_2` (`type_id`,`internal_ref`),
   CONSTRAINT `email_queue_archive_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `email_queue_type` (`id`) ON DELETE CASCADE,
   CONSTRAINT `email_queue_archive_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table email_queue_link
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `email_queue_link`;
+
+CREATE TABLE `email_queue_link` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email_id` int(11) unsigned NOT NULL,
+  `url` varchar(300) NOT NULL DEFAULT '',
+  `title` varchar(255) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `is_html` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email_id` (`email_id`),
+  CONSTRAINT `email_queue_link_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `email_queue_archive` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table email_queue_track_link
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `email_queue_track_link`;
+
+CREATE TABLE `email_queue_track_link` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email_id` int(11) unsigned NOT NULL,
+  `link_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email_id` (`email_id`),
+  KEY `link_id` (`link_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `email_queue_track_link_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `email_queue_archive` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `email_queue_track_link_ibfk_2` FOREIGN KEY (`link_id`) REFERENCES `email_queue_link` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `email_queue_track_link_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -149,10 +191,13 @@ DROP TABLE IF EXISTS `email_queue_track_open`;
 CREATE TABLE `email_queue_track_open` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `email_id` (`email_id`),
-  CONSTRAINT `email_queue_track_open_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `email_queue_archive` (`id`) ON DELETE CASCADE
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `email_queue_track_open_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `email_queue_archive` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `email_queue_track_open_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
