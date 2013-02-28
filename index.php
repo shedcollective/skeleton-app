@@ -23,14 +23,14 @@
  |
  |
  */
- 	if ( ! file_exists( './settings/app.php' ) ) :
+ 	if ( ! file_exists( dirname(__FILE__) . '/settings/app.php' ) ) :
  	
  		header( 'HTTP/1.1 500 Bad Request' );
 		die( 'ERROR: No app settings file.' );
 	
 	endif;
 	
- 	require './settings/app.php';
+ 	require dirname(__FILE__) . '/settings/app.php';
  	
  	
  /*
@@ -42,14 +42,14 @@
  |
  |
  */
- 	if ( ! file_exists( './settings/deploy.php' ) ) :
+ 	if ( ! file_exists( dirname(__FILE__) . '/settings/deploy.php' ) ) :
  	
  		header( 'HTTP/1.1 500 Bad Request' );
 		die( 'ERROR: No environment settings file.' );
 	
 	endif;
 	
- 	require './settings/deploy.php';
+ 	require dirname(__FILE__) . '/settings/deploy.php';
  	
  	
  /*
@@ -76,14 +76,14 @@
 			// --------------------------------------------------------------------------
 			
 	 		//	Look for an app override
-	 		if ( file_exists( './application/views/maintenance/maintenance.php' ) ) :
+	 		if ( file_exists( dirname(__FILE__) . '/application/views/maintenance/maintenance.php' ) ) :
 	 		
-	 			include './application/views/maintenance/maintenance.php';
+	 			require dirname(__FILE__) . '/application/views/maintenance/maintenance.php';
 	 		
 	 		//	Fall back to the Nails maintenance page
 	 		elseif ( file_exists( NAILS_PATH . 'views/maintenance/maintenance.php' ) ):
 	 		
-	 			include NAILS_PATH . 'views/maintenance/maintenance.php';
+	 			require NAILS_PATH . 'views/maintenance/maintenance.php';
 	 		
 	 		//	Fall back, back to plain text
 	 		else :
@@ -158,4 +158,4 @@
  | 
  */
  
- 	include './index.ci.php';
+ 	require dirname(__FILE__) . '/index.ci.php';
