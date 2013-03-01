@@ -69,11 +69,29 @@ class Fatal_Error_Hook
 		);
 		
 		//	Prep the email and send
-		$_to		= APP_EMAIL_DEVELOPER;
-		$_subject	= 'FATAL ERROR OCCURRED ON ' . strtoupper( APP_NAME );
+		if ( isset( $_SERVER['HTTP_HOST'] ) ) :
+		
+			$_host = $_SERVER['HTTP_HOST'];
+		
+		else :
+		
+			if ( $oCI->input->is_cli_request() ) :
+			
+				//	CLI
+				$_host = 'CLI REQUEST';
+			
+			else :
+			
+				$_host = 'UNABLE TO DETERMINE HOST, SERVER HOST: ' . gethostname();
+			
+			endif;
+		
+		endif;
+		
+		$_subject	= '!! FATAL ERROR OCCURRED ON ' . strtoupper( APP_NAME );
 		$_message	= 'Hi,' . "\n";
 		$_message	.= '' . "\n";
-		$_message	.= 'A Fatal Error just occurred within ' . APP_NAME . ' (' . $_SERVER['HTTP_HOST'] . ')' . "\n";
+		$_message	.= 'A Fatal Error just occurred within ' . APP_NAME . ' (' . $_host . ')' . "\n";
 		$_message	.= '' . "\n";
 		$_message	.= 'Please take a look as a matter of urgency; details are noted below:' . "\n";
 		$_message	.= '' . "\n";
@@ -93,14 +111,7 @@ class Fatal_Error_Hook
 		$_message	.= 'URI: ' . $aInfo['uri'] . "\n";
 		$_message	.= '' . "\n";
 		
-		$_headers = 'From: ' . APP_EMAIL_FROM_NAME . ' <' . 'root@' . gethostname() . '>' . "\r\n" .
-					'Reply-To: ' . APP_EMAIL_FROM_EMAIL . "\r\n" .
-					'X-Mailer: PHP/' . phpversion()  . "\r\n" .
-					'X-Priority: 1 (Highest)' . "\r\n" .
-					'X-Mailer: X-MSMail-Priority: High/' . "\r\n" .
-					'Importance: High';
-		
-		@mail( $_to, $_subject , $_message, $_headers );
+		send_developer_mail( $_subject, $_message );
 		
 		// --------------------------------------------------------------------------
 		
@@ -110,7 +121,7 @@ class Fatal_Error_Hook
 		
 		// --------------------------------------------------------------------------
 		
-		//	Show some thign to the user
+		//	Show something to the user
 		?>
 		<!DOCTYPE html>
 		<html>
