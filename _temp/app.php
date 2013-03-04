@@ -56,7 +56,10 @@
  | A comma deliminated list of Nails modules to enable for this app.
  | By listing the module name here the module will be available to the
  | app and will appear in the app's administration; include custom controllers
- | specific to this app (these should be placed at controllers/admin/).
+ | specific to this app (these should be placed at modules/admin/controllers).
+ | 
+ | Define submodules to enable using pipe seperated values within square brackets
+ | i.e auth[facebook|twitter],admin[accounts|custom_controller|utilities]
  |
  */
 	define( 'APP_NAILS_MODULES',	'{{VALUE_APP_NAILS_MODULES}}' );
