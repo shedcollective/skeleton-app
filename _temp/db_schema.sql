@@ -101,7 +101,7 @@ CREATE TABLE `email_queue` (
   `ref` varchar(10) DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   `user_email` varchar(150) DEFAULT NULL,
-  `time_queued` int(11) unsigned NOT NULL,
+  `time_queued` datetime NOT NULL,
   `type_id` int(11) unsigned NOT NULL,
   `email_vars` longtext,
   `internal_ref` int(11) unsigned DEFAULT NULL,
@@ -126,7 +126,8 @@ CREATE TABLE `email_queue_archive` (
   `ref` varchar(10) DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   `user_email` varchar(150) DEFAULT NULL,
-  `time_queued` int(11) unsigned NOT NULL,
+  `time_queued` datetime NOT NULL,
+  `time_sent` datetime NOT NULL,
   `type_id` int(11) unsigned NOT NULL,
   `email_vars` longtext,
   `internal_ref` int(11) unsigned DEFAULT NULL,
@@ -268,7 +269,7 @@ DROP TABLE IF EXISTS `event_interested_party`;
 CREATE TABLE `event_interested_party` (
   `event_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  `read` tinyint(1) unsigned NOT NULL,
+  `is_read` tinyint(1) unsigned NOT NULL,
   KEY `event_id` (`event_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `event_interested_party_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE,
@@ -1926,8 +1927,9 @@ CREATE TABLE `user` (
   `created` datetime NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_seen` datetime DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT NULL,
-  `temp_pw` tinyint(1) unsigned DEFAULT NULL,
+  `is_verified` tinyint(1) unsigned DEFAULT '0',
+  `is_suspended` tinyint(1) unsigned DEFAULT '0',
+  `temp_pw` tinyint(1) unsigned DEFAULT '0',
   `failed_login_count` tinyint(4) unsigned DEFAULT '0',
   `failed_login_expires` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
@@ -2033,8 +2035,8 @@ CREATE TABLE `user_meta` (
   KEY `referral` (`referral`),
   KEY `timezone_id` (`timezone_id`),
   CONSTRAINT `user_meta_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `user_meta_ibfk_4` FOREIGN KEY (`timezone_id`) REFERENCES `timezone` (`id`)
-  CONSTRAINT `user_meta_ibfk_5` FOREIGN KEY (`date_format_date_id`) REFERENCES `date_format_date` (`id`)
+  CONSTRAINT `user_meta_ibfk_4` FOREIGN KEY (`timezone_id`) REFERENCES `timezone` (`id`),
+  CONSTRAINT `user_meta_ibfk_5` FOREIGN KEY (`date_format_date_id`) REFERENCES `date_format_date` (`id`),
   CONSTRAINT `user_meta_ibfk_6` FOREIGN KEY (`date_format_time_id`) REFERENCES `date_format_time` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

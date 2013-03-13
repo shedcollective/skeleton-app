@@ -44,7 +44,7 @@
 | SYSTEM ROUTES
 | -------------------------------------------------------------------------
 */
-$route['default_controller']	= 'welcome';
+$route['default_controller']	= 'home/index';
 $route['404_override']			= 'system/render_404';
 
 
