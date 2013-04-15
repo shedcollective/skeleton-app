@@ -45,7 +45,30 @@
 	define( 'APP_EMAIL_FROM_NAME',	'{{VALUE_APP_EMAIL_FROM_NAME}}' );
 	define( 'APP_EMAIL_FROM_EMAIL',	'{{VALUE_APP_EMAIL_FROM_EMAIL}}' );
 	define( 'APP_EMAIL_DEVELOPER',	'{{VALUE_APP_EMAIL_DEVELOPER}}' );
-
+	
+	
+ /*
+ | --------------------------------------------------------------------
+ | DEFAULT GROUP
+ | --------------------------------------------------------------------
+ | 
+ | Define which group the default user belongs too.
+ |
+ */
+	define( 'APP_DEFAULT_GROUP', 3 );
+	
+	
+ /*
+ | --------------------------------------------------------------------
+ | LANGUAGE
+ | --------------------------------------------------------------------
+ | 
+ | Define whether the app supports multiple languages and, if so, what the default
+ | language is. Must be the language's safename and be a language supported by Nails.
+ |
+ */
+	define( 'APP_MULTI_LANG',			TRUE );
+	define( 'APP_DEFAULT_LANG_SAFE',	'english' );
 	
 	
  /*

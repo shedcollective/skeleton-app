@@ -35,6 +35,78 @@ CREATE TABLE `admin_help_video` (
 
 
 
+# Dump of table cms_block
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block`;
+
+CREATE TABLE `cms_block` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `description` varchar(500) NOT NULL DEFAULT '',
+  `located` varchar(500) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `slug` (`slug`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_block_ibfk_2` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_block_translation
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block_translation`;
+
+CREATE TABLE `cms_block_translation` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) unsigned NOT NULL,
+  `lang_id` int(11) unsigned NOT NULL DEFAULT '202',
+  `value` text NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `block_id` (`block_id`),
+  KEY `lang_id` (`lang_id`),
+  KEY `created_by` (`created_by`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_block_translation_ibfk_4` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_translation_ibfk_1` FOREIGN KEY (`block_id`) REFERENCES `cms_block` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cms_block_translation_ibfk_2` FOREIGN KEY (`lang_id`) REFERENCES `language` (`id`),
+  CONSTRAINT `cms_block_translation_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_block_translation_revision
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block_translation_revision`;
+
+CREATE TABLE `cms_block_translation_revision` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `block_translation_id` int(11) unsigned NOT NULL,
+  `value` text NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `block_translation_id` (`block_translation_id`),
+  CONSTRAINT `cms_block_translation_revision_ibfk_3` FOREIGN KEY (`block_translation_id`) REFERENCES `cms_block_translation` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cms_block_translation_revision_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table date_format_date
 # ------------------------------------------------------------
 
@@ -78,15 +150,15 @@ CREATE TABLE `date_format_time` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `date_format_date` WRITE;
-/*!40000 ALTER TABLE `date_format_date` DISABLE KEYS */;
+LOCK TABLES `date_format_time` WRITE;
+/*!40000 ALTER TABLE `date_format_time` DISABLE KEYS */;
 
 INSERT INTO `date_format_time` (`id`, `label`, `format`)
 VALUES
 	(1, '24 Hour', 'H:i:s'),
 	(2, '12 Hour', 'g:i:s A');
 
-/*!40000 ALTER TABLE `date_format_date` ENABLE KEYS */;
+/*!40000 ALTER TABLE `date_format_time` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -1717,6 +1789,410 @@ CREATE TABLE `quickcache` (
 
 
 
+# Dump of table shop_currency
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_currency`;
+
+CREATE TABLE `shop_currency` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `code` char(3) NOT NULL DEFAULT '',
+  `symbol` varchar(10) NOT NULL DEFAULT '',
+  `label` varchar(50) NOT NULL DEFAULT '',
+  `base_exchange` float(10,6) NOT NULL,
+  `active` tinyint(1) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  CONSTRAINT `shop_currency_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `shop_currency` WRITE;
+/*!40000 ALTER TABLE `shop_currency` DISABLE KEYS */;
+
+INSERT INTO `shop_currency` (`id`, `code`, `symbol`, `label`, `base_exchange`, `active`, `created`, `modified`, `created_by`)
+VALUES
+	(1,'ADP','','Andorran Peseta',0.000000,0,NULL,NULL,NULL),
+	(2,'AED','','United Arab Emirates Dirham',0.000000,0,NULL,NULL,NULL),
+	(3,'AFA','','Afghanistan Afghani',0.000000,0,NULL,NULL,NULL),
+	(4,'ALL','','Albanian Lek',0.000000,0,NULL,NULL,NULL),
+	(5,'ANG','','Netherlands Antillian Guilder',0.000000,0,NULL,NULL,NULL),
+	(6,'AOK','','Angolan Kwanza',0.000000,0,NULL,NULL,NULL),
+	(7,'ARS','','Argentine Peso',0.000000,0,NULL,NULL,NULL),
+	(9,'AUD','','Australian Dollar',0.000000,0,NULL,NULL,NULL),
+	(10,'AWG','','Aruban Florin',0.000000,0,NULL,NULL,NULL),
+	(11,'BBD','','Barbados Dollar',0.000000,0,NULL,NULL,NULL),
+	(12,'BDT','','Bangladeshi Taka',0.000000,0,NULL,NULL,NULL),
+	(14,'BGN','','Bulgarian Lev',0.000000,0,NULL,NULL,NULL),
+	(15,'BHD','','Bahraini Dinar',0.000000,0,NULL,NULL,NULL),
+	(16,'BIF','','Burundi Franc',0.000000,0,NULL,NULL,NULL),
+	(17,'BMD','','Bermudian Dollar',0.000000,0,NULL,NULL,NULL),
+	(18,'BND','','Brunei Dollar',0.000000,0,NULL,NULL,NULL),
+	(19,'BOB','','Bolivian Boliviano',0.000000,0,NULL,NULL,NULL),
+	(20,'BRL','','Brazilian Real',0.000000,0,NULL,NULL,NULL),
+	(21,'BSD','','Bahamian Dollar',0.000000,0,NULL,NULL,NULL),
+	(22,'BTN','','Bhutan Ngultrum',0.000000,0,NULL,NULL,NULL),
+	(23,'BUK','','Burma Kyat',0.000000,0,NULL,NULL,NULL),
+	(24,'BWP','','Botswanian Pula',0.000000,0,NULL,NULL,NULL),
+	(25,'BZD','','Belize Dollar',0.000000,0,NULL,NULL,NULL),
+	(26,'CAD','','Canadian Dollar',0.000000,0,NULL,NULL,NULL),
+	(27,'CHF','','Swiss Franc',0.000000,0,NULL,NULL,NULL),
+	(28,'CLF','','Chilean Unidades de Fomento',0.000000,0,NULL,NULL,NULL),
+	(29,'CLP','','Chilean Peso',0.000000,0,NULL,NULL,NULL),
+	(30,'CNY','','Yuan (Chinese) Renminbi',0.000000,0,NULL,NULL,NULL),
+	(31,'COP','','Colombian Peso',0.000000,0,NULL,NULL,NULL),
+	(32,'CRC','','Costa Rican Colon',0.000000,0,NULL,NULL,NULL),
+	(33,'CZK','','Czech Republic Koruna',0.000000,0,NULL,NULL,NULL),
+	(34,'CUP','','Cuban Peso',0.000000,0,NULL,NULL,NULL),
+	(35,'CVE','','Cape Verde Escudo',0.000000,0,NULL,NULL,NULL),
+	(36,'CYP','','Cyprus Pound',0.000000,0,NULL,NULL,NULL),
+	(40,'DKK','','Danish Krone',0.000000,0,NULL,NULL,NULL),
+	(41,'DOP','','Dominican Peso',0.000000,0,NULL,NULL,NULL),
+	(42,'DZD','','Algerian Dinar',0.000000,0,NULL,NULL,NULL),
+	(43,'ECS','','Ecuador Sucre',0.000000,0,NULL,NULL,NULL),
+	(44,'EGP','','Egyptian Pound',0.000000,0,NULL,NULL,NULL),
+	(45,'EEK','','Estonian Kroon (EEK)',0.000000,0,NULL,NULL,NULL),
+	(46,'ETB','','Ethiopian Birr',0.000000,0,NULL,NULL,NULL),
+	(47,'EUR',' &euro;','Euro',0.000000,1,NULL,NULL,NULL),
+	(49,'FJD','','Fiji Dollar',0.000000,0,NULL,NULL,NULL),
+	(50,'FKP','','Falkland Islands Pound',0.000000,0,NULL,NULL,NULL),
+	(52,'GBP','&pound;','British Pound',0.000000,1,NULL,NULL,NULL),
+	(53,'GHC','','Ghanaian Cedi',0.000000,0,NULL,NULL,NULL),
+	(54,'GIP','','Gibraltar Pound',0.000000,0,NULL,NULL,NULL),
+	(55,'GMD','','Gambian Dalasi',0.000000,0,NULL,NULL,NULL),
+	(56,'GNF','','Guinea Franc',0.000000,0,NULL,NULL,NULL),
+	(58,'GTQ','','Guatemalan Quetzal',0.000000,0,NULL,NULL,NULL),
+	(59,'GWP','','Guinea-Bissau Peso',0.000000,0,NULL,NULL,NULL),
+	(60,'GYD','','Guyanan Dollar',0.000000,0,NULL,NULL,NULL),
+	(61,'HKD','','Hong Kong Dollar',0.000000,0,NULL,NULL,NULL),
+	(62,'HNL','','Honduran Lempira',0.000000,0,NULL,NULL,NULL),
+	(63,'HTG','','Haitian Gourde',0.000000,0,NULL,NULL,NULL),
+	(64,'HUF','','Hungarian Forint',0.000000,0,NULL,NULL,NULL),
+	(65,'IDR','','Indonesian Rupiah',0.000000,0,NULL,NULL,NULL),
+	(66,'IEP','','Irish Punt',0.000000,0,NULL,NULL,NULL),
+	(67,'ILS','','Israeli Shekel',0.000000,0,NULL,NULL,NULL),
+	(68,'INR','','Indian Rupee',0.000000,0,NULL,NULL,NULL),
+	(69,'IQD','','Iraqi Dinar',0.000000,0,NULL,NULL,NULL),
+	(70,'IRR','','Iranian Rial',0.000000,0,NULL,NULL,NULL),
+	(73,'JMD','','Jamaican Dollar',0.000000,0,NULL,NULL,NULL),
+	(74,'JOD','','Jordanian Dinar',0.000000,0,NULL,NULL,NULL),
+	(75,'JPY','','Japanese Yen',0.000000,0,NULL,NULL,NULL),
+	(76,'KES','','Kenyan Schilling',0.000000,0,NULL,NULL,NULL),
+	(77,'KHR','','Kampuchean (Cambodian) Riel',0.000000,0,NULL,NULL,NULL),
+	(78,'KMF','','Comoros Franc',0.000000,0,NULL,NULL,NULL),
+	(79,'KPW','','North Korean Won',0.000000,0,NULL,NULL,NULL),
+	(80,'KRW','','(South) Korean Won',0.000000,0,NULL,NULL,NULL),
+	(81,'KWD','','Kuwaiti Dinar',0.000000,0,NULL,NULL,NULL),
+	(82,'KYD','','Cayman Islands Dollar',0.000000,0,NULL,NULL,NULL),
+	(83,'LAK','','Lao Kip',0.000000,0,NULL,NULL,NULL),
+	(84,'LBP','','Lebanese Pound',0.000000,0,NULL,NULL,NULL),
+	(85,'LKR','','Sri Lanka Rupee',0.000000,0,NULL,NULL,NULL),
+	(86,'LRD','','Liberian Dollar',0.000000,0,NULL,NULL,NULL),
+	(87,'LSL','','Lesotho Loti',0.000000,0,NULL,NULL,NULL),
+	(89,'LYD','','Libyan Dinar',0.000000,0,NULL,NULL,NULL),
+	(90,'MAD','','Moroccan Dirham',0.000000,0,NULL,NULL,NULL),
+	(91,'MGF','','Malagasy Franc',0.000000,0,NULL,NULL,NULL),
+	(92,'MNT','','Mongolian Tugrik',0.000000,0,NULL,NULL,NULL),
+	(93,'MOP','','Macau Pataca',0.000000,0,NULL,NULL,NULL),
+	(94,'MRO','','Mauritanian Ouguiya',0.000000,0,NULL,NULL,NULL),
+	(95,'MTL','','Maltese Lira',0.000000,0,NULL,NULL,NULL),
+	(96,'MUR','','Mauritius Rupee',0.000000,0,NULL,NULL,NULL),
+	(97,'MVR','','Maldive Rufiyaa',0.000000,0,NULL,NULL,NULL),
+	(98,'MWK','','Malawi Kwacha',0.000000,0,NULL,NULL,NULL),
+	(99,'MXP','','Mexican Peso',0.000000,0,NULL,NULL,NULL),
+	(100,'MYR','','Malaysian Ringgit',0.000000,0,NULL,NULL,NULL),
+	(101,'MZM','','Mozambique Metical',0.000000,0,NULL,NULL,NULL),
+	(102,'NAD','','Namibian Dollar',0.000000,0,NULL,NULL,NULL),
+	(103,'NGN','','Nigerian Naira',0.000000,0,NULL,NULL,NULL),
+	(104,'NIO','','Nicaraguan Cordoba',0.000000,0,NULL,NULL,NULL),
+	(105,'NOK','','Norwegian Kroner',0.000000,0,NULL,NULL,NULL),
+	(106,'NPR','','Nepalese Rupee',0.000000,0,NULL,NULL,NULL),
+	(107,'NZD','','New Zealand Dollar',0.000000,0,NULL,NULL,NULL),
+	(108,'OMR','','Omani Rial',0.000000,0,NULL,NULL,NULL),
+	(109,'PAB','','Panamanian Balboa',0.000000,0,NULL,NULL,NULL),
+	(110,'PEN','','Peruvian Nuevo Sol',0.000000,0,NULL,NULL,NULL),
+	(111,'PGK','','Papua New Guinea Kina',0.000000,0,NULL,NULL,NULL),
+	(112,'PHP','','Philippine Peso',0.000000,0,NULL,NULL,NULL),
+	(113,'PKR','','Pakistan Rupee',0.000000,0,NULL,NULL,NULL),
+	(114,'PLN','','Polish Zloty',0.000000,0,NULL,NULL,NULL),
+	(116,'PYG','','Paraguay Guarani',0.000000,0,NULL,NULL,NULL),
+	(117,'QAR','','Qatari Rial',0.000000,0,NULL,NULL,NULL),
+	(118,'RON','','Romanian Leu',0.000000,0,NULL,NULL,NULL),
+	(119,'RWF','','Rwanda Franc',0.000000,0,NULL,NULL,NULL),
+	(120,'SAR','','Saudi Arabian Riyal',0.000000,0,NULL,NULL,NULL),
+	(121,'SBD','','Solomon Islands Dollar',0.000000,0,NULL,NULL,NULL),
+	(122,'SCR','','Seychelles Rupee',0.000000,0,NULL,NULL,NULL),
+	(123,'SDP','','Sudanese Pound',0.000000,0,NULL,NULL,NULL),
+	(124,'SEK','','Swedish Krona',0.000000,0,NULL,NULL,NULL),
+	(125,'SGD','','Singapore Dollar',0.000000,0,NULL,NULL,NULL),
+	(126,'SHP','','St. Helena Pound',0.000000,0,NULL,NULL,NULL),
+	(127,'SLL','','Sierra Leone Leone',0.000000,0,NULL,NULL,NULL),
+	(128,'SOS','','Somali Schilling',0.000000,0,NULL,NULL,NULL),
+	(129,'SRG','','Suriname Guilder',0.000000,0,NULL,NULL,NULL),
+	(130,'STD','','Sao Tome and Principe Dobra',0.000000,0,NULL,NULL,NULL),
+	(131,'RUB','','Russian Ruble',0.000000,0,NULL,NULL,NULL),
+	(132,'SVC','','El Salvador Colon',0.000000,0,NULL,NULL,NULL),
+	(133,'SYP','','Syrian Potmd',0.000000,0,NULL,NULL,NULL),
+	(134,'SZL','','Swaziland Lilangeni',0.000000,0,NULL,NULL,NULL),
+	(135,'THB','','Thai Baht',0.000000,0,NULL,NULL,NULL),
+	(136,'TND','','Tunisian Dinar',0.000000,0,NULL,NULL,NULL),
+	(137,'TOP','','Tongan Paanga',0.000000,0,NULL,NULL,NULL),
+	(138,'TPE','','East Timor Escudo',0.000000,0,NULL,NULL,NULL),
+	(139,'TRY','','Turkish Lira',0.000000,0,NULL,NULL,NULL),
+	(140,'TTD','','Trinidad and Tobago Dollar',0.000000,0,NULL,NULL,NULL),
+	(141,'TWD','','Taiwan Dollar',0.000000,0,NULL,NULL,NULL),
+	(142,'TZS','','Tanzanian Schilling',0.000000,0,NULL,NULL,NULL),
+	(143,'UGX','','Uganda Shilling',0.000000,0,NULL,NULL,NULL),
+	(144,'USD','&dollar;','US Dollar',0.000000,1,NULL,NULL,NULL),
+	(145,'UYU','','Uruguayan Peso',0.000000,0,NULL,NULL,NULL),
+	(146,'VEF','','Venezualan Bolivar',0.000000,0,NULL,NULL,NULL),
+	(147,'VND','','Vietnamese Dong',0.000000,0,NULL,NULL,NULL),
+	(148,'VUV','','Vanuatu Vatu',0.000000,0,NULL,NULL,NULL),
+	(149,'WST','','Samoan Tala',0.000000,0,NULL,NULL,NULL),
+	(150,'XAF','','CommunautÃ© FinanciÃ¨re Africaine BEAC, Francs',0.000000,0,NULL,NULL,NULL),
+	(151,'XAG','','Silver, Ounces',0.000000,0,NULL,NULL,NULL),
+	(152,'XAU','','Gold, Ounces',0.000000,0,NULL,NULL,NULL),
+	(153,'XCD','','East Caribbean Dollar',0.000000,0,NULL,NULL,NULL),
+	(154,'XDR','','International Monetary Fund (IMF) Special Drawing ',0.000000,0,NULL,NULL,NULL),
+	(155,'XOF','','CommunautÃ© FinanciÃ¨re Africaine BCEAO - Francs',0.000000,0,NULL,NULL,NULL),
+	(156,'XPD','','Palladium Ounces',0.000000,0,NULL,NULL,NULL),
+	(157,'XPF','','Comptoirs FranÃ§ais du Pacifique Francs',0.000000,0,NULL,NULL,NULL),
+	(158,'XPT','','Platinum, Ounces',0.000000,0,NULL,NULL,NULL),
+	(159,'YDD','','Democratic Yemeni Dinar',0.000000,0,NULL,NULL,NULL),
+	(160,'YER','','Yemeni Rial',0.000000,0,NULL,NULL,NULL),
+	(161,'YUD','','New Yugoslavia Dinar',0.000000,0,NULL,NULL,NULL),
+	(162,'ZAR','','South African Rand',0.000000,0,NULL,NULL,NULL),
+	(163,'ZMK','','Zambian Kwacha',0.000000,0,NULL,NULL,NULL),
+	(164,'ZRZ','','Zaire Zaire',0.000000,0,NULL,NULL,NULL),
+	(165,'ZWD','','Zimbabwe Dollar',0.000000,0,NULL,NULL,NULL),
+	(166,'SKK','','Slovak Koruna',0.000000,0,NULL,NULL,NULL),
+	(167,'AMD','','Armenian Dram',0.000000,0,NULL,NULL,NULL);
+
+/*!40000 ALTER TABLE `shop_currency` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table shop_order
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_order`;
+
+CREATE TABLE `shop_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ref` varchar(6) NOT NULL DEFAULT '',
+  `user_id` int(11) unsigned NOT NULL,
+  `currency_id` int(11) unsigned NOT NULL,
+  `base_currency_id` int(11) unsigned NOT NULL,
+  `payment_gateway_id` int(11) unsigned NOT NULL,
+  `voucher_id` int(11) unsigned DEFAULT NULL,
+  `status` enum('PENDING','UNVERIFIED','VERIFIED','ABANDONED','CANCELLED') NOT NULL DEFAULT 'PENDING',
+  `fulfilment_status` enum('UNFULFILLED','FULFILLED') DEFAULT 'UNFULFILLED',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `fulfilled` datetime DEFAULT NULL,
+  `exchange_rate` float(10,6) unsigned NOT NULL DEFAULT '1.000000',
+  `net_total` float(10,2) unsigned NOT NULL,
+  `gross_total` float(10,2) unsigned NOT NULL,
+  `taxes` float(10,2) unsigned NOT NULL,
+  `deductions` float(10,2) unsigned NOT NULL,
+  `shipping` float(10,2) unsigned NOT NULL,
+  `fees_deducted` float(10,2) unsigned NOT NULL,
+  `pp_txn_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `currency_id` (`currency_id`),
+  KEY `payment_gateway_id` (`payment_gateway_id`),
+  KEY `base_currency_id` (`base_currency_id`),
+  KEY `ref` (`ref`),
+  KEY `user_id_2` (`user_id`,`status`),
+  KEY `voucher_id` (`voucher_id`),
+  CONSTRAINT `shop_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `shop_order_ibfk_2` FOREIGN KEY (`currency_id`) REFERENCES `shop_currency` (`id`),
+  CONSTRAINT `shop_order_ibfk_3` FOREIGN KEY (`payment_gateway_id`) REFERENCES `shop_payment_gateway` (`id`),
+  CONSTRAINT `shop_order_ibfk_4` FOREIGN KEY (`base_currency_id`) REFERENCES `shop_currency` (`id`),
+  CONSTRAINT `shop_order_ibfk_5` FOREIGN KEY (`voucher_id`) REFERENCES `shop_voucher` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_order_product
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_order_product`;
+
+CREATE TABLE `shop_order_product` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) unsigned NOT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `quantity` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `refunded` tinyint(1) unsigned NOT NULL,
+  `refunded_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `shop_order_product_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `shop_order` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `shop_order_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `shop_order_product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_payment_gateway
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_payment_gateway`;
+
+CREATE TABLE `shop_payment_gateway` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL DEFAULT '',
+  `enabled` tinyint(1) unsigned NOT NULL,
+  `account_id` varchar(100) DEFAULT NULL,
+  `api_key` varchar(100) DEFAULT NULL,
+  `api_secret` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_product
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_product`;
+
+CREATE TABLE `shop_product` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type_id` int(11) unsigned NOT NULL,
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `seo_title` varchar(255) DEFAULT NULL,
+  `seo_description` varchar(255) DEFAULT NULL,
+  `seo_keywords` varchar(255) DEFAULT NULL,
+  `price` float(10,2) NOT NULL,
+  `sale_price` float(10,2) NOT NULL,
+  `tax_rate` float(10,2) unsigned NOT NULL,
+  `is_on_sale` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) unsigned NOT NULL,
+  `quantity_available` int(11) unsigned DEFAULT NULL,
+  `quantity_sold` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type_id` (`type_id`),
+  KEY `created_by` (`created_by`),
+  CONSTRAINT `shop_product_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `shop_product_type` (`id`),
+  CONSTRAINT `shop_product_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_product_gallery
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_product_gallery`;
+
+CREATE TABLE `shop_product_gallery` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) unsigned NOT NULL,
+  `media_type` enum('IMAGE','YOUTUBE','VIMEO') NOT NULL DEFAULT 'IMAGE',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `order` tinyint(1) unsigned NOT NULL,
+  `image_filename` varchar(50) DEFAULT '',
+  `youtube_id` varchar(50) DEFAULT NULL,
+  `vimeo_id` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `shop_product_gallery_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `shop_product` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_product_meta
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_product_meta`;
+
+CREATE TABLE `shop_product_meta` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) unsigned NOT NULL,
+  `filename` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `shop_product_meta_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `shop_product` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_product_type
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_product_type`;
+
+CREATE TABLE `shop_product_type` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(100) NOT NULL DEFAULT '',
+  `label` varchar(150) NOT NULL DEFAULT '',
+  `ipn_method` varchar(50) DEFAULT NULL,
+  `max_per_order` tinyint(1) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table shop_settings
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_settings`;
+
+CREATE TABLE `shop_settings` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(50) NOT NULL DEFAULT '',
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `shop_settings` WRITE;
+/*!40000 ALTER TABLE `shop_settings` DISABLE KEYS */;
+
+INSERT INTO `shop_settings` (`id`, `key`, `value`)
+VALUES
+	(1,'base_currency','52');
+
+/*!40000 ALTER TABLE `shop_settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table shop_voucher
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_voucher`;
+
+CREATE TABLE `shop_voucher` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `code` varchar(25) NOT NULL,
+  `type` enum('EXPIRES','LIMITED_USE','PERMENANT') NOT NULL DEFAULT 'PERMENANT',
+  `discount_type` enum('PERCENTAGE','AMOUNT') NOT NULL DEFAULT 'PERCENTAGE',
+  `discount_value` float(10,6) NOT NULL,
+  `discount_application` enum('PRODUCTS','PRODUCT_TYPES','SHIPPING','ALL') NOT NULL DEFAULT 'PRODUCTS',
+  `label` varchar(150) NOT NULL DEFAULT '',
+  `is_active` tinyint(1) unsigned NOT NULL,
+  `valid_from` datetime NOT NULL,
+  `use_count` tinyint(1) unsigned NOT NULL,
+  `expires_date` datetime DEFAULT NULL,
+  `limited_use_limit` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `shop_voucher_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table timezone
 # ------------------------------------------------------------
 
@@ -1991,6 +2467,7 @@ CREATE TABLE `user_group` (
   `display_name` varchar(20) NOT NULL DEFAULT '',
   `description` varchar(500) NOT NULL,
   `default_homepage` varchar(255) NOT NULL,
+  `registration_redirect` varchar(255) DEFAULT NULL,
   `acl` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)

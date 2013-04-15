@@ -69,7 +69,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language']	= APP_DEFAULT_LANG_SAFE;
 
 /*
 |--------------------------------------------------------------------------
