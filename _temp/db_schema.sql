@@ -2350,7 +2350,7 @@ VALUES
 	(138,12,'Marshall Is.'),
 	(139,12,'Solomon Is.'),
 	(140,12,'Wellington'),
-	(141,13,'Nuku&#x27;alofa'),
+	(141,13,'Nuku\'alofa'),
 	(142,13,'Samoa'),
 	(143,13,'Tokelau Is.');
 
