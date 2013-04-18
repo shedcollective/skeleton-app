@@ -42,6 +42,7 @@ DROP TABLE IF EXISTS `cms_block`;
 
 CREATE TABLE `cms_block` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` enum('plaintext','richtext','image','file','number','url') NOT NULL DEFAULT 'plaintext',
   `slug` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(150) NOT NULL DEFAULT '',
   `description` varchar(500) NOT NULL DEFAULT '',
@@ -54,8 +55,8 @@ CREATE TABLE `cms_block` (
   KEY `created_by` (`created_by`),
   KEY `slug` (`slug`),
   KEY `modified_by` (`modified_by`),
-  CONSTRAINT `cms_block_ibfk_2` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `cms_block_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+  CONSTRAINT `cms_block_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_ibfk_2` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
