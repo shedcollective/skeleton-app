@@ -35,6 +35,288 @@ CREATE TABLE `admin_help_video` (
 
 
 
+# Dump of table blog_post
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `blog_post`;
+
+CREATE TABLE `blog_post` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `slug` varchar(150) NOT NULL DEFAULT '',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `excerpt` text NOT NULL,
+  `body` longtext NOT NULL,
+  `image` varchar(150) DEFAULT '',
+  `seo_title` varchar(200) DEFAULT NULL,
+  `seo_description` varchar(200) DEFAULT NULL,
+  `seo_keywords` varchar(200) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(11) unsigned NOT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(11) unsigned NOT NULL,
+  `is_published` tinyint(1) unsigned NOT NULL,
+  `is_deleted` tinyint(1) unsigned NOT NULL,
+  `published` datetime NOT NULL,
+  `has_sidebar` tinyint(1) unsigned NOT NULL,
+  `sidebar_align` enum('LEFT','RIGHT') DEFAULT 'RIGHT',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table blog_settings
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `blog_settings`;
+
+CREATE TABLE `blog_settings` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(50) NOT NULL DEFAULT '',
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table blog_sidebar_widget
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `blog_sidebar_widget`;
+
+CREATE TABLE `blog_sidebar_widget` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) unsigned NOT NULL,
+  `order` int(11) unsigned NOT NULL,
+  `widget_class` varchar(100) NOT NULL DEFAULT '',
+  `widget_data` longtext NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`post_id`),
+  KEY `created_by` (`created_by`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `blog_sidebar_widget_ibfk_4` FOREIGN KEY (`post_id`) REFERENCES `blog_post` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `blog_sidebar_widget_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `blog_sidebar_widget_ibfk_3` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+# Dump of table cdn_local_bucket
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cdn_local_bucket`;
+
+CREATE TABLE `cdn_local_bucket` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) DEFAULT NULL,
+  `allowed_types` varchar(300) DEFAULT NULL,
+  `max_size` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `cdn_local_bucket_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cdn_local_bucket_tag
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cdn_local_bucket_tag`;
+
+CREATE TABLE `cdn_local_bucket_tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `bucket_id` int(11) unsigned NOT NULL,
+  `label` varchar(100) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bucket_id` (`bucket_id`),
+  CONSTRAINT `cdn_local_bucket_tag_ibfk_1` FOREIGN KEY (`bucket_id`) REFERENCES `cdn_local_bucket` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cdn_local_object
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cdn_local_object`;
+
+CREATE TABLE `cdn_local_object` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `bucket_id` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `filename` varchar(50) NOT NULL DEFAULT '',
+  `filename_display` varchar(100) NOT NULL DEFAULT '',
+  `mime` varchar(50) DEFAULT NULL,
+  `filesize` int(11) unsigned NOT NULL,
+  `img_width` int(11) unsigned NOT NULL,
+  `img_height` int(11) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `serves` int(11) unsigned NOT NULL,
+  `thumbs` int(11) unsigned NOT NULL,
+  `scales` int(11) unsigned NOT NULL,
+  `is_deleted` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bucket_id` (`bucket_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `cdn_local_object_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cdn_local_object_ibfk_1` FOREIGN KEY (`bucket_id`) REFERENCES `cdn_local_bucket` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cdn_local_object_tag
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cdn_local_object_tag`;
+
+CREATE TABLE `cdn_local_object_tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `object_id` int(11) unsigned NOT NULL,
+  `tag_id` int(11) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tag_id` (`tag_id`),
+  KEY `object_id` (`object_id`),
+  CONSTRAINT `cdn_local_object_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `cdn_local_bucket_tag` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cdn_local_object_tag_ibfk_3` FOREIGN KEY (`object_id`) REFERENCES `cdn_local_object` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_block
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block`;
+
+CREATE TABLE `cms_block` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` enum('plaintext','richtext','image','file','number','url') NOT NULL DEFAULT 'plaintext',
+  `slug` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `description` varchar(500) NOT NULL DEFAULT '',
+  `located` varchar(500) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `slug` (`slug`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_block_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_ibfk_2` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_block_translation
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block_translation`;
+
+CREATE TABLE `cms_block_translation` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) unsigned NOT NULL,
+  `lang_id` int(11) unsigned NOT NULL DEFAULT '202',
+  `value` text NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `block_id` (`block_id`),
+  KEY `lang_id` (`lang_id`),
+  KEY `created_by` (`created_by`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_block_translation_ibfk_1` FOREIGN KEY (`block_id`) REFERENCES `cms_block` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cms_block_translation_ibfk_2` FOREIGN KEY (`lang_id`) REFERENCES `language` (`id`),
+  CONSTRAINT `cms_block_translation_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_translation_ibfk_4` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_block_translation_revision
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_block_translation_revision`;
+
+CREATE TABLE `cms_block_translation_revision` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `block_translation_id` int(11) unsigned NOT NULL,
+  `value` text NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `block_translation_id` (`block_translation_id`),
+  CONSTRAINT `cms_block_translation_revision_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_block_translation_revision_ibfk_3` FOREIGN KEY (`block_translation_id`) REFERENCES `cms_block_translation` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_page
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_page`;
+
+CREATE TABLE `cms_page` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `seo_description` varchar(300) DEFAULT NULL,
+  `seo_keywords` varchar(150) DEFAULT NULL,
+  `is_deleted` tinyint(1) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_page_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_page_ibfk_2` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table cms_page_widget
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cms_page_widget`;
+
+CREATE TABLE `cms_page_widget` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) unsigned NOT NULL,
+  `order` int(11) unsigned NOT NULL,
+  `widget_class` varchar(100) NOT NULL DEFAULT '',
+  `widget_data` longtext NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `created_by` (`created_by`),
+  KEY `modified_by` (`modified_by`),
+  CONSTRAINT `cms_page_widget_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `cms_page_widget_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `cms_page_widget_ibfk_3` FOREIGN KEY (`modified_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table cms_block
 # ------------------------------------------------------------
 
@@ -1774,21 +2056,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table quickcache
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `quickcache`;
-
-CREATE TABLE `quickcache` (
-  `id` varchar(100) NOT NULL,
-  `cache_file` varchar(100) NOT NULL,
-  `expires` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `cache_file` (`cache_file`),
-  KEY `expires` (`expires`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 
 # Dump of table shop_currency
 # ------------------------------------------------------------
@@ -1800,6 +2067,7 @@ CREATE TABLE `shop_currency` (
   `code` char(3) NOT NULL DEFAULT '',
   `symbol` varchar(10) NOT NULL DEFAULT '',
   `label` varchar(50) NOT NULL DEFAULT '',
+  `decimal_precision` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `base_exchange` float(10,6) NOT NULL,
   `active` tinyint(1) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -1813,163 +2081,163 @@ CREATE TABLE `shop_currency` (
 LOCK TABLES `shop_currency` WRITE;
 /*!40000 ALTER TABLE `shop_currency` DISABLE KEYS */;
 
-INSERT INTO `shop_currency` (`id`, `code`, `symbol`, `label`, `base_exchange`, `active`, `created`, `modified`, `created_by`)
+INSERT INTO `shop_currency` (`id`, `code`, `symbol`, `label`, `decimal_precision`, `base_exchange`, `active`, `created`, `modified`, `created_by`)
 VALUES
-	(1,'ADP','','Andorran Peseta',0.000000,0,NULL,NULL,NULL),
-	(2,'AED','','United Arab Emirates Dirham',0.000000,0,NULL,NULL,NULL),
-	(3,'AFA','','Afghanistan Afghani',0.000000,0,NULL,NULL,NULL),
-	(4,'ALL','','Albanian Lek',0.000000,0,NULL,NULL,NULL),
-	(5,'ANG','','Netherlands Antillian Guilder',0.000000,0,NULL,NULL,NULL),
-	(6,'AOK','','Angolan Kwanza',0.000000,0,NULL,NULL,NULL),
-	(7,'ARS','','Argentine Peso',0.000000,0,NULL,NULL,NULL),
-	(9,'AUD','','Australian Dollar',0.000000,0,NULL,NULL,NULL),
-	(10,'AWG','','Aruban Florin',0.000000,0,NULL,NULL,NULL),
-	(11,'BBD','','Barbados Dollar',0.000000,0,NULL,NULL,NULL),
-	(12,'BDT','','Bangladeshi Taka',0.000000,0,NULL,NULL,NULL),
-	(14,'BGN','','Bulgarian Lev',0.000000,0,NULL,NULL,NULL),
-	(15,'BHD','','Bahraini Dinar',0.000000,0,NULL,NULL,NULL),
-	(16,'BIF','','Burundi Franc',0.000000,0,NULL,NULL,NULL),
-	(17,'BMD','','Bermudian Dollar',0.000000,0,NULL,NULL,NULL),
-	(18,'BND','','Brunei Dollar',0.000000,0,NULL,NULL,NULL),
-	(19,'BOB','','Bolivian Boliviano',0.000000,0,NULL,NULL,NULL),
-	(20,'BRL','','Brazilian Real',0.000000,0,NULL,NULL,NULL),
-	(21,'BSD','','Bahamian Dollar',0.000000,0,NULL,NULL,NULL),
-	(22,'BTN','','Bhutan Ngultrum',0.000000,0,NULL,NULL,NULL),
-	(23,'BUK','','Burma Kyat',0.000000,0,NULL,NULL,NULL),
-	(24,'BWP','','Botswanian Pula',0.000000,0,NULL,NULL,NULL),
-	(25,'BZD','','Belize Dollar',0.000000,0,NULL,NULL,NULL),
-	(26,'CAD','','Canadian Dollar',0.000000,0,NULL,NULL,NULL),
-	(27,'CHF','','Swiss Franc',0.000000,0,NULL,NULL,NULL),
-	(28,'CLF','','Chilean Unidades de Fomento',0.000000,0,NULL,NULL,NULL),
-	(29,'CLP','','Chilean Peso',0.000000,0,NULL,NULL,NULL),
-	(30,'CNY','','Yuan (Chinese) Renminbi',0.000000,0,NULL,NULL,NULL),
-	(31,'COP','','Colombian Peso',0.000000,0,NULL,NULL,NULL),
-	(32,'CRC','','Costa Rican Colon',0.000000,0,NULL,NULL,NULL),
-	(33,'CZK','','Czech Republic Koruna',0.000000,0,NULL,NULL,NULL),
-	(34,'CUP','','Cuban Peso',0.000000,0,NULL,NULL,NULL),
-	(35,'CVE','','Cape Verde Escudo',0.000000,0,NULL,NULL,NULL),
-	(36,'CYP','','Cyprus Pound',0.000000,0,NULL,NULL,NULL),
-	(40,'DKK','','Danish Krone',0.000000,0,NULL,NULL,NULL),
-	(41,'DOP','','Dominican Peso',0.000000,0,NULL,NULL,NULL),
-	(42,'DZD','','Algerian Dinar',0.000000,0,NULL,NULL,NULL),
-	(43,'ECS','','Ecuador Sucre',0.000000,0,NULL,NULL,NULL),
-	(44,'EGP','','Egyptian Pound',0.000000,0,NULL,NULL,NULL),
-	(45,'EEK','','Estonian Kroon (EEK)',0.000000,0,NULL,NULL,NULL),
-	(46,'ETB','','Ethiopian Birr',0.000000,0,NULL,NULL,NULL),
-	(47,'EUR',' &euro;','Euro',0.000000,1,NULL,NULL,NULL),
-	(49,'FJD','','Fiji Dollar',0.000000,0,NULL,NULL,NULL),
-	(50,'FKP','','Falkland Islands Pound',0.000000,0,NULL,NULL,NULL),
-	(52,'GBP','&pound;','British Pound',0.000000,1,NULL,NULL,NULL),
-	(53,'GHC','','Ghanaian Cedi',0.000000,0,NULL,NULL,NULL),
-	(54,'GIP','','Gibraltar Pound',0.000000,0,NULL,NULL,NULL),
-	(55,'GMD','','Gambian Dalasi',0.000000,0,NULL,NULL,NULL),
-	(56,'GNF','','Guinea Franc',0.000000,0,NULL,NULL,NULL),
-	(58,'GTQ','','Guatemalan Quetzal',0.000000,0,NULL,NULL,NULL),
-	(59,'GWP','','Guinea-Bissau Peso',0.000000,0,NULL,NULL,NULL),
-	(60,'GYD','','Guyanan Dollar',0.000000,0,NULL,NULL,NULL),
-	(61,'HKD','','Hong Kong Dollar',0.000000,0,NULL,NULL,NULL),
-	(62,'HNL','','Honduran Lempira',0.000000,0,NULL,NULL,NULL),
-	(63,'HTG','','Haitian Gourde',0.000000,0,NULL,NULL,NULL),
-	(64,'HUF','','Hungarian Forint',0.000000,0,NULL,NULL,NULL),
-	(65,'IDR','','Indonesian Rupiah',0.000000,0,NULL,NULL,NULL),
-	(66,'IEP','','Irish Punt',0.000000,0,NULL,NULL,NULL),
-	(67,'ILS','','Israeli Shekel',0.000000,0,NULL,NULL,NULL),
-	(68,'INR','','Indian Rupee',0.000000,0,NULL,NULL,NULL),
-	(69,'IQD','','Iraqi Dinar',0.000000,0,NULL,NULL,NULL),
-	(70,'IRR','','Iranian Rial',0.000000,0,NULL,NULL,NULL),
-	(73,'JMD','','Jamaican Dollar',0.000000,0,NULL,NULL,NULL),
-	(74,'JOD','','Jordanian Dinar',0.000000,0,NULL,NULL,NULL),
-	(75,'JPY','','Japanese Yen',0.000000,0,NULL,NULL,NULL),
-	(76,'KES','','Kenyan Schilling',0.000000,0,NULL,NULL,NULL),
-	(77,'KHR','','Kampuchean (Cambodian) Riel',0.000000,0,NULL,NULL,NULL),
-	(78,'KMF','','Comoros Franc',0.000000,0,NULL,NULL,NULL),
-	(79,'KPW','','North Korean Won',0.000000,0,NULL,NULL,NULL),
-	(80,'KRW','','(South) Korean Won',0.000000,0,NULL,NULL,NULL),
-	(81,'KWD','','Kuwaiti Dinar',0.000000,0,NULL,NULL,NULL),
-	(82,'KYD','','Cayman Islands Dollar',0.000000,0,NULL,NULL,NULL),
-	(83,'LAK','','Lao Kip',0.000000,0,NULL,NULL,NULL),
-	(84,'LBP','','Lebanese Pound',0.000000,0,NULL,NULL,NULL),
-	(85,'LKR','','Sri Lanka Rupee',0.000000,0,NULL,NULL,NULL),
-	(86,'LRD','','Liberian Dollar',0.000000,0,NULL,NULL,NULL),
-	(87,'LSL','','Lesotho Loti',0.000000,0,NULL,NULL,NULL),
-	(89,'LYD','','Libyan Dinar',0.000000,0,NULL,NULL,NULL),
-	(90,'MAD','','Moroccan Dirham',0.000000,0,NULL,NULL,NULL),
-	(91,'MGF','','Malagasy Franc',0.000000,0,NULL,NULL,NULL),
-	(92,'MNT','','Mongolian Tugrik',0.000000,0,NULL,NULL,NULL),
-	(93,'MOP','','Macau Pataca',0.000000,0,NULL,NULL,NULL),
-	(94,'MRO','','Mauritanian Ouguiya',0.000000,0,NULL,NULL,NULL),
-	(95,'MTL','','Maltese Lira',0.000000,0,NULL,NULL,NULL),
-	(96,'MUR','','Mauritius Rupee',0.000000,0,NULL,NULL,NULL),
-	(97,'MVR','','Maldive Rufiyaa',0.000000,0,NULL,NULL,NULL),
-	(98,'MWK','','Malawi Kwacha',0.000000,0,NULL,NULL,NULL),
-	(99,'MXP','','Mexican Peso',0.000000,0,NULL,NULL,NULL),
-	(100,'MYR','','Malaysian Ringgit',0.000000,0,NULL,NULL,NULL),
-	(101,'MZM','','Mozambique Metical',0.000000,0,NULL,NULL,NULL),
-	(102,'NAD','','Namibian Dollar',0.000000,0,NULL,NULL,NULL),
-	(103,'NGN','','Nigerian Naira',0.000000,0,NULL,NULL,NULL),
-	(104,'NIO','','Nicaraguan Cordoba',0.000000,0,NULL,NULL,NULL),
-	(105,'NOK','','Norwegian Kroner',0.000000,0,NULL,NULL,NULL),
-	(106,'NPR','','Nepalese Rupee',0.000000,0,NULL,NULL,NULL),
-	(107,'NZD','','New Zealand Dollar',0.000000,0,NULL,NULL,NULL),
-	(108,'OMR','','Omani Rial',0.000000,0,NULL,NULL,NULL),
-	(109,'PAB','','Panamanian Balboa',0.000000,0,NULL,NULL,NULL),
-	(110,'PEN','','Peruvian Nuevo Sol',0.000000,0,NULL,NULL,NULL),
-	(111,'PGK','','Papua New Guinea Kina',0.000000,0,NULL,NULL,NULL),
-	(112,'PHP','','Philippine Peso',0.000000,0,NULL,NULL,NULL),
-	(113,'PKR','','Pakistan Rupee',0.000000,0,NULL,NULL,NULL),
-	(114,'PLN','','Polish Zloty',0.000000,0,NULL,NULL,NULL),
-	(116,'PYG','','Paraguay Guarani',0.000000,0,NULL,NULL,NULL),
-	(117,'QAR','','Qatari Rial',0.000000,0,NULL,NULL,NULL),
-	(118,'RON','','Romanian Leu',0.000000,0,NULL,NULL,NULL),
-	(119,'RWF','','Rwanda Franc',0.000000,0,NULL,NULL,NULL),
-	(120,'SAR','','Saudi Arabian Riyal',0.000000,0,NULL,NULL,NULL),
-	(121,'SBD','','Solomon Islands Dollar',0.000000,0,NULL,NULL,NULL),
-	(122,'SCR','','Seychelles Rupee',0.000000,0,NULL,NULL,NULL),
-	(123,'SDP','','Sudanese Pound',0.000000,0,NULL,NULL,NULL),
-	(124,'SEK','','Swedish Krona',0.000000,0,NULL,NULL,NULL),
-	(125,'SGD','','Singapore Dollar',0.000000,0,NULL,NULL,NULL),
-	(126,'SHP','','St. Helena Pound',0.000000,0,NULL,NULL,NULL),
-	(127,'SLL','','Sierra Leone Leone',0.000000,0,NULL,NULL,NULL),
-	(128,'SOS','','Somali Schilling',0.000000,0,NULL,NULL,NULL),
-	(129,'SRG','','Suriname Guilder',0.000000,0,NULL,NULL,NULL),
-	(130,'STD','','Sao Tome and Principe Dobra',0.000000,0,NULL,NULL,NULL),
-	(131,'RUB','','Russian Ruble',0.000000,0,NULL,NULL,NULL),
-	(132,'SVC','','El Salvador Colon',0.000000,0,NULL,NULL,NULL),
-	(133,'SYP','','Syrian Potmd',0.000000,0,NULL,NULL,NULL),
-	(134,'SZL','','Swaziland Lilangeni',0.000000,0,NULL,NULL,NULL),
-	(135,'THB','','Thai Baht',0.000000,0,NULL,NULL,NULL),
-	(136,'TND','','Tunisian Dinar',0.000000,0,NULL,NULL,NULL),
-	(137,'TOP','','Tongan Paanga',0.000000,0,NULL,NULL,NULL),
-	(138,'TPE','','East Timor Escudo',0.000000,0,NULL,NULL,NULL),
-	(139,'TRY','','Turkish Lira',0.000000,0,NULL,NULL,NULL),
-	(140,'TTD','','Trinidad and Tobago Dollar',0.000000,0,NULL,NULL,NULL),
-	(141,'TWD','','Taiwan Dollar',0.000000,0,NULL,NULL,NULL),
-	(142,'TZS','','Tanzanian Schilling',0.000000,0,NULL,NULL,NULL),
-	(143,'UGX','','Uganda Shilling',0.000000,0,NULL,NULL,NULL),
-	(144,'USD','&dollar;','US Dollar',0.000000,1,NULL,NULL,NULL),
-	(145,'UYU','','Uruguayan Peso',0.000000,0,NULL,NULL,NULL),
-	(146,'VEF','','Venezualan Bolivar',0.000000,0,NULL,NULL,NULL),
-	(147,'VND','','Vietnamese Dong',0.000000,0,NULL,NULL,NULL),
-	(148,'VUV','','Vanuatu Vatu',0.000000,0,NULL,NULL,NULL),
-	(149,'WST','','Samoan Tala',0.000000,0,NULL,NULL,NULL),
-	(150,'XAF','','CommunautÃ© FinanciÃ¨re Africaine BEAC, Francs',0.000000,0,NULL,NULL,NULL),
-	(151,'XAG','','Silver, Ounces',0.000000,0,NULL,NULL,NULL),
-	(152,'XAU','','Gold, Ounces',0.000000,0,NULL,NULL,NULL),
-	(153,'XCD','','East Caribbean Dollar',0.000000,0,NULL,NULL,NULL),
-	(154,'XDR','','International Monetary Fund (IMF) Special Drawing ',0.000000,0,NULL,NULL,NULL),
-	(155,'XOF','','CommunautÃ© FinanciÃ¨re Africaine BCEAO - Francs',0.000000,0,NULL,NULL,NULL),
-	(156,'XPD','','Palladium Ounces',0.000000,0,NULL,NULL,NULL),
-	(157,'XPF','','Comptoirs FranÃ§ais du Pacifique Francs',0.000000,0,NULL,NULL,NULL),
-	(158,'XPT','','Platinum, Ounces',0.000000,0,NULL,NULL,NULL),
-	(159,'YDD','','Democratic Yemeni Dinar',0.000000,0,NULL,NULL,NULL),
-	(160,'YER','','Yemeni Rial',0.000000,0,NULL,NULL,NULL),
-	(161,'YUD','','New Yugoslavia Dinar',0.000000,0,NULL,NULL,NULL),
-	(162,'ZAR','','South African Rand',0.000000,0,NULL,NULL,NULL),
-	(163,'ZMK','','Zambian Kwacha',0.000000,0,NULL,NULL,NULL),
-	(164,'ZRZ','','Zaire Zaire',0.000000,0,NULL,NULL,NULL),
-	(165,'ZWD','','Zimbabwe Dollar',0.000000,0,NULL,NULL,NULL),
-	(166,'SKK','','Slovak Koruna',0.000000,0,NULL,NULL,NULL),
-	(167,'AMD','','Armenian Dram',0.000000,0,NULL,NULL,NULL);
+	(1,'ADP','','Andorran Peseta',2,0.000000,0,NULL,NULL,NULL),
+	(2,'AED','','United Arab Emirates Dirham',2,0.000000,0,NULL,NULL,NULL),
+	(3,'AFA','','Afghanistan Afghani',2,0.000000,0,NULL,NULL,NULL),
+	(4,'ALL','','Albanian Lek',2,0.000000,0,NULL,NULL,NULL),
+	(5,'ANG','','Netherlands Antillian Guilder',2,0.000000,0,NULL,NULL,NULL),
+	(6,'AOK','','Angolan Kwanza',2,0.000000,0,NULL,NULL,NULL),
+	(7,'ARS','','Argentine Peso',2,0.000000,0,NULL,NULL,NULL),
+	(9,'AUD','','Australian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(10,'AWG','','Aruban Florin',2,0.000000,0,NULL,NULL,NULL),
+	(11,'BBD','','Barbados Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(12,'BDT','','Bangladeshi Taka',2,0.000000,0,NULL,NULL,NULL),
+	(14,'BGN','','Bulgarian Lev',2,0.000000,0,NULL,NULL,NULL),
+	(15,'BHD','','Bahraini Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(16,'BIF','','Burundi Franc',2,0.000000,0,NULL,NULL,NULL),
+	(17,'BMD','','Bermudian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(18,'BND','','Brunei Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(19,'BOB','','Bolivian Boliviano',2,0.000000,0,NULL,NULL,NULL),
+	(20,'BRL','','Brazilian Real',2,0.000000,0,NULL,NULL,NULL),
+	(21,'BSD','','Bahamian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(22,'BTN','','Bhutan Ngultrum',2,0.000000,0,NULL,NULL,NULL),
+	(23,'BUK','','Burma Kyat',2,0.000000,0,NULL,NULL,NULL),
+	(24,'BWP','','Botswanian Pula',2,0.000000,0,NULL,NULL,NULL),
+	(25,'BZD','','Belize Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(26,'CAD','','Canadian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(27,'CHF','','Swiss Franc',2,0.000000,0,NULL,NULL,NULL),
+	(28,'CLF','','Chilean Unidades de Fomento',2,0.000000,0,NULL,NULL,NULL),
+	(29,'CLP','','Chilean Peso',2,0.000000,0,NULL,NULL,NULL),
+	(30,'CNY','','Yuan (Chinese) Renminbi',2,0.000000,0,NULL,NULL,NULL),
+	(31,'COP','','Colombian Peso',2,0.000000,0,NULL,NULL,NULL),
+	(32,'CRC','','Costa Rican Colon',2,0.000000,0,NULL,NULL,NULL),
+	(33,'CZK','','Czech Republic Koruna',2,0.000000,0,NULL,NULL,NULL),
+	(34,'CUP','','Cuban Peso',2,0.000000,0,NULL,NULL,NULL),
+	(35,'CVE','','Cape Verde Escudo',2,0.000000,0,NULL,NULL,NULL),
+	(36,'CYP','','Cyprus Pound',2,0.000000,0,NULL,NULL,NULL),
+	(40,'DKK','','Danish Krone',2,0.000000,0,NULL,NULL,NULL),
+	(41,'DOP','','Dominican Peso',2,0.000000,0,NULL,NULL,NULL),
+	(42,'DZD','','Algerian Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(43,'ECS','','Ecuador Sucre',2,0.000000,0,NULL,NULL,NULL),
+	(44,'EGP','','Egyptian Pound',2,0.000000,0,NULL,NULL,NULL),
+	(45,'EEK','','Estonian Kroon (EEK)',2,0.000000,0,NULL,NULL,NULL),
+	(46,'ETB','','Ethiopian Birr',2,0.000000,0,NULL,NULL,NULL),
+	(47,'EUR',' &euro;','Euro',2,0.000000,1,NULL,NULL,NULL),
+	(49,'FJD','','Fiji Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(50,'FKP','','Falkland Islands Pound',2,0.000000,0,NULL,NULL,NULL),
+	(52,'GBP','&pound;','British Pound',2,0.000000,1,NULL,NULL,NULL),
+	(53,'GHC','','Ghanaian Cedi',2,0.000000,0,NULL,NULL,NULL),
+	(54,'GIP','','Gibraltar Pound',2,0.000000,0,NULL,NULL,NULL),
+	(55,'GMD','','Gambian Dalasi',2,0.000000,0,NULL,NULL,NULL),
+	(56,'GNF','','Guinea Franc',2,0.000000,0,NULL,NULL,NULL),
+	(58,'GTQ','','Guatemalan Quetzal',2,0.000000,0,NULL,NULL,NULL),
+	(59,'GWP','','Guinea-Bissau Peso',2,0.000000,0,NULL,NULL,NULL),
+	(60,'GYD','','Guyanan Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(61,'HKD','','Hong Kong Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(62,'HNL','','Honduran Lempira',2,0.000000,0,NULL,NULL,NULL),
+	(63,'HTG','','Haitian Gourde',2,0.000000,0,NULL,NULL,NULL),
+	(64,'HUF','','Hungarian Forint',2,0.000000,0,NULL,NULL,NULL),
+	(65,'IDR','','Indonesian Rupiah',2,0.000000,0,NULL,NULL,NULL),
+	(66,'IEP','','Irish Punt',2,0.000000,0,NULL,NULL,NULL),
+	(67,'ILS','','Israeli Shekel',2,0.000000,0,NULL,NULL,NULL),
+	(68,'INR','','Indian Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(69,'IQD','','Iraqi Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(70,'IRR','','Iranian Rial',2,0.000000,0,NULL,NULL,NULL),
+	(73,'JMD','','Jamaican Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(74,'JOD','','Jordanian Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(75,'JPY','','Japanese Yen',2,0.000000,0,NULL,NULL,NULL),
+	(76,'KES','','Kenyan Schilling',2,0.000000,0,NULL,NULL,NULL),
+	(77,'KHR','','Kampuchean (Cambodian) Riel',2,0.000000,0,NULL,NULL,NULL),
+	(78,'KMF','','Comoros Franc',2,0.000000,0,NULL,NULL,NULL),
+	(79,'KPW','','North Korean Won',2,0.000000,0,NULL,NULL,NULL),
+	(80,'KRW','','(South) Korean Won',2,0.000000,0,NULL,NULL,NULL),
+	(81,'KWD','','Kuwaiti Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(82,'KYD','','Cayman Islands Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(83,'LAK','','Lao Kip',2,0.000000,0,NULL,NULL,NULL),
+	(84,'LBP','','Lebanese Pound',2,0.000000,0,NULL,NULL,NULL),
+	(85,'LKR','','Sri Lanka Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(86,'LRD','','Liberian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(87,'LSL','','Lesotho Loti',2,0.000000,0,NULL,NULL,NULL),
+	(89,'LYD','','Libyan Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(90,'MAD','','Moroccan Dirham',2,0.000000,0,NULL,NULL,NULL),
+	(91,'MGF','','Malagasy Franc',2,0.000000,0,NULL,NULL,NULL),
+	(92,'MNT','','Mongolian Tugrik',2,0.000000,0,NULL,NULL,NULL),
+	(93,'MOP','','Macau Pataca',2,0.000000,0,NULL,NULL,NULL),
+	(94,'MRO','','Mauritanian Ouguiya',2,0.000000,0,NULL,NULL,NULL),
+	(95,'MTL','','Maltese Lira',2,0.000000,0,NULL,NULL,NULL),
+	(96,'MUR','','Mauritius Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(97,'MVR','','Maldive Rufiyaa',2,0.000000,0,NULL,NULL,NULL),
+	(98,'MWK','','Malawi Kwacha',2,0.000000,0,NULL,NULL,NULL),
+	(99,'MXP','','Mexican Peso',2,0.000000,0,NULL,NULL,NULL),
+	(100,'MYR','','Malaysian Ringgit',2,0.000000,0,NULL,NULL,NULL),
+	(101,'MZM','','Mozambique Metical',2,0.000000,0,NULL,NULL,NULL),
+	(102,'NAD','','Namibian Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(103,'NGN','','Nigerian Naira',2,0.000000,0,NULL,NULL,NULL),
+	(104,'NIO','','Nicaraguan Cordoba',2,0.000000,0,NULL,NULL,NULL),
+	(105,'NOK','','Norwegian Kroner',2,0.000000,0,NULL,NULL,NULL),
+	(106,'NPR','','Nepalese Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(107,'NZD','','New Zealand Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(108,'OMR','','Omani Rial',2,0.000000,0,NULL,NULL,NULL),
+	(109,'PAB','','Panamanian Balboa',2,0.000000,0,NULL,NULL,NULL),
+	(110,'PEN','','Peruvian Nuevo Sol',2,0.000000,0,NULL,NULL,NULL),
+	(111,'PGK','','Papua New Guinea Kina',2,0.000000,0,NULL,NULL,NULL),
+	(112,'PHP','','Philippine Peso',2,0.000000,0,NULL,NULL,NULL),
+	(113,'PKR','','Pakistan Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(114,'PLN','','Polish Zloty',2,0.000000,0,NULL,NULL,NULL),
+	(116,'PYG','','Paraguay Guarani',2,0.000000,0,NULL,NULL,NULL),
+	(117,'QAR','','Qatari Rial',2,0.000000,0,NULL,NULL,NULL),
+	(118,'RON','','Romanian Leu',2,0.000000,0,NULL,NULL,NULL),
+	(119,'RWF','','Rwanda Franc',2,0.000000,0,NULL,NULL,NULL),
+	(120,'SAR','','Saudi Arabian Riyal',2,0.000000,0,NULL,NULL,NULL),
+	(121,'SBD','','Solomon Islands Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(122,'SCR','','Seychelles Rupee',2,0.000000,0,NULL,NULL,NULL),
+	(123,'SDP','','Sudanese Pound',2,0.000000,0,NULL,NULL,NULL),
+	(124,'SEK','','Swedish Krona',2,0.000000,0,NULL,NULL,NULL),
+	(125,'SGD','','Singapore Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(126,'SHP','','St. Helena Pound',2,0.000000,0,NULL,NULL,NULL),
+	(127,'SLL','','Sierra Leone Leone',2,0.000000,0,NULL,NULL,NULL),
+	(128,'SOS','','Somali Schilling',2,0.000000,0,NULL,NULL,NULL),
+	(129,'SRG','','Suriname Guilder',2,0.000000,0,NULL,NULL,NULL),
+	(130,'STD','','Sao Tome and Principe Dobra',2,0.000000,0,NULL,NULL,NULL),
+	(131,'RUB','','Russian Ruble',2,0.000000,0,NULL,NULL,NULL),
+	(132,'SVC','','El Salvador Colon',2,0.000000,0,NULL,NULL,NULL),
+	(133,'SYP','','Syrian Potmd',2,0.000000,0,NULL,NULL,NULL),
+	(134,'SZL','','Swaziland Lilangeni',2,0.000000,0,NULL,NULL,NULL),
+	(135,'THB','','Thai Baht',2,0.000000,0,NULL,NULL,NULL),
+	(136,'TND','','Tunisian Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(137,'TOP','','Tongan Paanga',2,0.000000,0,NULL,NULL,NULL),
+	(138,'TPE','','East Timor Escudo',2,0.000000,0,NULL,NULL,NULL),
+	(139,'TRY','','Turkish Lira',2,0.000000,0,NULL,NULL,NULL),
+	(140,'TTD','','Trinidad and Tobago Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(141,'TWD','','Taiwan Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(142,'TZS','','Tanzanian Schilling',2,0.000000,0,NULL,NULL,NULL),
+	(143,'UGX','','Uganda Shilling',2,0.000000,0,NULL,NULL,NULL),
+	(144,'USD','&dollar;','US Dollar',2,0.000000,1,NULL,NULL,NULL),
+	(145,'UYU','','Uruguayan Peso',2,0.000000,0,NULL,NULL,NULL),
+	(146,'VEF','','Venezualan Bolivar',2,0.000000,0,NULL,NULL,NULL),
+	(147,'VND','','Vietnamese Dong',2,0.000000,0,NULL,NULL,NULL),
+	(148,'VUV','','Vanuatu Vatu',2,0.000000,0,NULL,NULL,NULL),
+	(149,'WST','','Samoan Tala',2,0.000000,0,NULL,NULL,NULL),
+	(150,'XAF','','CommunautÃ© FinanciÃ¨re Africaine BEAC, Francs',2,0.000000,0,NULL,NULL,NULL),
+	(151,'XAG','','Silver, Ounces',2,0.000000,0,NULL,NULL,NULL),
+	(152,'XAU','','Gold, Ounces',2,0.000000,0,NULL,NULL,NULL),
+	(153,'XCD','','East Caribbean Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(154,'XDR','','International Monetary Fund (IMF) Special Drawing ',2,0.000000,0,NULL,NULL,NULL),
+	(155,'XOF','','CommunautÃ© FinanciÃ¨re Africaine BCEAO - Francs',2,0.000000,0,NULL,NULL,NULL),
+	(156,'XPD','','Palladium Ounces',2,0.000000,0,NULL,NULL,NULL),
+	(157,'XPF','','Comptoirs FranÃ§ais du Pacifique Francs',2,0.000000,0,NULL,NULL,NULL),
+	(158,'XPT','','Platinum, Ounces',2,0.000000,0,NULL,NULL,NULL),
+	(159,'YDD','','Democratic Yemeni Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(160,'YER','','Yemeni Rial',2,0.000000,0,NULL,NULL,NULL),
+	(161,'YUD','','New Yugoslavia Dinar',2,0.000000,0,NULL,NULL,NULL),
+	(162,'ZAR','','South African Rand',2,0.000000,0,NULL,NULL,NULL),
+	(163,'ZMK','','Zambian Kwacha',2,0.000000,0,NULL,NULL,NULL),
+	(164,'ZRZ','','Zaire Zaire',2,0.000000,0,NULL,NULL,NULL),
+	(165,'ZWD','','Zimbabwe Dollar',2,0.000000,0,NULL,NULL,NULL),
+	(166,'SKK','','Slovak Koruna',2,0.000000,0,NULL,NULL,NULL),
+	(167,'AMD','','Armenian Dram',2,0.000000,0,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `shop_currency` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1982,24 +2250,37 @@ DROP TABLE IF EXISTS `shop_order`;
 
 CREATE TABLE `shop_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ref` varchar(6) NOT NULL DEFAULT '',
-  `user_id` int(11) unsigned NOT NULL,
+  `ref` char(13) NOT NULL DEFAULT '',
+  `code` varchar(100) NOT NULL DEFAULT '',
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `user_first_name` varchar(150) DEFAULT NULL,
+  `user_last_name` varchar(150) DEFAULT NULL,
+  `ip_address` varchar(25) DEFAULT NULL,
   `currency_id` int(11) unsigned NOT NULL,
   `base_currency_id` int(11) unsigned NOT NULL,
   `payment_gateway_id` int(11) unsigned NOT NULL,
   `voucher_id` int(11) unsigned DEFAULT NULL,
-  `status` enum('PENDING','UNVERIFIED','VERIFIED','ABANDONED','CANCELLED') NOT NULL DEFAULT 'PENDING',
+  `status` enum('PENDING','VERIFIED','ABANDONED','CANCELLED','FAILED') NOT NULL DEFAULT 'PENDING',
+  `requires_shipping` tinyint(1) unsigned NOT NULL,
   `fulfilment_status` enum('UNFULFILLED','FULFILLED') DEFAULT 'UNFULFILLED',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `fulfilled` datetime DEFAULT NULL,
   `exchange_rate` float(10,6) unsigned NOT NULL DEFAULT '1.000000',
-  `net_total` float(10,2) unsigned NOT NULL,
-  `gross_total` float(10,2) unsigned NOT NULL,
+  `sub_total` float(10,2) unsigned NOT NULL,
+  `grand_total` float(10,2) unsigned NOT NULL,
   `taxes` float(10,2) unsigned NOT NULL,
   `deductions` float(10,2) unsigned NOT NULL,
   `shipping` float(10,2) unsigned NOT NULL,
   `fees_deducted` float(10,2) unsigned NOT NULL,
+  `shipping_addressee` varchar(150) DEFAULT NULL,
+  `shipping_line_1` varchar(150) DEFAULT NULL,
+  `shipping_line_2` varchar(150) DEFAULT NULL,
+  `shipping_town` varchar(150) DEFAULT NULL,
+  `shipping_postcode` varchar(150) DEFAULT NULL,
+  `shipping_country` varchar(150) DEFAULT NULL,
+  `shipping_state` varchar(150) DEFAULT NULL,
   `pp_txn_id` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -2009,11 +2290,12 @@ CREATE TABLE `shop_order` (
   KEY `ref` (`ref`),
   KEY `user_id_2` (`user_id`,`status`),
   KEY `voucher_id` (`voucher_id`),
-  CONSTRAINT `shop_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  KEY `user_email` (`user_email`),
   CONSTRAINT `shop_order_ibfk_2` FOREIGN KEY (`currency_id`) REFERENCES `shop_currency` (`id`),
   CONSTRAINT `shop_order_ibfk_3` FOREIGN KEY (`payment_gateway_id`) REFERENCES `shop_payment_gateway` (`id`),
   CONSTRAINT `shop_order_ibfk_4` FOREIGN KEY (`base_currency_id`) REFERENCES `shop_currency` (`id`),
-  CONSTRAINT `shop_order_ibfk_5` FOREIGN KEY (`voucher_id`) REFERENCES `shop_voucher` (`id`)
+  CONSTRAINT `shop_order_ibfk_5` FOREIGN KEY (`voucher_id`) REFERENCES `shop_voucher` (`id`),
+  CONSTRAINT `shop_order_ibfk_6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -2028,15 +2310,21 @@ CREATE TABLE `shop_order_product` (
   `order_id` int(11) unsigned NOT NULL,
   `product_id` int(11) unsigned NOT NULL,
   `quantity` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `title` varchar(150) DEFAULT '',
+  `price` float(10,2) unsigned NOT NULL,
+  `sale_price` float(10,2) unsigned NOT NULL,
+  `tax` float(10,2) unsigned NOT NULL,
+  `shipping` float(10,2) unsigned NOT NULL,
+  `was_on_sale` tinyint(1) unsigned NOT NULL,
+  `processed` tinyint(1) unsigned NOT NULL,
   `refunded` tinyint(1) unsigned NOT NULL,
   `refunded_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `shop_order_product_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `shop_order` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `shop_order_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `shop_order_product` (`id`)
+  CONSTRAINT `shop_order_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `shop_product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table shop_payment_gateway
@@ -2046,14 +2334,34 @@ DROP TABLE IF EXISTS `shop_payment_gateway`;
 
 CREATE TABLE `shop_payment_gateway` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) DEFAULT NULL,
   `label` varchar(50) NOT NULL DEFAULT '',
+  `logo` varchar(50) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
   `enabled` tinyint(1) unsigned NOT NULL,
   `account_id` varchar(100) DEFAULT NULL,
   `api_key` varchar(100) DEFAULT NULL,
   `api_secret` varchar(100) DEFAULT NULL,
+  `sandbox_account_id` varchar(100) DEFAULT NULL,
+  `sandbox_api_key` varchar(100) DEFAULT NULL,
+  `sandbox_api_secret` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `shop_payment_gateway` WRITE;
+/*!40000 ALTER TABLE `shop_payment_gateway` DISABLE KEYS */;
+
+INSERT INTO `shop_payment_gateway` (`id`, `slug`, `label`, `logo`, `website`, `enabled`, `account_id`, `api_key`, `api_secret`, `sandbox_account_id`, `sandbox_api_key`, `sandbox_api_secret`)
+VALUES
+	(1,'paypal','PayPal','paypal.gif','http://paypal.co.uk',0,NULL,NULL,NULL,NULL,NULL,NULL),
+	(2,'shedpay','ShedPay','shedpay.png','http://shedpay.com',0,NULL,NULL,NULL,NULL,NULL,NULL),
+	(3,'cardsave','CardSave','cardsave.png',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL),
+	(4,'sagepay','SagePay','sagepay.png',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL),
+	(5,'worldpay','WorldPay','worldpay.png',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL),
+	(6,'eway','eWay','eway.png',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
+
+/*!40000 ALTER TABLE `shop_payment_gateway` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table shop_product
@@ -2071,8 +2379,10 @@ CREATE TABLE `shop_product` (
   `seo_keywords` varchar(255) DEFAULT NULL,
   `price` float(10,2) NOT NULL,
   `sale_price` float(10,2) NOT NULL,
-  `tax_rate` float(10,2) unsigned NOT NULL,
+  `tax_rate_id` int(11) unsigned DEFAULT NULL,
   `is_on_sale` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `sale_start` datetime DEFAULT NULL,
+  `sale_end` datetime DEFAULT NULL,
   `is_active` tinyint(1) unsigned NOT NULL,
   `quantity_available` int(11) unsigned DEFAULT NULL,
   `quantity_sold` int(11) unsigned DEFAULT NULL,
@@ -2082,10 +2392,11 @@ CREATE TABLE `shop_product` (
   PRIMARY KEY (`id`),
   KEY `type_id` (`type_id`),
   KEY `created_by` (`created_by`),
+  KEY `tax_rate_id` (`tax_rate_id`),
   CONSTRAINT `shop_product_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `shop_product_type` (`id`),
-  CONSTRAINT `shop_product_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL
+  CONSTRAINT `shop_product_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `shop_product_ibfk_3` FOREIGN KEY (`tax_rate_id`) REFERENCES `shop_product_tax_rate` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table shop_product_gallery
@@ -2117,12 +2428,35 @@ DROP TABLE IF EXISTS `shop_product_meta`;
 CREATE TABLE `shop_product_meta` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `product_id` int(11) unsigned NOT NULL,
-  `filename` varchar(50) DEFAULT NULL,
+  `download_bucket` varchar(50) DEFAULT NULL,
+  `download_filename` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `shop_product_meta_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `shop_product` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+# Dump of table shop_product_tax_rate
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shop_product_tax_rate`;
+
+CREATE TABLE `shop_product_tax_rate` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(150) NOT NULL DEFAULT '',
+  `rate` float(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `shop_product_tax_rate` WRITE;
+/*!40000 ALTER TABLE `shop_product_tax_rate` DISABLE KEYS */;
+
+INSERT INTO `shop_product_tax_rate` (`id`, `label`, `rate`)
+VALUES
+	(1,'UK VAT',0.20);
+
+/*!40000 ALTER TABLE `shop_product_tax_rate` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table shop_product_type
@@ -2134,13 +2468,13 @@ CREATE TABLE `shop_product_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(100) NOT NULL DEFAULT '',
   `label` varchar(150) NOT NULL DEFAULT '',
+  `requires_shipping` tinyint(1) unsigned NOT NULL,
   `ipn_method` varchar(50) DEFAULT NULL,
   `max_per_order` tinyint(1) unsigned DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table shop_settings
@@ -2160,7 +2494,11 @@ LOCK TABLES `shop_settings` WRITE;
 
 INSERT INTO `shop_settings` (`id`, `key`, `value`)
 VALUES
-	(1,'base_currency','52');
+	(1,'base_currency','i:52;'),
+	(2,'notify_order','s:17:\"email@example.com\";'),
+	(3,'invoice_company','s:10:\"My Company\";'),
+	(4,'invoice_address','s:15:\"123 Fake Street\";'),
+	(5,'invoice_vat_no','s:6:\"VAT123\";');
 
 /*!40000 ALTER TABLE `shop_settings` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -48,6 +48,32 @@ $route['default_controller']	= 'home/index';
 $route['404_override']			= 'system/render_404';
 
 
+/*
+| -------------------------------------------------------------------------
+| APPLICATION ROUTES
+| -------------------------------------------------------------------------
+| 
+| Define app specific routes below.
+*/
+
+
+
+/*
+| -------------------------------------------------------------------------
+| CMS PAGE ROUTES
+| -------------------------------------------------------------------------
+| 
+| If the CMS Page routes file is found it should be loaded. This file is maintained
+| by the CMS Page module and should not be edited manually.
+*/
+
+if ( file_exists( APPPATH . 'config/routes_cms_page.php' ) ) :
+
+	include APPPATH . 'config/routes_cms_page.php';
+	
+endif;
+
+
 
 
 /* End of file routes.php */
