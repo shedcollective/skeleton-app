@@ -30,7 +30,7 @@ class Fatal_Error_Hook
 		
 		$aError = error_get_last();
 		
-		if ( ! is_null( $aError ) ) :
+		if ( ! is_null( $aError ) && $aError['type'] === E_ERROR ) :
 		
 			$this->saveAndEmailFatal( $aError );
 		
@@ -55,17 +55,18 @@ class Fatal_Error_Hook
 		$oCI =& get_instance();
 		
 		$aInfo = array(
-			'type'			=> $infFull? 'Triggered' : 'HandleShutdown',
-			'severity'		=> $this->getSeverityText( $insSeverity ),
-			'message'		=> $insMessage,
-			'filepath'		=> $insFilePath,
-			'line'			=> $insLine,
-			'session'		=> json_encode( $oCI->session->userdata ),
-			'post'			=> json_encode( $_POST ),
-			'get'			=> json_encode( $_GET ),
-			'server'		=> json_encode( $_SERVER ),
-			'globals'		=> isset( $GLOBALS['error'] )? json_encode( $GLOBALS['error'] ): '',
-			'uri'			=> $oCI->uri->uri_string()
+			'type'				=> $infFull? 'Triggered' : 'HandleShutdown',
+			'severity'			=> $this->getSeverityText( $insSeverity ),
+			'message'			=> $insMessage,
+			'filepath'			=> $insFilePath,
+			'line'				=> $insLine,
+			'session'			=> json_encode( $oCI->session->userdata ),
+			'post'				=> json_encode( $_POST ),
+			'get'				=> json_encode( $_GET ),
+			'server'			=> json_encode( $_SERVER ),
+			'globals'			=> isset( $GLOBALS['error'] )? json_encode( $GLOBALS['error'] ): '',
+			'uri'				=> $oCI->uri->uri_string(),
+			'debug_backtrace'	=> json_encode( debug_backtrace() )
 		);
 		
 		//	Prep the email and send
@@ -75,7 +76,7 @@ class Fatal_Error_Hook
 		
 		else :
 		
-			if ( $oCI->input->is_cli_request() ) :
+			if ( $oCI->input->is_cli_request() || isset( $_SERVER['argv'] ) ) :
 			
 				//	CLI
 				$_host = 'CLI REQUEST';
@@ -108,7 +109,8 @@ class Fatal_Error_Hook
 		$_message	.= 'GET: ' . $aInfo['get'] . "\n\n";
 		$_message	.= 'SERVER: ' . $aInfo['server'] . "\n\n";
 		$_message	.= 'GLOBALS: ' . $aInfo['globals'] . "\n\n";
-		$_message	.= 'URI: ' . $aInfo['uri'] . "\n";
+		$_message	.= 'URI: ' . $aInfo['uri'] . "\n\n";
+		$_message	.= 'BACKTRACE: ' . $aInfo['debug_backtrace'] . "\n";
 		$_message	.= '' . "\n";
 		
 		send_developer_mail( $_subject, $_message );
