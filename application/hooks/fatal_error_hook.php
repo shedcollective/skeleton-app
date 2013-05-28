@@ -110,8 +110,8 @@ class Fatal_Error_Hook
 		$_message	.= 'SERVER: ' . $aInfo['server'] . "\n\n";
 		$_message	.= 'GLOBALS: ' . $aInfo['globals'] . "\n\n";
 		$_message	.= 'URI: ' . $aInfo['uri'] . "\n\n";
-		$_message	.= 'BACKTRACE: ' . $aInfo['debug_backtrace'] . "\n";
-		$_message	.= '' . "\n";
+		$_message	.= 'BACKTRACE: ' . $aInfo['debug_backtrace'] . "\n\n";
+		$_message	.= 'LAST KNOWN QUERY: ' . $oCI->db->last_query() . "\n\n";
 		
 		send_developer_mail( $_subject, $_message );
 		
