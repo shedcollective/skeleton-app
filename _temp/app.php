@@ -49,13 +49,14 @@
 	
  /*
  | --------------------------------------------------------------------
- | DEFAULT GROUP
+ | USER CONFIGURATIONS
  | --------------------------------------------------------------------
  | 
- | Define which group the default user belongs too.
+ | Define various user centric configurations
  |
  */
-	define( 'APP_DEFAULT_GROUP', 3 );
+	define( 'APP_USER_ALLOW_REGISTRATION',	TRUE );
+	define( 'APP_USER_DEFAULT_GROUP',		3 );
 	
 	
  /*
