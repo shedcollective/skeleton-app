@@ -101,6 +101,18 @@
 	define( 'SSL_ROUTING', FALSE );
 
 
+ /*
+ | --------------------------------------------------------------------
+ | STAGING SECURITY
+ | --------------------------------------------------------------------
+ | 
+ | Define a username and password for the staging environment.
+ |
+ */
+	define( 'APP_STAGING_USER',	'' );
+	define( 'APP_STAGING_PASS',	'' );
+
+
 	
 /* End of file app.php */
 /* Location: ./public_html/settings/app.php */

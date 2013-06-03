@@ -103,6 +103,26 @@ CREATE TABLE `blog_post_category` (
 
 
 
+# Dump of table blog_post_image
+# ------------------------------------------------------------
+
+CREATE TABLE `blog_post_image` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) unsigned NOT NULL,
+  `media_type` enum('image','vimeo','youtube') NOT NULL DEFAULT 'image',
+  `image_filename` varchar(50) DEFAULT NULL,
+  `image_slider_link` varchar(300) DEFAULT NULL,
+  `image_caption` varchar(500) DEFAULT NULL,
+  `vimeo_id` varchar(50) DEFAULT NULL,
+  `youtube_id` varchar(50) DEFAULT NULL,
+  `order` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `blog_post_image_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `blog_post` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table blog_post_tag
 # ------------------------------------------------------------
 
