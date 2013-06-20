@@ -37,8 +37,7 @@
 |
 */
 
-$autoload['packages'][] = APPPATH.'third_party';
-$autoload['packages'][] = NAILS_PATH;
+$autoload['packages'] = array();
 
 /*
 | -------------------------------------------------------------------
@@ -52,9 +51,7 @@ $autoload['packages'][] = NAILS_PATH;
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'][] = 'session';
-$autoload['libraries'][] = 'encrypt';
-$autoload['libraries'][] = 'asset';
+$autoload['libraries'] = array();
 
 
 /*
@@ -66,19 +63,7 @@ $autoload['libraries'][] = 'asset';
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'][] = 'system';	//	To maintain sanity, load this first.
-
-$autoload['helper'][] = 'url';
-$autoload['helper'][] = 'form';
-$autoload['helper'][] = 'html';
-$autoload['helper'][] = 'tools';
-$autoload['helper'][] = 'debug';
-$autoload['helper'][] = 'language';
-$autoload['helper'][] = 'text';
-$autoload['helper'][] = 'exception';
-$autoload['helper'][] = 'typography';
-$autoload['helper'][] = 'cdn';
-$autoload['helper'][] = 'event';
+$autoload['helper'] = array();
 
 
 /*
