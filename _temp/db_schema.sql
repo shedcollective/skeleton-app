@@ -626,11 +626,12 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `type_id` int(11) unsigned DEFAULT NULL,
-  `created_by` int(11) unsigned DEFAULT NULL,
-  `vars` text,
+  `url` varchar(300) DEFAULT NULL,
+  `data` text,
   `ref` int(11) unsigned DEFAULT NULL,
-  `created` datetime NOT NULL,
   `level` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `created_by` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `created_by` (`created_by`),
   KEY `type` (`type_id`),
@@ -666,8 +667,10 @@ DROP TABLE IF EXISTS `event_type`;
 CREATE TABLE `event_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(30) NOT NULL DEFAULT '',
-  `name` varchar(100) NOT NULL DEFAULT '',
+  `label` varchar(100) NOT NULL DEFAULT '',
   `description` varchar(200) NOT NULL DEFAULT '',
+  `ref_join_table` varchar(100) DEFAULT '',
+  `ref_join_column` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2883,16 +2886,27 @@ CREATE TABLE `user` (
   `created` datetime NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_seen` datetime DEFAULT NULL,
-  `is_verified` tinyint(1) unsigned DEFAULT '0',
-  `is_suspended` tinyint(1) unsigned DEFAULT '0',
-  `temp_pw` tinyint(1) unsigned DEFAULT '0',
-  `failed_login_count` tinyint(4) unsigned DEFAULT '0',
+  `is_verified` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_suspended` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `temp_pw` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `failed_login_count` tinyint(4) unsigned NOT NULL DEFAULT '0',
   `failed_login_expires` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
   `user_acl` text,
   `login_count` int(11) unsigned NOT NULL DEFAULT '0',
   `admin_nav` text,
   `admin_dashboard` text,
+  `referral` varchar(10) DEFAULT NULL,
+  `referred_by` int(11) unsigned DEFAULT NULL,
+  `salutation` varchar(15) DEFAULT NULL,
+  `first_name` varchar(150) DEFAULT NULL,
+  `last_name` varchar(150) DEFAULT NULL,
+  `gender` enum('undisclosed','male','female','transgender','other') NOT NULL DEFAULT 'undisclosed',
+  `profile_img` varchar(50) DEFAULT NULL,
+  `timezone_id` int(11) unsigned NOT NULL DEFAULT '40',
+  `date_format_date_id` int(11) unsigned NOT NULL DEFAULT '1',
+  `date_format_time_id` int(11) unsigned NOT NULL DEFAULT '1',
+  `language_id` int(11) unsigned NOT NULL DEFAULT '202',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_unique` (`email`),
   KEY `group_id` (`group_id`),
@@ -2905,8 +2919,18 @@ CREATE TABLE `user` (
   KEY `activation_code` (`activation_code`),
   KEY `email` (`email`),
   KEY `forgotten_password_code` (`forgotten_password_code`),
+  KEY `referred_by` (`referred_by`),
+  KEY `timezone_id` (`timezone_id`),
+  KEY `date_format_date_id` (`date_format_date_id`),
+  KEY `date_format_time_id` (`date_format_time_id`),
+  KEY `language_id` (`language_id`),
+  CONSTRAINT `user_ibfk_7` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`id`),
-  CONSTRAINT `user_ibfk_2` FOREIGN KEY (`auth_method_id`) REFERENCES `user_auth_method` (`id`)
+  CONSTRAINT `user_ibfk_2` FOREIGN KEY (`auth_method_id`) REFERENCES `user_auth_method` (`id`),
+  CONSTRAINT `user_ibfk_3` FOREIGN KEY (`referred_by`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`timezone_id`) REFERENCES `timezone` (`id`),
+  CONSTRAINT `user_ibfk_5` FOREIGN KEY (`date_format_date_id`) REFERENCES `date_format_date` (`id`),
+  CONSTRAINT `user_ibfk_6` FOREIGN KEY (`date_format_time_id`) REFERENCES `date_format_time` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -2975,28 +2999,8 @@ DROP TABLE IF EXISTS `user_meta`;
 
 CREATE TABLE `user_meta` (
   `user_id` int(11) unsigned NOT NULL,
-  `referral` varchar(10) DEFAULT NULL,
-  `referred_by` int(11) unsigned DEFAULT NULL,
-  `first_name` varchar(150) NOT NULL DEFAULT '',
-  `last_name` varchar(150) NOT NULL DEFAULT '',
-  `gender` enum('undisclosed','male','female','transgender','other') NOT NULL DEFAULT 'undisclosed',
-  `timezone_id` int(11) unsigned NOT NULL DEFAULT '40',
-  `date_format_date_id` int(11) unsigned NOT NULL DEFAULT '1',
-  `date_format_time_id` int(11) unsigned NOT NULL DEFAULT '1',
-  `language_id` int(11) unsigned NOT NULL DEFAULT '202',
-  `profile_img` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id_2` (`user_id`),
-  KEY `user_id` (`user_id`),
-  KEY `last_name` (`last_name`,`first_name`),
-  KEY `first_name` (`first_name`,`last_name`),
-  KEY `referred_by` (`referred_by`),
-  KEY `referral` (`referral`),
-  KEY `timezone_id` (`timezone_id`),
-  CONSTRAINT `user_meta_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `user_meta_ibfk_4` FOREIGN KEY (`timezone_id`) REFERENCES `timezone` (`id`),
-  CONSTRAINT `user_meta_ibfk_5` FOREIGN KEY (`date_format_date_id`) REFERENCES `date_format_date` (`id`),
-  CONSTRAINT `user_meta_ibfk_6` FOREIGN KEY (`date_format_time_id`) REFERENCES `date_format_time` (`id`)
+  CONSTRAINT `user_meta_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
