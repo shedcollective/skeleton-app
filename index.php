@@ -25,8 +25,21 @@
  */
  	if ( ! file_exists( dirname(__FILE__) . '/settings/app.php' ) ) :
  	
- 		header( 'HTTP/1.1 500 Bad Request' );
-		die( 'ERROR: No app settings file.' );
+ 		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
+ 			
+ 			$_location  = dirname( $_SERVER['SCRIPT_NAME'] );
+ 			$_location .= substr( $_location, -1 ) != '/' ? '/' : '';
+
+	 		header( 'Location: ' . $_location . 'nails-install.php' );
+		 	exit( 0 );
+
+ 		else :
+
+ 			echo 'ERROR: missing settings/app.php; please run installer.' . "\n";
+	 		exit( 0 );
+
+
+ 		endif;
 	
 	endif;
 	
@@ -44,8 +57,21 @@
  */
  	if ( ! file_exists( dirname(__FILE__) . '/settings/deploy.php' ) ) :
  	
- 		header( 'HTTP/1.1 500 Bad Request' );
-		die( 'ERROR: No environment settings file.' );
+ 		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
+ 			
+ 			$_location  = dirname( $_SERVER['SCRIPT_NAME'] );
+ 			$_location .= substr( $_location, -1 ) != '/' ? '/' : '';
+ 			
+	 		header( 'Location: ' . $_location . 'nails-install.php' );
+		 	exit( 0 );
+
+ 		else :
+
+ 			echo 'ERROR: missing settings/deploy.php; please run installer.' . "\n";
+	 		exit( 0 );
+
+
+ 		endif;
 	
 	endif;
 	
@@ -100,19 +126,6 @@
 	 	endif;
 	
 	endif;
-		
-	
- /*
- | --------------------------------------------------------------------
- | TIMEZONE SETTING
- | --------------------------------------------------------------------
- | 
- | Set the timezone here for ease; make sure all date/time functions
- | behave as expected. London, London, ra, ra, ra!
- |
- |
- */
- 	ini_set( 'date.timezone', 'Europe/London' );
  	
  	
  /*
@@ -128,6 +141,7 @@
  |
  |
  */
+
  	switch( ENVIRONMENT ) :
  	
  		case 'production' :
