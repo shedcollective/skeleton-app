@@ -27,4 +27,4 @@ class NAILS_Controller extends CORE_NAILS_Controller
 }
 
 /* End of file NAILS_Controller.php */
-/* Location: ./public_html/application/core/NAILS_Controller.php */
+/* Location: ./application/core/NAILS_Controller.php */

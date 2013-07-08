@@ -13,4 +13,4 @@ require NAILS_PATH . 'core/CORE_NAILS_Loader.php';
 class NAILS_Loader extends CORE_NAILS_Loader {}
 
 /* End of file NAILS_Loader.php */
-/* Location: ./public_html/application/core/NAILS_Loader.php */
+/* Location: ./application/core/NAILS_Loader.php */
