@@ -10,7 +10,7 @@
  |
  | Lead Developer: Pablo de la Peña	(p@shedcollective.org, @hellopablo)
  | Lead Developer: Gary Duncan		(g@shedcollective.org, @gsdd)
- | 
+ |
  | Documentation: http://docs.nailsapp.co.uk
  |
  */
@@ -18,7 +18,6 @@
 
 class NAILS_Installer
 {
-	private $_possible_nails;
 	private $_errors;
 
 
@@ -27,7 +26,6 @@ class NAILS_Installer
 
 	public function __construct()
 	{
-		$this->_possible_nails	= array();
 		$this->_errors			= '';
 		$this->_app_file		= dirname(__FILE__) . '/settings/app.php';
 		$this->_deploy_file		= dirname(__FILE__) . '/settings/deploy.php';
@@ -49,65 +47,61 @@ class NAILS_Installer
 		//	In case this file is access directly, include the config files
 		if ( file_exists( $this->_app_file ) ) require_once $this->_app_file;
 		if ( file_exists( $this->_deploy_file ) ) require_once $this->_deploy_file;
-		
-		if ( isset( $_POST['action'] ) && $_POST['action'] == 'configure' ) :
 
-			//	Validate
-			if ( isset( $_POST['existing'] ) && file_exists( urldecode( $_POST['existing'] ) . 'installer/install.php' ) ) :
+		//	Check Nails is there
+		if ( ! defined( 'NAILS_PATH' ) ) :
 
-				$this->_load_installer( urldecode( $_POST['existing'] ) );
+			$_NAILS_PATH = './vendor/shed/nails/';
 
-			elseif ( isset( $_POST['path'] ) && file_exists( urldecode( $_POST['path'] ) . 'installer/install.php' ) ) :
+		else :
 
-				$this->_load_installer( urldecode( $_POST['path'] ) );
+			$_NAILS_PATH = NAILS_PATH;
 
-			else :
+		endif;
 
-				$this->_errors = 'Invalid Nails. Path. Please choose another.';
-				$this->_find_nails();
-				$this->_request_nails_path();
+		if ( ! file_exists( $_NAILS_PATH . 'controllers/CORE_NAILS_Controller.php' ) ) :
 
-			endif;
+			$this->_errors = '<strong>CANNOT FIND NAILS.</strong><br />Make sure you have run Composer.';
 
-		elseif ( isset( $_POST['action'] ) && $_POST['action'] == 'unlock' && defined( 'DEPLOY_INSTALLER_PW' ) ) :
+		endif;
 
-			if ( DEPLOY_INSTALLER_PW == md5( $_POST['password'] . DEPLOY_PRIVATE_KEY ) ) :
 
-				$this->_load_installer( NAILS_PATH );
+		if ( defined( 'DEPLOY_INSTALLER_PW' ) && DEPLOY_INSTALLER_PW ) :
 
-			else :
+			//	Installer is locked
+			if ( $_POST && DEPLOY_INSTALLER_PW == md5( $_POST['password'] . DEPLOY_PRIVATE_KEY ) ) :
+
+				if ( isset( $_POST['action'] ) && $_POST['action'] != 'unlock' ) :
+
+					$this->_run_installer();
+
+				else :
+
+					$this->_request_config();
+
+				endif;
+
+			elseif ( $_POST && DEPLOY_INSTALLER_PW != md5( $_POST['password'] . DEPLOY_PRIVATE_KEY ) ) :
 
 				$this->_errors = 'Incorrect password';
 				$this->_request_password();
 
+			else :
+
+				$this->_request_password();
+
 			endif;
-
-		elseif ( ! defined( 'NAILS_PATH' ) ) :
-
-			//	Not defined, try to auto discover it
-			$this->_find_nails();
-			$this->_request_nails_path();
 
 		else :
 
-			//	Defined, valid?
-			if ( file_exists( NAILS_PATH ) ) :
+			//	Installer is not locked
+			if ( $_POST ) :
 
-				//	Nails. installation has been found. Installer protected?
-				if ( defined( 'DEPLOY_INSTALLER_PW' ) && DEPLOY_INSTALLER_PW ) :
-
-					$this->_request_password();
-
-				else :
-
-					$this->_load_installer( NAILS_PATH );
-
-				endif;
+				$this->_run_installer();
 
 			else :
 
-				//	Invalid, request Nails. path
-				$this->_request_nails_path();
+				$this->_request_config();
 
 			endif;
 
@@ -115,49 +109,24 @@ class NAILS_Installer
 	}
 
 
-	// --------------------------------------------------------------------------
-
-
-	private function _find_nails()
-	{
-		if  ( function_exists( 'shell_exec' ) ) :
-
-			$this->_possible_nails = shell_exec( 'locate _nails.php' );
-			$this->_possible_nails = array_filter( explode( "\n", $this->_possible_nails ) );
-
-			foreach ( $this->_possible_nails AS &$path ) :
-
-				$path = explode( '/', $path );
-				$path = implode( '/', array_slice( $path, 0, -2 ) ) . '/';
-
-			endforeach;
-			
-			return $this->_possible_nails ? TRUE : FALSE;
-
-		else :
-
-			return FALSE;
-
-		endif;
-	}
-
 
 	// --------------------------------------------------------------------------
 
 
-	private function _request_nails_path()
+	private function _request_config()
 	{
 		$this->_view_header();
 
 		?>
 		<form action="<?=$_SERVER['REQUEST_URI']?>" method="POST" id="container" class="rounded" onsubmit="return validateForm()">
+		<?=isset( $_POST['password'] ) ? '<input type="hidden" name="password" value="' . $_POST['password'] . '" />' : ''?>
 			<input type="hidden" name="action" value="configure" />
 			<h1>Welcome to your new Nails. app!</h1>
 			<?php if ( $this->_errors ) : ?>
 			<p class="error rounded">
 				<?=$this->_errors?>
 			</p>
-			<?php endif; ?> 
+			<?php endif; ?>
 			<p>
 				This page will get you started on the way to configuring your application properly. Once the app is talking nicely to the Nails. installation we'll make sure everything is in order and get the modules configured.
 			</p>
@@ -166,8 +135,25 @@ class NAILS_Installer
 			</p>
 			<ul>
 				<li>
+					<?php
+
+						if ( isset( $_POST['app_name'] ) ) :
+
+							$_default = $_POST['app_name'];
+
+						elseif ( defined( 'APP_NAME' ) ) :
+
+							$_default = APP_NAME;
+
+						else :
+
+							$_default = '';
+
+						endif;
+
+					?>
 					<label class="rounded">
-					<input type="text" class="rounded" name="app_name" value="<?=isset( $_POST['app_name'] ) ? $_POST['app_name'] : '' ?>" placeholder="What's your app called?">
+					<input type="text" class="rounded" name="app_name" value="<?=$_default?>" placeholder="What's your app called?">
 					</label>
 				</li>
 			</ul>
@@ -183,12 +169,14 @@ class NAILS_Installer
 
 							$_default = $_POST['base_url'];
 
+						elseif( defined( 'BASE_URL' ) ) :
+
+							$_default = BASE_URL;
 						else :
 
 							$_default = isset( $_SERVER['SERVER_NAME'] ) ? 'http://' . $_SERVER['SERVER_NAME'] : '';
 
 						endif;
-
 
 					?>
 					<input type="text" class="rounded" name="base_url" value="<?=$_default?>" placeholder="http://www.example.com/">
@@ -196,63 +184,31 @@ class NAILS_Installer
 				</li>
 			</ul>
 			<p>
-				Next, I need to know where the base Nails installation is:
-			</p>
-			<?php if ( $this->_possible_nails ) : ?>
-
-				<p>I found the following potential installations:</p>
-				<ul>
-				<?php
-
-					$_checked = 'checked="checked"';
-					foreach ( $this->_possible_nails AS $path ) :
-
-						echo '<li>';
-						echo '<label class="rounded">';
-						echo '<input type="radio" ' . $_checked . ' name="existing" value="' . urlencode( $path ) . '">';
-						echo $path;
-						echo '</label>';
-						echo '</li>';
-
-						$_checked = '';
-
-					endforeach;
-				?>
-				</ul>
-				<p>
-					Or define a custom path:
-				</p>
-				<ul>
-					<li>
-						<label class="rounded">
-						<input type="radio" name="existing" value="" />
-						<input type="text" class="rounded" name="path" value="" placeholder="Absolute path to Nails. installation">
-						</label>
-					</li>
-				</ul>
-
-			<?php else : ?>
-
-				<ul>
-					<li>
-						<label class="rounded">
-						<input type="radio" name="existing" value="" />
-						<input type="text" class="rounded" name="path" value="" placeholder="Absolute path to Nails. installation">
-						</label>
-					</li>
-				</ul>
-
-			<?php endif; ?>
-			<p>
 				Almost done! Please tell me what environment this deployment is:
 			</p>
 			<ul>
 				<li>
+					<?php
+
+						if ( isset( $_POST['environment'] ) ) :
+
+							$_environment = $_POST['environment'];
+
+						elseif( defined( 'ENVIRONMENT' ) ) :
+
+							$_environment = ENVIRONMENT;
+						else :
+
+							$_environment = 'development';
+
+						endif;
+
+					?>
 					<label class="rounded">
 					<select name="environment">
-						<option value="DEVELOPMENT">Development - Normally a local development build</option>
-						<option value="STAGING">Staging - A mirror of the production environment</option>
-						<option value="PRODUCTION">Production - The live website; errors are suppressed.</option>
+						<option value="development" <?=$_environment == 'development' ? 'selected="selected"' : ''?>>Development - Normally a local development build</option>
+						<option value="staging" <?=$_environment == 'staging' ? 'selected="selected"' : ''?>>Staging - A mirror of the production environment</option>
+						<option value="production" <?=$_environment == 'production' ? 'selected="selected"' : ''?>>Production - The live website; errors are suppressed.</option>
 					</select>
 					</label>
 				</li>
@@ -294,7 +250,7 @@ class NAILS_Installer
 	// --------------------------------------------------------------------------
 
 
-	private function _load_installer( $_nails_path )
+	private function _run_installer( $_nails_path )
 	{
 		//	Attempt to create the app.php and deploy.php file
 		if ( ! file_exists( $this->_app_file ) ) :
@@ -346,7 +302,7 @@ class NAILS_Installer
 			$_base_url		= isset( $_POST['base_url'] ) ? $_POST['base_url'] : '/';
 			$_deploy_key	= md5( uniqid() );
 			$_password		= isset( $_POST['install_password'] ) && $_POST['install_password'] ? md5( $_POST['install_password'] . $_deploy_key ) : '';
-			
+
 			// --------------------------------------------------------------------------
 
 			//	Sanitize nails path and base url
@@ -364,7 +320,6 @@ class NAILS_Installer
 			// --------------------------------------------------------------------------
 
 			$_deploy_str  = '<?php' . "\n";
-			$_deploy_str .= 'define( \'NAILS_PATH\',	\'' . $_nails_path . '\' );' . "\n";
 			$_deploy_str .= 'define( \'ENVIRONMENT\',	\'' . $_environment . '\' );' . "\n";
 			$_deploy_str .= 'define( \'BASE_URL\',	\'' . $_base_url . '\' );' . "\n";
 			$_deploy_str .= 'define( \'DEPLOY_PRIVATE_KEY\',	\'' . $_deploy_key . '\' );' . "\n";
@@ -412,7 +367,7 @@ class NAILS_Installer
 			$_guid			= uniqid();
 			$_time			= time();
 			$_ip			= isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '';
-			
+
 			$_token			= md5( $_guid . $_app_key . $_deploy_key . $_ip . $_time  );
 
 			header( 'Location: system/nails/configure?token=' . $_token . '&guid=' . $_guid . '&time=' . $_time );
@@ -498,7 +453,7 @@ class NAILS_Installer
 			<style type="text/css">
 				html,body
 				{
-					font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+					font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 					font-weight: 300;
 					background:#F9F9F9;
 					line-height:1.75em;
