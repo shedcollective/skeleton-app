@@ -1,3 +1,10 @@
+#	OS type Files
 .DS_Store
-application/log*
+
+#	APP logs, cache and deploy configs
+application/logs*
+application/cache*
 settings/deploy.php
+
+#	Composer source files
+vendor/*
