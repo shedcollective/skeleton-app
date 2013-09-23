@@ -23,17 +23,6 @@
  |
  |
  */
-		$_styles = <<<EOT
-
-			<style type="text/css">
-
-				p {font-family:monospace;margin:20px 10px;}
-				strong { color:red;}
-				code { padding:5px;border:1px solid #CCC;background:#EEE }
-
-			</style>
-
-EOT;
 
  	if ( ! file_exists( dirname(__FILE__) . '/settings/app.php' ) ) :
 
@@ -47,7 +36,11 @@ EOT;
 
  		else :
 
-			echo $_styles;
+			echo '<style type="text/css">';
+			echo 'p {font-family:monospace;margin:20px 10px;}';
+			echo 'strong { color:red;}';
+			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+			echo '</style>';
 			echo '<p><strong>ERROR:</strong> Missing settings/app.php; please run installer.</p>';
 			exit( 0 );
 
@@ -79,7 +72,11 @@ EOT;
 
  		else :
 
-			echo $_styles;
+			echo '<style type="text/css">';
+			echo 'p {font-family:monospace;margin:20px 10px;}';
+			echo 'strong { color:red;}';
+			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+			echo '</style>';
 			echo '<p><strong>ERROR:</strong> Missing settings/deploy.php; please run installer.</p>';
 			exit( 0 );
 
@@ -100,7 +97,11 @@ EOT;
  |
  */
 
-	if ( ! defined( 'NAILS_PATH' ) )	define( 'NAILS_PATH', dirname( __FILE__ ) . '/vendor/shed/nails/' );
+	if ( ! defined( 'NAILS_PATH' ) ) :
+
+		define( 'NAILS_PATH', dirname( __FILE__ ) . '/vendor/shed/nails/' );
+
+	endif;
 
 
  /*
@@ -114,98 +115,15 @@ EOT;
  */
  	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 
-		echo $_styles;
-		echo '<p><strong>ERROR:</strong> Cannot find a valid Nails installation.</p>';
+		echo '<style type="text/css">';
+		echo 'p {font-family:monospace;margin:20px 10px;}';
+		echo 'strong { color:red;}';
+		echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+		echo '</style>';
+		echo '<p><strong>ERROR:</strong> Cannot find a valid Nails installation, have you run <code>composer update</code>?.</p>';
 		exit( 0 );
 
 	endif;
-
- 	require dirname(__FILE__) . '/settings/deploy.php';
-
- /*
- | --------------------------------------------------------------------
- | MAINTENANCE MODE
- | --------------------------------------------------------------------
- |
- | Halt execution if maintenance mode is enabled. IP's listed in the
- | whitelist will be unaffected. Headers tell spiders to retry in 2 hours.
- |
- |
- */
-
- 	if ( defined( 'MAINTENANCE_MODE' ) && MAINTENANCE_MODE ) :
-
-		$whitelist_ip = explode(',', MAINTENANCE_WHITELIST );
-
-		if ( array_search( $_SERVER['REMOTE_ADDR'], $whitelist_ip ) === FALSE ) :
-
-			header( 'HTTP/1.1 503 Service Temporarily Unavailable' );
-			header( 'Status: 503 Service Temporarily Unavailable' );
-			header( 'Retry-After: 7200' );
-
-			// --------------------------------------------------------------------------
-
-	 		//	Look for an app override
-	 		if ( file_exists( dirname(__FILE__) . '/application/views/maintenance/maintenance.php' ) ) :
-
-	 			require dirname(__FILE__) . '/application/views/maintenance/maintenance.php';
-
-	 		//	Fall back to the Nails maintenance page
-	 		elseif ( file_exists( NAILS_PATH . 'views/maintenance/maintenance.php' ) ):
-
-	 			require NAILS_PATH . 'views/maintenance/maintenance.php';
-
-	 		//	Fall back, back to plain text
-	 		else :
-
-	 			echo '<h1>Down for maintenance</h1>';
-
-	 		endif;
-
-	 		// --------------------------------------------------------------------------
-
-	 		//	Halt script execution
- 			exit(0);
-
-	 	endif;
-
-	endif;
-
-
- /*
- | --------------------------------------------------------------------
- | ERROR REPORTING
- | --------------------------------------------------------------------
- |
- | Different environments will require different levels of error reporting.
- |
- | Heads-up: CI intercepts native error handling so to suppress errors from
- | the output make sure this is set to 0 (errors will still be logged in the
- | application's error logs however).
- |
- |
- */
-
- 	switch( ENVIRONMENT ) :
-
- 		case 'production' :
-
- 			//	Suppress all errors on production
- 			error_reporting( 0 );
-
- 		break;
-
- 		// --------------------------------------------------------------------------
-
- 		default :
-
- 			//	Show errors everywhere else
- 			error_reporting( E_ALL|E_STRICT );
-
- 		break;
-
- 	endswitch;
-
 
  /*
  | --------------------------------------------------------------------

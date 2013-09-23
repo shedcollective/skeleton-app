@@ -59,7 +59,7 @@ class NAILS_Installer
 
 		endif;
 
-		if ( ! file_exists( $_NAILS_PATH . 'controllers/CORE_NAILS_Controller.php' ) ) :
+		if ( ! file_exists( $_NAILS_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 
 			$this->_errors = '<strong>CANNOT FIND NAILS.</strong><br />Make sure you have run Composer.';
 
@@ -250,7 +250,7 @@ class NAILS_Installer
 	// --------------------------------------------------------------------------
 
 
-	private function _run_installer( $_nails_path )
+	private function _run_installer()
 	{
 		//	Attempt to create the app.php and deploy.php file
 		if ( ! file_exists( $this->_app_file ) ) :
@@ -297,7 +297,6 @@ class NAILS_Installer
 
 		if ( ! file_exists( $this->_deploy_file ) ) :
 
-			$_nails_path	= str_replace( "'", "\'", $_nails_path );
 			$_environment	= isset( $_POST['environment'] ) ? $_POST['environment'] : 'developmet';
 			$_base_url		= isset( $_POST['base_url'] ) ? $_POST['base_url'] : '/';
 			$_deploy_key	= md5( uniqid() );
@@ -305,9 +304,7 @@ class NAILS_Installer
 
 			// --------------------------------------------------------------------------
 
-			//	Sanitize nails path and base url
-			$_nails_path .= substr( $_nails_path, -1 ) != '/' ? '/' : '';
-
+			//	Sanitize base url
 			if ( ! $_base_url ) :
 
 				$_base_url = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : '/';

@@ -10,8 +10,8 @@ build:
 	@chmod 0777 application/config
 	@chmod 0777 assets/uploads
 	@chmod 0777 settings
+	@rm -f Makefile
 	@composer install
 	@git add .
 	@git commit -m 'Initial Commit'
-	@ rm -f Makefile
 	@echo "Done, go forth a code!"
