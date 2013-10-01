@@ -260,7 +260,7 @@ class NAILS_Installer
 
 			$_app_str  = '<?php' . "\n";
 			$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
-			$_app_str .= 'define( \'APP_DEFAULT_LANG_SAFE\',	\'english\' );' . "\n";
+			$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'english\' );' . "\n";
 			$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
 
 			$_fh = @fopen( $this->_app_file, 'w' );

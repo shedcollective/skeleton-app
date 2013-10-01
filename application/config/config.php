@@ -69,7 +69,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= APP_DEFAULT_LANG_SAFE;
+$config['language']	= APP_DEFAULT_LANG_SLUG;
 
 /*
 |--------------------------------------------------------------------------
@@ -362,10 +362,10 @@ $config['proxy_ips'] = '';
 |--------------------------------------------------------------------------
 |
 | The full path to where modules are located. Key is full path, value is
-| relative path from the application controllers directory to where the 
+| relative path from the application controllers directory to where the
 | modules are; because Nails might be anywhere we need to calculate the
 | relative path on the fly.
-| 
+|
 | Thanks to Gordon for this one; http://stackoverflow.com/a/2638272/789224
 |
 */
@@ -377,40 +377,40 @@ if ( ! function_exists( 'get_relative_path' ) ) :
 		$from     = explode( '/', $from );
 		$to       = explode( '/', $to );
 		$relPath  = $to;
-		
+
 		foreach( $from AS $depth => $dir ) :
-		
+
 			//	Find first non-matching dir
 			if( $dir === $to[$depth] ) :
-			
+
 				//	Ignore this directory
 				array_shift( $relPath );
-			
+
 			else :
-			
+
 			//	Get number of remaining dirs to $from
 			$remaining = count( $from ) - $depth;
-			
+
 				if ( $remaining > 1 ) :
-				
+
 					// add traversals up to first matching dir
 					$padLength = ( count( $relPath ) + $remaining - 1 ) * -1;
 					$relPath = array_pad( $relPath, $padLength, '..' );
 					break;
-				
+
 				else :
-				
+
 					$relPath[0] = './' . $relPath[0];
-					
+
 				endif;
-				
+
 			endif;
-			
+
 		endforeach;
-		
+
 		return implode( '/', $relPath );
 	}
-	
+
 endif;
 
 $config['modules_locations'][APPPATH . 'modules/']		= '../modules/';
