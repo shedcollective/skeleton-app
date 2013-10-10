@@ -10,37 +10,37 @@ class Fatal_Error_Hook
 	{
 		register_shutdown_function( array( &$this, 'handleShutdown' ) );
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------------
-	
-	
+
+
 	/**
 	 * @return void
 	 */
 	public function handleShutdown()
 	{
 		if ( ENVIRONMENT != 'production' ) :
-		
+
 			return FALSE;
-		
+
 		endif;
-		
+
 		// --------------------------------------------------------------------------
-		
+
 		$aError = error_get_last();
-		
+
 		if ( ! is_null( $aError ) && $aError['type'] === E_ERROR ) :
-		
+
 			$this->saveAndEmailFatal( $aError );
-		
+
 		endif;
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------------
-	
-	
+
+
 	/**
 	 * This method will gather together most variables, the callstack and the actual triggering error
 	 * and then email the whole lot.
@@ -53,7 +53,7 @@ class Fatal_Error_Hook
 	public function saveAndEmailError( $insSeverity, $insMessage, $insFilePath, $insLine, $infFull = true )
 	{
 		$oCI =& get_instance();
-		
+
 		$aInfo = array(
 			'type'				=> $infFull? 'Triggered' : 'HandleShutdown',
 			'severity'			=> $this->getSeverityText( $insSeverity ),
@@ -68,27 +68,27 @@ class Fatal_Error_Hook
 			'uri'				=> $oCI->uri->uri_string(),
 			'debug_backtrace'	=> json_encode( debug_backtrace() )
 		);
-		
+
 		//	Prep the email and send
 		if ( isset( $_SERVER['HTTP_HOST'] ) ) :
-		
+
 			$_host = $_SERVER['HTTP_HOST'];
-		
+
 		else :
-		
+
 			if ( $oCI->input->is_cli_request() || isset( $_SERVER['argv'] ) ) :
-			
+
 				//	CLI
 				$_host = 'CLI REQUEST';
-			
+
 			else :
-			
+
 				$_host = 'UNABLE TO DETERMINE HOST, SERVER HOST: ' . gethostname();
-			
+
 			endif;
-		
+
 		endif;
-		
+
 		$_subject	= '!! FATAL ERROR OCCURRED ON ' . strtoupper( APP_NAME );
 		$_message	= 'Hi,' . "\n";
 		$_message	.= '' . "\n";
@@ -98,31 +98,23 @@ class Fatal_Error_Hook
 		$_message	.= '' . "\n";
 		$_message	.= '- - - - - - - - - - - - - - - - - - - - - -' . "\n";
 		$_message	.= '' . "\n";
-		
+
 		$_message	.= 'Type: ' . $aInfo['type'] . "\n";
 		$_message	.= 'Severity: ' . $aInfo['severity'] . "\n";
 		$_message	.= 'Message: ' . $aInfo['message'] . "\n";
 		$_message	.= 'File Path: ' . $aInfo['filepath'] . "\n";
 		$_message	.= 'Line: ' . $aInfo['line'] . "\n\n";
-		$_message	.= 'SESSION: ' . $aInfo['session'] . "\n\n";
-		$_message	.= 'POST: ' . $aInfo['post'] . "\n\n";
-		$_message	.= 'GET: ' . $aInfo['get'] . "\n\n";
-		$_message	.= 'SERVER: ' . $aInfo['server'] . "\n\n";
-		$_message	.= 'GLOBALS: ' . $aInfo['globals'] . "\n\n";
-		$_message	.= 'URI: ' . $aInfo['uri'] . "\n\n";
-		$_message	.= 'BACKTRACE: ' . $aInfo['debug_backtrace'] . "\n\n";
-		$_message	.= 'LAST KNOWN QUERY: ' . $oCI->db->last_query() . "\n\n";
-		
+
 		send_developer_mail( $_subject, $_message );
-		
+
 		// --------------------------------------------------------------------------
-		
+
 		//	Log the error
 		$_message = $aInfo['severity'] . ': ' . $aInfo['message'] . ' in ' . $aInfo['filepath'] . ' on line ' . $aInfo['line'];
 		log_message( 'error', $_message );
-		
+
 		// --------------------------------------------------------------------------
-		
+
 		//	Show something to the user
 		?>
 		<!DOCTYPE html>
@@ -131,36 +123,36 @@ class Fatal_Error_Hook
 				<title>Error</title>
 				<meta charset="utf-8">
 				<style type="text/css">
-				
+
 					body {
-					   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+					   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 					   font-weight: 300;
 					   text-align: center;
 					   font-size:14px;
 					   color:#444;
 					   margin:100px;
 					}
-					
+
 					h1
 					{
 						margin:auto;
 						width:400px;
 						margin-bottom:30px;
 					}
-					
+
 					p
 					{
 						margin:auto;
 						width:400px;
 					}
-					
+
 					p small
 					{
 						font-size:10px;
 						display:block;
 						margin-top:40px;
 					}
-				
+
 				</style>
 			</head>
 			<body>
@@ -175,20 +167,20 @@ class Fatal_Error_Hook
 		</html>
 		<?php
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------------
-	
-	
+
+
 	public function saveAndEmailFatal( $inaError )
 	{
 		$this->saveAndEmailError( $inaError['type'], $inaError['message'], $inaError['file'], $inaError['line'], false );
 	}
-	
-	
+
+
 	// --------------------------------------------------------------------------
-	
-	
+
+
 	private function getSeverityText( $innSeverity )
 	{
 		$aErrorType = array (
