@@ -183,6 +183,33 @@ class NAILS_Installer
 					</label>
 				</li>
 			</ul>
+			</ul>
+			<p>
+				Who should receive developer notifications?
+			</p>
+			<ul>
+				<li>
+					<label class="rounded">
+					<?php
+
+						if ( isset( $_POST['app_developer_email'] ) ) :
+
+							$_default = $_POST['app_developer_email'];
+
+						elseif( defined( 'APP_DEVELOPER_EMAIL' ) ) :
+
+							$_default = APP_DEVELOPER_EMAIL;
+						else :
+
+							$_default = '';
+
+						endif;
+
+					?>
+					<input type="text" class="rounded" name="app_developer_email" value="<?=$_default?>" placeholder="you@example.com">
+					</label>
+				</li>
+			</ul>
 			<p>
 				Almost done! Please tell me what environment this deployment is:
 			</p>
@@ -253,32 +280,25 @@ class NAILS_Installer
 	private function _run_installer()
 	{
 		//	Attempt to create the app.php and deploy.php file
-		if ( ! file_exists( $this->_app_file ) ) :
 
-			$_app_name	= isset( $_POST['app_name'] ) ? $_POST['app_name'] : '';
-			$_app_key	= md5( uniqid() );
+		$_app_name				= isset( $_POST['app_name'] ) ? $_POST['app_name'] : '';
+		$_app_lang				= ! defined( 'APP_DEFAULT_LANG_SLUG' ) ? 'english' : APP_DEFAULT_LANG_SLUG;
+		$_app_key				= ! defined( 'APP_PRIVATE_KEY' ) ? md5( uniqid() ) : APP_PRIVATE_KEY;
+		$_app_developer_email	= isset( $_POST['app_developer_email'] ) ? $_POST['app_developer_email'] : '';
 
-			$_app_str  = '<?php' . "\n";
-			$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
-			$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'english\' );' . "\n";
-			$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
+		$_app_str  = '<?php' . "\n";
+		$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
+		$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . $_app_lang . '\' );' . "\n";
+		$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
+		$_app_str .= 'define( \'APP_DEVELOPER_EMAIL\',	\'' . $_app_developer_email . '\' );' . "\n";
 
-			$_fh = @fopen( $this->_app_file, 'w' );
+		$_fh = @fopen( $this->_app_file, 'w' );
 
-			if ( $_fh ) :
+		if ( $_fh ) :
 
-				if ( @fwrite( $_fh, $_app_str ) ) :
+			if ( @fwrite( $_fh, $_app_str ) ) :
 
-					$_app_ok = TRUE;
-
-				else :
-
-					$_app_ok = FALSE;
-					@unlink( $this->_app_file );
-
-				endif;
-
-				fclose( $_fh );
+				$_app_ok = TRUE;
 
 			else :
 
@@ -287,57 +307,50 @@ class NAILS_Installer
 
 			endif;
 
+			fclose( $_fh );
+
 		else :
 
-			$_app_ok = TRUE;
+			$_app_ok = FALSE;
+			@unlink( $this->_app_file );
 
 		endif;
 
 		// --------------------------------------------------------------------------
 
-		if ( ! file_exists( $this->_deploy_file ) ) :
 
-			$_environment	= isset( $_POST['environment'] ) ? $_POST['environment'] : 'developmet';
-			$_base_url		= isset( $_POST['base_url'] ) ? $_POST['base_url'] : '/';
-			$_deploy_key	= md5( uniqid() );
-			$_password		= isset( $_POST['install_password'] ) && $_POST['install_password'] ? md5( $_POST['install_password'] . $_deploy_key ) : '';
+		$_environment	= isset( $_POST['environment'] ) ? $_POST['environment'] : 'developmet';
+		$_base_url		= isset( $_POST['base_url'] ) ? $_POST['base_url'] : '/';
+		$_deploy_key	= ! defined( 'DEPLOY_PRIVATE_KEY' ) ? md5( uniqid() ) : DEPLOY_PRIVATE_KEY;
+		$_password		= isset( $_POST['install_password'] ) && $_POST['install_password'] ? md5( $_POST['install_password'] . $_deploy_key ) : '';
 
-			// --------------------------------------------------------------------------
+		// --------------------------------------------------------------------------
 
-			//	Sanitize base url
-			if ( ! $_base_url ) :
+		//	Sanitize base url
+		if ( ! $_base_url ) :
 
-				$_base_url = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : '/';
+			$_base_url = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : '/';
 
-			endif;
+		endif;
 
-			$_base_url  = substr( $_base_url, 0, 7 ) != 'http://' ? 'http://' . $_base_url : $_base_url;
-			$_base_url .= substr( $_base_url, -1 ) != '/' ? '/' : '';
+		$_base_url  = substr( $_base_url, 0, 7 ) != 'http://' ? 'http://' . $_base_url : $_base_url;
+		$_base_url .= substr( $_base_url, -1 ) != '/' ? '/' : '';
 
-			// --------------------------------------------------------------------------
+		// --------------------------------------------------------------------------
 
-			$_deploy_str  = '<?php' . "\n";
-			$_deploy_str .= 'define( \'ENVIRONMENT\',	\'' . $_environment . '\' );' . "\n";
-			$_deploy_str .= 'define( \'BASE_URL\',	\'' . $_base_url . '\' );' . "\n";
-			$_deploy_str .= 'define( \'DEPLOY_PRIVATE_KEY\',	\'' . $_deploy_key . '\' );' . "\n";
-			$_deploy_str .= 'define( \'DEPLOY_INSTALLER_PW\',	\'' . $_password . '\' );' . "\n";
+		$_deploy_str  = '<?php' . "\n";
+		$_deploy_str .= 'define( \'ENVIRONMENT\',	\'' . $_environment . '\' );' . "\n";
+		$_deploy_str .= 'define( \'BASE_URL\',	\'' . $_base_url . '\' );' . "\n";
+		$_deploy_str .= 'define( \'DEPLOY_PRIVATE_KEY\',	\'' . $_deploy_key . '\' );' . "\n";
+		$_deploy_str .= 'define( \'DEPLOY_INSTALLER_PW\',	\'' . $_password . '\' );' . "\n";
 
-			$_fh = @fopen( $this->_deploy_file, 'w' );
+		$_fh = @fopen( $this->_deploy_file, 'w' );
 
-			if ( $_fh ) :
+		if ( $_fh ) :
 
-				if ( @fwrite( $_fh, $_deploy_str ) ) :
+			if ( @fwrite( $_fh, $_deploy_str ) ) :
 
-					$_deploy_ok = TRUE;
-
-				else :
-
-					$_deploy_ok = FALSE;
-					@unlink( $this->_deploy_file );
-
-				endif;
-
-				fclose( $_fh );
+				$_deploy_ok = TRUE;
 
 			else :
 
@@ -346,9 +359,12 @@ class NAILS_Installer
 
 			endif;
 
+			fclose( $_fh );
+
 		else :
 
-			$_deploy_ok = TRUE;
+			$_deploy_ok = FALSE;
+			@unlink( $this->_deploy_file );
 
 		endif;
 

@@ -8,6 +8,8 @@ build:
 	@echo "Setting directory permissions"
 	@chmod 0777 application/cache
 	@chmod 0777 application/config
+	@chmod 0777 application/config/routes_cms_page.php
+	@chmod 0777 application/logs
 	@chmod 0777 assets/uploads
 	@chmod 0777 settings
 	@rm -f Makefile
