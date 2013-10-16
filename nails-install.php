@@ -211,6 +211,16 @@ class NAILS_Installer
 				</li>
 			</ul>
 			<p>
+				What's the default timezone for this app? This field should be a timezone as recognised by <a href="http://php.net/manual/en/timezones.php" target="_blank">PHP's Datetime functions</a>.
+			</p>
+			<ul>
+				<li>
+					<label class="rounded">
+					<input type="text" id="app_default_timezone" class="rounded" name="app_default_timezone" value="<?=isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '' ?>" placeholder="Set the default timezone for this app.">
+					</label>
+				</li>
+			</ul>
+			<p>
 				Almost done! Please tell me what environment this deployment is:
 			</p>
 			<ul>
@@ -285,12 +295,14 @@ class NAILS_Installer
 		$_app_lang				= ! defined( 'APP_DEFAULT_LANG_SLUG' ) ? 'english' : APP_DEFAULT_LANG_SLUG;
 		$_app_key				= ! defined( 'APP_PRIVATE_KEY' ) ? md5( uniqid() ) : APP_PRIVATE_KEY;
 		$_app_developer_email	= isset( $_POST['app_developer_email'] ) ? $_POST['app_developer_email'] : '';
+		$_app_default_timezone	= isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '';
 
 		$_app_str  = '<?php' . "\n";
 		$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
 		$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . $_app_lang . '\' );' . "\n";
 		$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
 		$_app_str .= 'define( \'APP_DEVELOPER_EMAIL\',	\'' . $_app_developer_email . '\' );' . "\n";
+		$_app_str .= 'define( \'APP_DEFAULT_TIMEZONE\',	\'' . $_app_default_timezone . '\' );' . "\n";
 
 		$_fh = @fopen( $this->_app_file, 'w' );
 
@@ -317,7 +329,6 @@ class NAILS_Installer
 		endif;
 
 		// --------------------------------------------------------------------------
-
 
 		$_environment	= isset( $_POST['environment'] ) ? $_POST['environment'] : 'developmet';
 		$_base_url		= isset( $_POST['base_url'] ) ? $_POST['base_url'] : '/';
