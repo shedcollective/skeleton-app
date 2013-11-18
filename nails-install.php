@@ -28,7 +28,9 @@ class NAILS_Installer
 	{
 		$this->_errors			= '';
 		$this->_app_file		= dirname(__FILE__) . '/settings/app.php';
+		$this->_has_app_file	= FALSE;
 		$this->_deploy_file		= dirname(__FILE__) . '/settings/deploy.php';
+		$this->_has_deploy_file	= FALSE;
 	}
 
 
@@ -45,8 +47,19 @@ class NAILS_Installer
 		 **/
 
 		//	In case this file is access directly, include the config files
-		if ( file_exists( $this->_app_file ) ) require_once $this->_app_file;
-		if ( file_exists( $this->_deploy_file ) ) require_once $this->_deploy_file;
+		if ( file_exists( $this->_app_file ) ) :
+
+			$this->_has_app_file = TRUE;
+			require_once $this->_app_file;
+
+		endif;
+
+		if ( file_exists( $this->_deploy_file ) ) :
+
+			$this->_has_deploy_file = TRUE;
+			require_once $this->_deploy_file;
+
+		endif;
 
 		//	Check Nails is there
 		if ( ! defined( 'NAILS_PATH' ) ) :
@@ -151,9 +164,12 @@ class NAILS_Installer
 
 						endif;
 
+						$_readonly = $this->_has_app_file ? 'readonly=""' : '';
+
 					?>
-					<label class="rounded">
-					<input type="text" class="rounded" name="app_name" value="<?=$_default?>" placeholder="What's your app called?">
+					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
+					<input type="text" class="rounded" name="app_name" <?=$_readonly?> value="<?=$_default?>" placeholder="What's your app called?">
+					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -189,7 +205,6 @@ class NAILS_Installer
 			</p>
 			<ul>
 				<li>
-					<label class="rounded">
 					<?php
 
 						if ( isset( $_POST['app_developer_email'] ) ) :
@@ -199,14 +214,19 @@ class NAILS_Installer
 						elseif( defined( 'APP_DEVELOPER_EMAIL' ) ) :
 
 							$_default = APP_DEVELOPER_EMAIL;
+
 						else :
 
 							$_default = '';
 
 						endif;
 
+						$_readonly = $this->_has_app_file ? 'readonly=""' : '';
+
 					?>
-					<input type="text" class="rounded" name="app_developer_email" value="<?=$_default?>" placeholder="you@example.com">
+					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
+					<input type="text" class="rounded" name="app_developer_email" <?=$_readonly?> value="<?=$_default?>" placeholder="you@example.com">
+					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -215,8 +235,28 @@ class NAILS_Installer
 			</p>
 			<ul>
 				<li>
-					<label class="rounded">
-					<input type="text" id="app_default_timezone" class="rounded" name="app_default_timezone" value="<?=isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '' ?>" placeholder="Set the default timezone for this app.">
+					<?php
+
+						if ( isset( $_POST['app_default_timezone'] ) ) :
+
+							$_default = $_POST['app_default_timezone'];
+
+						elseif( defined( 'APP_DEFAULT_TIMEZONE' ) ) :
+
+							$_default = APP_DEFAULT_TIMEZONE;
+
+						else :
+
+							$_default = '';
+
+						endif;
+
+						$_readonly = $this->_has_app_file ? 'readonly=""' : '';
+
+					?>
+					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
+					<input type="text" id="app_default_timezone" class="rounded" name="app_default_timezone" <?=$_readonly?> value="<?=$_default?>" placeholder="Set the default timezone for this app.">
+					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -291,26 +331,38 @@ class NAILS_Installer
 	{
 		//	Attempt to create the app.php and deploy.php file
 
-		$_app_name				= isset( $_POST['app_name'] ) ? $_POST['app_name'] : '';
-		$_app_lang				= ! defined( 'APP_DEFAULT_LANG_SLUG' ) ? 'english' : APP_DEFAULT_LANG_SLUG;
-		$_app_key				= ! defined( 'APP_PRIVATE_KEY' ) ? md5( uniqid() ) : APP_PRIVATE_KEY;
-		$_app_developer_email	= isset( $_POST['app_developer_email'] ) ? $_POST['app_developer_email'] : '';
-		$_app_default_timezone	= isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '';
+		//	Only try to create the app.php config file if it doesn't exist; don't want to overwrite anything.
+		if ( ! $this->_has_app_file ) :
 
-		$_app_str  = '<?php' . "\n";
-		$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
-		$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . $_app_lang . '\' );' . "\n";
-		$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
-		$_app_str .= 'define( \'APP_DEVELOPER_EMAIL\',	\'' . $_app_developer_email . '\' );' . "\n";
-		$_app_str .= 'define( \'APP_DEFAULT_TIMEZONE\',	\'' . $_app_default_timezone . '\' );' . "\n";
+			$_app_name				= isset( $_POST['app_name'] ) ? $_POST['app_name'] : '';
+			$_app_lang				= 'english';
+			$_app_key				= md5( uniqid() );
+			$_app_developer_email	= isset( $_POST['app_developer_email'] ) ? $_POST['app_developer_email'] : '';
+			$_app_default_timezone	= isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '';
 
-		$_fh = @fopen( $this->_app_file, 'w' );
+			$_app_str  = '<?php' . "\n";
+			$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . $_app_lang . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_DEVELOPER_EMAIL\',	\'' . $_app_developer_email . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_DEFAULT_TIMEZONE\',	\'' . $_app_default_timezone . '\' );' . "\n";
 
-		if ( $_fh ) :
+			$_fh = @fopen( $this->_app_file, 'w' );
 
-			if ( @fwrite( $_fh, $_app_str ) ) :
+			if ( $_fh ) :
 
-				$_app_ok = TRUE;
+				if ( @fwrite( $_fh, $_app_str ) ) :
+
+					$_app_ok = TRUE;
+
+				else :
+
+					$_app_ok = FALSE;
+					@unlink( $this->_app_file );
+
+				endif;
+
+				fclose( $_fh );
 
 			else :
 
@@ -319,12 +371,9 @@ class NAILS_Installer
 
 			endif;
 
-			fclose( $_fh );
-
 		else :
 
-			$_app_ok = FALSE;
-			@unlink( $this->_app_file );
+			$_app_ok = TRUE;
 
 		endif;
 
@@ -647,6 +696,26 @@ class NAILS_Installer
 				select
 				{
 					width:100%;
+				}
+
+				ul li label.readonly
+				{
+					padding-bottom:1.5em;
+					height:63px;
+				}
+
+				ul li label.readonly small
+				{
+					position:absolute;
+					bottom:0px;
+					left:10px;
+				}
+
+				ul li label.readonly input
+				{
+					color:#888;
+					background:#F5F5F5;
+					bottom:25px;
 				}
 
 				#footer
