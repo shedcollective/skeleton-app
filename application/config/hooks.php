@@ -1,21 +1,14 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-| -------------------------------------------------------------------------
-| Hooks
-| -------------------------------------------------------------------------
-| This file lets you define "hooks" to extend CI without hacking the core
-| files. Please see the user guide for info:
-|
-| http://codeigniter.com/user_guide/general/hooks.html
-|
-*/
+<?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-$hook['pre_system'][] = array(
- 'class' => 'Fatal_Error_Hook',
- 'function' => 'register',
- 'filename' => 'fatal_error_hook.php',
- 'filepath' => 'hooks'
-);
+/**
+ * Nails. From the Shed
+ *
+ * @package		Nails
+ * @author		Pablo
+ */
+
+/* load the base config file from the package */
+require NAILS_PATH . 'config/hooks.php';
 
 /* End of file hooks.php */
-/* Location: ./application/config/hooks.php */
+/* Location: ./core/hooks.php */

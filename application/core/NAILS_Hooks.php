@@ -8,9 +8,9 @@
  */
 
 /* load the class from the package */
-require NAILS_PATH . 'libraries/CORE_NAILS_Log.php';
+require NAILS_PATH . 'core/CORE_NAILS_Hooks.php';
 
-class NAILS_Log extends CORE_NAILS_Log {}
+class NAILS_Hooks extends CORE_NAILS_Hooks {}
 
-/* End of file NAILS_Logs.php */
-/* Location: ./application/libraries/NAILS_Logs.php */
+/* End of file NAILS_Hooks.php */
+/* Location: ./application/libraries/NAILS_Hooks.php */
