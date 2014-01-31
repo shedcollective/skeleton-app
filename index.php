@@ -125,6 +125,29 @@
 
 	endif;
 
+
+ /*
+ | --------------------------------------------------------------------
+ | LOAD NAILS COMMON FUNCTIONS
+ | --------------------------------------------------------------------
+ |
+ | Loads functions defined by Nails which may be required prior to the
+ | Nails Bootstrap initiating.
+ |
+ |
+ */
+ 	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Common.php' ) ) :
+
+ 		//	Use the NAils startup error template, as we've established
+ 		//	Nails is available
+
+		$_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your NAils set up is correct.';
+		include NAILS_PATH . 'errors/startup_error.php';
+
+	endif;
+
+	require_once NAILS_PATH . 'core/CORE_NAILS_Common.php';
+
  /*
  | --------------------------------------------------------------------
  | CODEIGNITER
