@@ -99,7 +99,7 @@
 
 	if ( ! defined( 'NAILS_PATH' ) ) :
 
-		define( 'NAILS_PATH', dirname( __FILE__ ) . '/vendor/shed/nails/' );
+		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/shed/nails/' ) . '/' );
 
 	endif;
 
