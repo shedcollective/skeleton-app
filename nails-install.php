@@ -247,7 +247,7 @@ class NAILS_Installer
 
 						else :
 
-							$_default = '';
+							$_default = date_default_timezone_get();
 
 						endif;
 
@@ -320,7 +320,7 @@ class NAILS_Installer
 		</script>
 		<?php
 
-		$this->_view_header();
+		$this->_view_footer();
 	}
 
 
@@ -341,8 +341,8 @@ class NAILS_Installer
 			$_app_default_timezone	= isset( $_POST['app_default_timezone'] ) ? $_POST['app_default_timezone'] : '';
 
 			$_app_str  = '<?php' . "\n";
-			$_app_str .= 'define( \'APP_NAME\',	\'' . $_app_name . '\' );' . "\n";
-			$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . $_app_lang . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_NAME\',	\'' . str_replace( "'", "\'", $_app_name ) . '\' );' . "\n";
+			$_app_str .= 'define( \'APP_DEFAULT_LANG_SLUG\',	\'' . str_replace( "'", "\'", $_app_lang ) . '\' );' . "\n";
 			$_app_str .= 'define( \'APP_PRIVATE_KEY\',	\'' . $_app_key . '\' );' . "\n";
 			$_app_str .= 'define( \'APP_DEVELOPER_EMAIL\',	\'' . $_app_developer_email . '\' );' . "\n";
 			$_app_str .= 'define( \'APP_DEFAULT_TIMEZONE\',	\'' . $_app_default_timezone . '\' );' . "\n";
@@ -527,6 +527,7 @@ class NAILS_Installer
 				html,body
 				{
 					font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+					font-size:16px;
 					font-weight: 300;
 					background:#F9F9F9;
 					line-height:1.75em;
@@ -649,13 +650,10 @@ class NAILS_Installer
 				input[type=text],
 				input[type=password]
 				{
-					padding:5px;
+					padding:15px;
 					border:1px solid #CCC;
-					position:absolute;
-					top:2px;
-					right:2px;
-					bottom:2px;
-					left:2px;
+					width:100%;
+					font-size:1em;
 				}
 				input[name=path]
 				{
@@ -696,6 +694,7 @@ class NAILS_Installer
 				select
 				{
 					width:100%;
+					font-size:1em;
 				}
 
 				ul li label.readonly
