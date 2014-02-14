@@ -1,8 +1,9 @@
 #	OS type Files
 .DS_Store
 
-#	Configs
+#	Configs & App routes
 settings/deploy.php
+application/config/routes_app.php
 
 #	Composer source files
 vendor/*
