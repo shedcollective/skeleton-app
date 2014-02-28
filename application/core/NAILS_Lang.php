@@ -2,13 +2,13 @@
 
 /**
  * Nails. From the Shed
- * 
+ *
  * @package		Nails
  * @author		Pablo
  */
 
 /* load the class from the package */
-require NAILS_PATH . 'core/CORE_NAILS_Lang.php';
+require_once NAILS_PATH . 'core/CORE_NAILS_Lang.php';
 
 class NAILS_Lang extends CORE_NAILS_Lang {}
 

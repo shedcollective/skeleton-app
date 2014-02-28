@@ -8,7 +8,7 @@
  */
 
 /* load the class from the package */
-require NAILS_PATH . 'core/CORE_NAILS_Hooks.php';
+require_once NAILS_PATH . 'core/CORE_NAILS_Hooks.php';
 
 class NAILS_Hooks extends CORE_NAILS_Hooks {}
 

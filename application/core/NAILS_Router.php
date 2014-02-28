@@ -2,13 +2,13 @@
 
 /**
  * Nails. From the Shed
- * 
+ *
  * @package		Nails
  * @author		Pablo
  */
 
 /* load the class from the package */
-require NAILS_PATH . 'core/CORE_NAILS_Router.php';
+require_once NAILS_PATH . 'core/CORE_NAILS_Router.php';
 
 class NAILS_Router extends CORE_NAILS_Router {}
 
