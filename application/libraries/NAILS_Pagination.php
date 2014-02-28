@@ -8,7 +8,7 @@
  */
 
 /* load the class from the package */
-require NAILS_PATH . 'libraries/CORE_NAILS_Pagination.php';
+require_once NAILS_PATH . 'libraries/CORE_NAILS_Pagination.php';
 
 class NAILS_Pagination extends CORE_NAILS_Pagination {}
 
