@@ -90,8 +90,8 @@
  * GLOBAL CONSTANTS
  *---------------------------------------------------------------
  *
- * These global constants need defined early on, unless specified already
- * defined in app.php or deploy.php define the defaults.
+ * These global constants need defined early on, they can be
+ * overridden by app.php or deploy.php
  *
  */
 
@@ -100,6 +100,21 @@
 		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/shed/nails/' ) . '/' );
 
 	endif;
+
+
+/*
+ *---------------------------------------------------------------
+ * NAILS CONTROLLER DATA
+ *---------------------------------------------------------------
+ *
+ * This global variable will store all the information that
+ * controllers set using $this->data. This allows us to reference
+ * this variable outwith the scope of the controller, e.g in
+ * models and libraries.
+ *
+ */
+
+	$NAILS_CONTROLLER_DATA = array();
 
 
 /*
@@ -134,10 +149,10 @@
  */
  	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Common.php' ) ) :
 
- 		//	Use the NAils startup error template, as we've established
+ 		//	Use the Nails startup error template, as we've established
  		//	Nails is available
 
-		$_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your NAils set up is correct.';
+		$_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your Nails set up is correct.';
 		include NAILS_PATH . 'errors/startup_error.php';
 
 	endif;
