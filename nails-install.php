@@ -27,9 +27,9 @@ class NAILS_Installer
 	public function __construct()
 	{
 		$this->_errors			= '';
-		$this->_app_file		= dirname(__FILE__) . '/settings/app.php';
+		$this->_app_file		= dirname(__FILE__) . '/config/app.php';
 		$this->_has_app_file	= FALSE;
-		$this->_deploy_file		= dirname(__FILE__) . '/settings/deploy.php';
+		$this->_deploy_file		= dirname(__FILE__) . '/config/deploy.php';
 		$this->_has_deploy_file	= FALSE;
 	}
 
@@ -169,7 +169,7 @@ class NAILS_Installer
 					?>
 					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
 					<input type="text" class="rounded" name="app_name" <?=$_readonly?> value="<?=$_default?>" placeholder="What's your app called?">
-					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
+					<?=$_readonly ? '<small class="readonly">To change this value, please update config/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -226,7 +226,7 @@ class NAILS_Installer
 					?>
 					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
 					<input type="text" class="rounded" name="app_developer_email" <?=$_readonly?> value="<?=$_default?>" placeholder="you@example.com">
-					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
+					<?=$_readonly ? '<small class="readonly">To change this value, please update config/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -256,7 +256,7 @@ class NAILS_Installer
 					?>
 					<label class="rounded <?=$_readonly ? 'readonly' : ''?>">
 					<input type="text" id="app_default_timezone" class="rounded" name="app_default_timezone" <?=$_readonly?> value="<?=$_default?>" placeholder="Set the default timezone for this app.">
-					<?=$_readonly ? '<small class="readonly">To change this value, please update settings/app.php manually.</small>' : ''?>
+					<?=$_readonly ? '<small class="readonly">To change this value, please update config/app.php manually.</small>' : ''?>
 					</label>
 				</li>
 			</ul>
@@ -459,13 +459,13 @@ class NAILS_Installer
 				</p>
 				<?php if ( ! $_app_ok ) : ?>
 				<p class="setting rounded">
-					<strong>settings/app.php</strong>
+					<strong>config/app.php</strong>
 					<textarea readonly="readonly" class="rounded" onclick="this.select();"><?=$_app_str?></textarea>
 				</p>
 				<?php endif; ?>
 				<?php if ( ! $_deploy_ok ) : ?>
 				<p class="setting rounded">
-					<strong>settings/deploy.php</strong>
+					<strong>config/deploy.php</strong>
 					<textarea readonly="readonly" class="rounded" onclick="this.select();"><?=$_deploy_str?></textarea>
 				</p>
 				<?php endif; ?>
@@ -699,7 +699,7 @@ class NAILS_Installer
 
 				ul li label.readonly
 				{
-					padding-bottom:1.5em;
+					padding-bottom:5em;
 					height:63px;
 				}
 

@@ -2,7 +2,7 @@
 .DS_Store
 
 #	Configs & App routes
-settings/deploy.php
+config/deploy.php
 application/config/routes_app.php
 
 #	Composer source files

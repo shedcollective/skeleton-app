@@ -23,7 +23,7 @@
  *
  */
 
- 	if ( ! file_exists( dirname(__FILE__) . '/settings/app.php' ) ) :
+ 	if ( ! file_exists( dirname(__FILE__) . '/config/app.php' ) ) :
 
  		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
 
@@ -40,14 +40,14 @@
 			echo 'strong { color:red;}';
 			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
 			echo '</style>';
-			echo '<p><strong>ERROR:</strong> Missing settings/app.php; please run installer.</p>';
+			echo '<p><strong>ERROR:</strong> Missing config/app.php; please run installer.</p>';
 			exit( 0 );
 
  		endif;
 
 	endif;
 
- 	require dirname(__FILE__) . '/settings/app.php';
+ 	require dirname(__FILE__) . '/config/app.php';
 
 
 /*
@@ -58,7 +58,7 @@
  * Load environment specific settings.
  *
  */
- 	if ( ! file_exists( dirname(__FILE__) . '/settings/deploy.php' ) ) :
+ 	if ( ! file_exists( dirname(__FILE__) . '/config/deploy.php' ) ) :
 
  		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
 
@@ -75,14 +75,14 @@
 			echo 'strong { color:red;}';
 			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
 			echo '</style>';
-			echo '<p><strong>ERROR:</strong> Missing settings/deploy.php; please run installer.</p>';
+			echo '<p><strong>ERROR:</strong> Missing config/deploy.php; please run installer.</p>';
 			exit( 0 );
 
  		endif;
 
 	endif;
 
- 	require dirname(__FILE__) . '/settings/deploy.php';
+ 	require dirname(__FILE__) . '/config/deploy.php';
 
 
 /*
