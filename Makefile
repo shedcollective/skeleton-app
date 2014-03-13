@@ -11,7 +11,7 @@ build:
 	@chmod 0777 application/config/routes_app.php
 	@chmod 0777 application/logs
 	@chmod 0777 assets/uploads
-	@chmod 0777 settings
+	@chmod 0777 config
 	@rm -f Makefile
 	@composer install
 	@git add .
