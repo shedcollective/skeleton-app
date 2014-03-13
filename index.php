@@ -132,7 +132,7 @@
 		echo 'strong { color:red;}';
 		echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
 		echo '</style>';
-		echo '<p><strong>ERROR:</strong> Cannot find a valid Nails installation, have you run <code>composer update</code>?.</p>';
+		echo '<p><strong>ERROR:</strong> Cannot find a valid Nails installation, have you run <code>composer install</code>?.</p>';
 		exit( 0 );
 
 	endif;
