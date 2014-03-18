@@ -3,7 +3,6 @@
 
 #	Configs & App routes
 config/deploy.php
-application/config/routes_app.php
 
 #	Composer source files
 vendor/*

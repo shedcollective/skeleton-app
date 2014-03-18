@@ -101,18 +101,6 @@
 
 	endif;
 
-	if ( ! defined( 'DEPLOY_CACHE_DIR' ) ) :
-
-		echo '<style type="text/css">';
-		echo 'p {font-family:monospace;margin:20px 10px;}';
-		echo 'strong { color:red;}';
-		echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
-		echo '</style>';
-		echo '<p><strong>ERROR:</strong> DEPLOY_CACHE_DIR constant has not been defined.</p>';
-		exit( 0 );
-
-	endif;
-
 
 /*
  *---------------------------------------------------------------
