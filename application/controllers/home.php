@@ -4,7 +4,17 @@ class Home extends NAILS_Controller
 {
 	public function index()
 	{
-		$this->load->view( 'welcome_message' );
+		if ( $this->user->is_logged_in() ) :
+
+			$this->data['notice'] = '<strong>Oh, hey, ' . active_user( 'first_name' ) . '!</strong> Lovely to see you.';
+
+		endif;
+
+		// --------------------------------------------------------------------------
+
+		$this->load->view( 'structure/header',	$this->data );
+		$this->load->view( 'home/index',		$this->data );
+		$this->load->view( 'structure/footer',	$this->data );
 	}
 }
 
