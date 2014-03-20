@@ -411,7 +411,7 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.com:shed/nails.git",
-                "reference": "9e0fb6440e49689745b8e00b558ada81c19ed9d6"
+                "reference": "f12f4b06d3c4d78a4a6102714a7851b061f00128"
             },
             "require": {
                 "aws/aws-sdk-php": "~2.4.5",
@@ -451,7 +451,7 @@
             "support": {
                 "email": "hello@shedcollective.org"
             },
-            "time": "2014-03-20 12:59:28"
+            "time": "2014-03-20 18:21:07"
         },
         {
             "name": "stripe/stripe-php",
