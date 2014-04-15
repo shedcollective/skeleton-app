@@ -18,7 +18,24 @@ class NAILS_Controller extends CORE_NAILS_Controller
 
 		// --------------------------------------------------------------------------
 
-		//	Load app styles and JS
+		//	Load Bootstrap, app styles and JS
+		switch( (int) APP_BOOTSTRAP_GRID ) :
+
+			case 24 :
+
+				$this->asset->load( 'bootstrap.24.css', TRUE );
+
+			break;
+
+			case 12:
+			default:
+
+				$this->asset->load( 'bootstrap.12.css', TRUE );
+
+			break;
+
+		endswitch;
+
 		$this->asset->load( 'styles.css' );
 		$this->asset->load( 'app.min.js' );
 	}
