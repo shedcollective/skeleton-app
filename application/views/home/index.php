@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="jumbotron col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+	<div class="jumbotron <?=BS_COL_SM_8?> <?=BS_COL_SM_OFFSET_2?> <?=BS_COL_XS_10?> <?=BS_COL_SM_OFFSET_1?>">
 		<h3>
 			So, it looks like your app is up and running nicely!
 		</h3>

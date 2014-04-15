@@ -18,7 +18,9 @@ class NAILS_Controller extends CORE_NAILS_Controller
 
 		// --------------------------------------------------------------------------
 
-		//	Load Bootstrap, app styles and JS
+		//	Load some default CSS and JS, amend this as required for your website.
+
+		//	Load CSS
 		switch( (int) APP_BOOTSTRAP_GRID ) :
 
 			case 24 :
@@ -37,7 +39,16 @@ class NAILS_Controller extends CORE_NAILS_Controller
 		endswitch;
 
 		$this->asset->load( 'styles.css' );
+		$this->asset->load( 'jquery.fancybox.css', TRUE );
+
+		//	Load JS
+		$this->asset->load( 'jquery.min.js', TRUE );
+		$this->asset->load( 'bootstrap.min.js', TRUE );
+		$this->asset->load( 'jquery.fancybox.min.js', TRUE );
 		$this->asset->load( 'app.min.js' );
+
+		//	Bind to Fancybox links
+		$this->asset->inline( '<script>$( \'a.fancybox\' ).fancybox();</script>' );
 	}
 }
 
