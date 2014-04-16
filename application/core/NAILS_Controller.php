@@ -38,13 +38,14 @@ class NAILS_Controller extends CORE_NAILS_Controller
 
 		endswitch;
 
+		$this->asset->load( 'fancybox/source/jquery.fancybox.css', 'BOWER' );
+		$this->asset->load( 'ionicons/css/ionicons.min.css', 'BOWER' );
 		$this->asset->load( 'styles.css' );
-		$this->asset->load( 'jquery.fancybox.css', TRUE );
 
 		//	Load JS
-		$this->asset->load( 'jquery.min.js', TRUE );
-		$this->asset->load( 'bootstrap.min.js', TRUE );
-		$this->asset->load( 'jquery.fancybox.min.js', TRUE );
+		$this->asset->load( 'jquery/dist/jquery.min.js', 'BOWER' );
+		$this->asset->load( 'bootstrap/dist/js/bootstrap.min.js', 'BOWER' );
+		$this->asset->load( 'fancybox/source/jquery.fancybox.pack.js', 'BOWER' );
 		$this->asset->load( 'app.min.js' );
 
 		//	Bind to Fancybox links
