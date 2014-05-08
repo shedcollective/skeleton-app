@@ -13,7 +13,7 @@ build:
 	@chmod 0777 assets/uploads
 	@chmod 0777 config
 	@rm -f Makefile
-	@composer install
+	@composer update
 	@git add .
 	@git commit -m 'Initial Commit'
 	@echo "Done, go forth a code!"
