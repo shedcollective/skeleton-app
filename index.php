@@ -12,9 +12,28 @@
  *
  * Documentation: http://docs.nailsapp.co.uk
  *
- * CodeIgniter version: v2.1.0
  *
- *
+ */
+
+if ( ! function_exists( '_NAILS_ERROR' ) )
+{
+	function _NAILS_ERROR( $error, $subject = '' )
+	{
+		echo '<style type="text/css">';
+			echo 'p {font-family:monospace;margin:20px 10px;}';
+			echo 'strong { color:red;}';
+			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+		echo '</style>';
+		echo '<p>';
+			echo '<strong>ERROR:</strong> ';
+			echo $subject ? '<em>' . $subject . '</em> - ' : '';
+			echo $error;
+		echo '</p>';
+		exit( 0 );
+	}
+}
+
+/*
  *---------------------------------------------------------------
  * APP SETTINGS
  *---------------------------------------------------------------
@@ -35,13 +54,7 @@
 
  		else :
 
-			echo '<style type="text/css">';
-			echo 'p {font-family:monospace;margin:20px 10px;}';
-			echo 'strong { color:red;}';
-			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
-			echo '</style>';
-			echo '<p><strong>ERROR:</strong> Missing config/app.php; please run installer.</p>';
-			exit( 0 );
+			_NAILS_ERROR( 'Missing config/app.php; please run installer.' );
 
  		endif;
 
@@ -70,13 +83,7 @@
 
  		else :
 
-			echo '<style type="text/css">';
-			echo 'p {font-family:monospace;margin:20px 10px;}';
-			echo 'strong { color:red;}';
-			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
-			echo '</style>';
-			echo '<p><strong>ERROR:</strong> Missing config/deploy.php; please run installer.</p>';
-			exit( 0 );
+			_NAILS_ERROR( 'Missing config/deploy.php; please run installer' );
 
  		endif;
 
@@ -127,13 +134,7 @@
  */
  	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 
-		echo '<style type="text/css">';
-		echo 'p {font-family:monospace;margin:20px 10px;}';
-		echo 'strong { color:red;}';
-		echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
-		echo '</style>';
-		echo '<p><strong>ERROR:</strong> Cannot find a valid Nails installation, have you run <code>composer install</code>?.</p>';
-		exit( 0 );
+		_NAILS_ERROR( 'Cannot find a valid Nails installation, have you run <code>composer install</code>?' );
 
 	endif;
 

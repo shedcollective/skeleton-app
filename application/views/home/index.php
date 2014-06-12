@@ -20,7 +20,7 @@
 			else :
 
 				echo anchor( 'auth/login', lang( 'action_login' ), 'class="btn btn-primary btn-lg"' ) . ' ';
-				echo APP_USER_ALLOW_REGISTRATION ? anchor( 'auth/register', lang( 'action_register' ), 'class="btn btn-default btn-lg"' ) : '';
+				echo app_setting( 'user_registration_enabled', 'app' ) ? anchor( 'auth/register', lang( 'action_register' ), 'class="btn btn-default btn-lg"' ) : '';
 
 			endif;
 
