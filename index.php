@@ -104,7 +104,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
 
 	if ( ! defined( 'NAILS_PATH' ) ) :
 
-		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/shed/nails/' ) . '/' );
+		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/common/' ) . '/' );
 
 	endif;
 
