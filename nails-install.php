@@ -16,7 +16,7 @@
  */
 
 //	Look for Core Nails installer
-$_NAILS_INSTALLER = dirname(__FILE__) . '/vendor/shed/nails/installer/installer.php';
+$_NAILS_INSTALLER = dirname(__FILE__) . '/vendor/nailsapp/common/installer/installer.php';
 
 if ( ! is_file( $_NAILS_INSTALLER ) ) :
 
