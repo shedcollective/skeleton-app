@@ -11,6 +11,6 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require":{
-		"nailsapp/common" : "dev-master"
+		"nailsapp/nails" : "dev-master"
 	}
 }
