@@ -108,6 +108,12 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
 
 	endif;
 
+	if ( ! defined( 'NAILS_COMMON_PATH' ) ) :
+
+		define( 'NAILS_COMMON_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/common/' ) . '/' );
+
+	endif;
+
 
 /*
  *---------------------------------------------------------------
