@@ -8,7 +8,7 @@
  */
 
 /* load the base config file from the package */
-require NAILS_PATH . 'config/hooks.php';
+require NAILS_COMMON_PATH . 'config/hooks.php';
 
 /* End of file hooks.php */
 /* Location: ./core/hooks.php */

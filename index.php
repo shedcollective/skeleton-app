@@ -104,7 +104,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
 
 	if ( ! defined( 'NAILS_PATH' ) ) :
 
-		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/common/' ) . '/' );
+		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/' ) . '/' );
 
 	endif;
 
@@ -132,7 +132,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Load environment specific settings.
  *
  */
- 	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
+ 	if ( ! file_exists( NAILS_COMMON_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 
 		_NAILS_ERROR( 'Cannot find a valid Nails installation, have you run <code>composer install</code>?' );
 
@@ -148,17 +148,17 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Nails Bootstrap initiating.
  *
  */
- 	if ( ! file_exists( NAILS_PATH . 'core/CORE_NAILS_Common.php' ) ) :
+ 	if ( ! file_exists( NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php' ) ) :
 
  		//	Use the Nails startup error template, as we've established
  		//	Nails is available
 
 		$_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your Nails set up is correct.';
-		include NAILS_PATH . 'errors/startup_error.php';
+		include NAILS_COMMON_PATH . 'errors/startup_error.php';
 
 	endif;
 
-	require_once NAILS_PATH . 'core/CORE_NAILS_Common.php';
+	require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php';
 
 /*
  *---------------------------------------------------------------
@@ -180,7 +180,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * as this file.
  *
  */
-	$system_path = NAILS_PATH . 'CodeIgniter/system';
+	$system_path = NAILS_COMMON_PATH . 'CodeIgniter/system';
 
 /*
  *---------------------------------------------------------------

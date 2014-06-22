@@ -8,7 +8,7 @@
  */
 
 /* load the base config file from the package */
-require NAILS_PATH . 'config/mimes.php';
+require NAILS_COMMON_PATH . 'config/mimes.php';
 
 /* End of file mimes.php */
 /* Location: ./core/mimes.php */

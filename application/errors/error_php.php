@@ -1,12 +1,12 @@
 <?php
 
 	//	Load the Nails. error template, override this if you so desire
-	if ( file_exists( NAILS_PATH . 'errors/error_php.php' ) ) :
-	
-		require NAILS_PATH . 'errors/error_php.php';
-	
+	if ( file_exists( NAILS_COMMON_PATH . 'errors/error_php.php' ) ) :
+
+		require NAILS_COMMON_PATH . 'errors/error_php.php';
+
 	else :
-	
+
 		?>
 		<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
 			<h4>A PHP Error was encountered</h4>
@@ -16,5 +16,5 @@
 			<p>Line Number: <?php echo $line; ?></p>
 		</div>
 		<?php
-	
+
 	endif;

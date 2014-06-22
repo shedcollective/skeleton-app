@@ -8,7 +8,7 @@
  */
 
 /* load the base config file from the package */
-require NAILS_PATH . 'config/config.php';
+require NAILS_COMMON_PATH . 'config/config.php';
 
 /* End of file config.php */
 /* Location: ./core/config.php */

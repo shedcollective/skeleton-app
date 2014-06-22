@@ -8,7 +8,7 @@
  */
 
 /* load the base config file from the package */
-require NAILS_PATH . 'config/routes.php';
+require NAILS_COMMON_PATH . 'config/routes.php';
 
 /* End of file routes.php */
 /* Location: ./core/routes.php */

@@ -8,7 +8,7 @@
  */
 
 /* load the base config file from the package */
-require NAILS_PATH . 'config/autoload.php';
+require NAILS_COMMON_PATH . 'config/autoload.php';
 
 /* End of file autoload.php */
 /* Location: ./core/autoload.php */
