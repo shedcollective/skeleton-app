@@ -4,7 +4,7 @@ class Home extends NAILS_Controller
 {
 	public function index()
 	{
-		if ( $this->user->is_logged_in() ) :
+		if ( $this->user_model->is_logged_in() ) :
 
 			$this->data['notice'] = '<strong>Oh, hey, ' . active_user( 'first_name' ) . '!</strong> Lovely to see you.';
 
