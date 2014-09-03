@@ -1,18 +1,16 @@
 <?php
 
-/*
- *---------------------------------------------------------------
+/**
+ * ---------------------------------------------------------------
  * NAILS MAIN APPLICATION
- *---------------------------------------------------------------
+ * ---------------------------------------------------------------
  *
  * This is the kick off point for the main Nails Application.
  *
  * Lead Developer: Pablo de la Peña	(p@shedcollective.org, @hellopablo)
  * Lead Developer: Gary Duncan		(g@shedcollective.org, @gsdd)
  *
- * Documentation: http://docs.nailsapp.co.uk
- *
- *
+ * Documentation: http://nailsapp.co.uk
  */
 
 if ( ! function_exists( '_NAILS_ERROR' ) )
@@ -44,19 +42,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
 
  	if ( ! file_exists( dirname(__FILE__) . '/config/app.php' ) ) :
 
- 		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
-
- 			$_location  = dirname( $_SERVER['SCRIPT_NAME'] );
- 			$_location .= substr( $_location, -1 ) != '/' ? '/' : '';
-
-	 		header( 'Location: ' . $_location . 'nails-install.php' );
-		 	exit( 0 );
-
- 		else :
-
-			_NAILS_ERROR( 'Missing config/app.php; please run installer.' );
-
- 		endif;
+ 		_NAILS_ERROR( 'Missing config/app.php; please run installer.' );
 
 	endif;
 
@@ -73,19 +59,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  */
  	if ( ! file_exists( dirname(__FILE__) . '/config/deploy.php' ) ) :
 
- 		if ( isset( $_SERVER['SCRIPT_NAME'] ) ) :
-
- 			$_location  = dirname( $_SERVER['SCRIPT_NAME'] );
- 			$_location .= substr( $_location, -1 ) != '/' ? '/' : '';
-
-	 		header( 'Location: ' . $_location . 'nails-install.php' );
-		 	exit( 0 );
-
- 		else :
-
-			_NAILS_ERROR( 'Missing config/deploy.php; please run installer' );
-
- 		endif;
+		_NAILS_ERROR( 'Missing config/deploy.php; please run installer.' );
 
 	endif;
 
@@ -134,9 +108,6 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  *---------------------------------------------------------------
  * TEST NAILS AVAILABILITY
  *---------------------------------------------------------------
- *
- * Load environment specific settings.
- *
  */
  	if ( ! file_exists( NAILS_COMMON_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 

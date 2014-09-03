@@ -3,11 +3,10 @@
 
 /**
  * ---------------------------------------------------------------
- * NAILS INSTALLER
+ * NAILS DATABASE MIGRATION TOOL
  * ---------------------------------------------------------------
  *
- * This is the console application for installing and updating Nails
- * application configurations.
+ * This is the console application for migrating Nails module databases.
  *
  * Lead Developer: Pablo de la Peña	(p@shedcollective.org, @hellopablo)
  * Lead Developer: Gary Duncan		(g@shedcollective.org, @gsdd)
@@ -34,10 +33,10 @@ require_once dirname(__FILE__) . '/vendor/autoload.php';
 use Symfony\Component\Console\Application;
 
 //	Include the migration tool
-require_once dirname(__FILE__) . '/vendor/nailsapp/common/console/installer/installer.php';
+require_once dirname(__FILE__) . '/vendor/nailsapp/common/console/migration/migration.php';
 
 $app = new Application();
-$app->add(new Nails\Console\Installer\CORE_NAILS_Installer());
+$app->add(new Nails\Console\Installer\CORE_NAILS_MigrationTool());
 $app->run();
 
 /* End of file nails-install.php */
