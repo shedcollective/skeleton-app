@@ -1,0 +1,17 @@
+{
+  "name": "mycompany/myproject",
+  "version": "0.0.0",
+  "homepage": "http://www.example.com",
+  "authors": [],
+  "description": "A description of the project.",
+  "license": "proprietary",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/bower_components",
+    "test",
+    "tests"
+  ]
+}
