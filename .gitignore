@@ -7,5 +7,8 @@ config/deploy.php
 #	Composer source files
 vendor/*
 
+#	Bower packages
+assets/bower_components
+
 #	Environment configs
 config.codekit
