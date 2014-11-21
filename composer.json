@@ -9,6 +9,6 @@
     },
     "require":
     {
-        "nailsapp/nails" : "dev-develop"
+        "nailsapp/nails": "dev-develop"
     }
 }
