@@ -7,28 +7,28 @@
  *
  * This is the kick off point for the main Nails Application.
  *
- * Lead Developer: Pablo de la Peña	(p@shedcollective.org, @hellopablo)
- * Lead Developer: Gary Duncan		(g@shedcollective.org, @gsdd)
+ * Lead Developer: Pablo de la Peña (p@shedcollective.org, @hellopablo)
+ * Lead Developer: Gary Duncan      (g@shedcollective.org, @gsdd)
  *
  * Documentation: http://nailsapp.co.uk
  */
 
-if ( ! function_exists( '_NAILS_ERROR' ) )
-{
-	function _NAILS_ERROR( $error, $subject = '' )
-	{
-		echo '<style type="text/css">';
-			echo 'p {font-family:monospace;margin:20px 10px;}';
-			echo 'strong { color:red;}';
-			echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
-		echo '</style>';
-		echo '<p>';
-			echo '<strong>ERROR:</strong> ';
-			echo $subject ? '<em>' . $subject . '</em> - ' : '';
-			echo $error;
-		echo '</p>';
-		exit( 0 );
-	}
+if (!function_exists('_NAILS_ERROR')) {
+
+    function _NAILS_ERROR($error, $subject = '')
+    {
+        echo '<style type="text/css">';
+            echo 'p {font-family:monospace;margin:20px 10px;}';
+            echo 'strong { color:red;}';
+            echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+        echo '</style>';
+        echo '<p>';
+            echo '<strong>ERROR:</strong> ';
+            echo $subject ? '<em>' . $subject . '</em> - ' : '';
+            echo $error;
+        echo '</p>';
+        exit(0);
+    }
 }
 
 /*
@@ -40,13 +40,12 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  *
  */
 
- 	if ( ! file_exists( dirname(__FILE__) . '/config/app.php' ) ) :
+if (!file_exists(dirname(__FILE__) . '/config/app.php')) {
 
- 		_NAILS_ERROR( 'Missing config/app.php; please run installer.' );
+    _NAILS_ERROR('Missing config/app.php; please run installer.');
+}
 
-	endif;
-
- 	require dirname(__FILE__) . '/config/app.php';
+require dirname(__FILE__) . '/config/app.php';
 
 
 /*
@@ -57,13 +56,14 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Load environment specific settings.
  *
  */
- 	if ( ! file_exists( dirname(__FILE__) . '/config/deploy.php' ) ) :
 
-		_NAILS_ERROR( 'Missing config/deploy.php; please run installer.' );
+if (!file_exists(dirname(__FILE__) . '/config/deploy.php')) {
 
-	endif;
+    _NAILS_ERROR('Missing config/deploy.php; please run installer.');
 
- 	require dirname(__FILE__) . '/config/deploy.php';
+}
+
+require dirname(__FILE__) . '/config/deploy.php';
 
 
 /*
@@ -76,17 +76,15 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  *
  */
 
-	if ( ! defined( 'NAILS_PATH' ) ) :
+if (!defined('NAILS_PATH')) {
 
-		define( 'NAILS_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/' ) . '/' );
+    define('NAILS_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/') . '/');
+}
 
-	endif;
+if (!defined('NAILS_COMMON_PATH')) {
 
-	if ( ! defined( 'NAILS_COMMON_PATH' ) ) :
-
-		define( 'NAILS_COMMON_PATH', realpath( dirname( __FILE__ ) . '/vendor/nailsapp/common/' ) . '/' );
-
-	endif;
+    define('NAILS_COMMON_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/common/') . '/');
+}
 
 
 /*
@@ -101,7 +99,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  *
  */
 
-	$NAILS_CONTROLLER_DATA = array();
+$NAILS_CONTROLLER_DATA = array();
 
 
 /*
@@ -109,11 +107,11 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * TEST NAILS AVAILABILITY
  *---------------------------------------------------------------
  */
- 	if ( ! file_exists( NAILS_COMMON_PATH . 'core/CORE_NAILS_Controller.php' ) ) :
 
-		_NAILS_ERROR( 'Cannot find a valid Nails installation, have you run <code>composer install</code>?' );
+if (!file_exists(NAILS_COMMON_PATH . 'core/CORE_NAILS_Controller.php')) {
 
-	endif;
+    _NAILS_ERROR('Cannot find a valid Nails installation, have you run <code>composer install</code>?');
+}
 
 
 /*
@@ -125,17 +123,19 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Nails Bootstrap initiating.
  *
  */
- 	if ( ! file_exists( NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php' ) ) :
 
- 		//	Use the Nails startup error template, as we've established
- 		//	Nails is available
+if (!file_exists(NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php')) {
 
-		$_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your Nails set up is correct.';
-		include NAILS_COMMON_PATH . 'errors/startup_error.php';
+    /**
+     * Use the Nails startup error template, as we've established
+     * Nails is available
+     */
 
-	endif;
+    $_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your Nails set up is correct.';
+    include NAILS_COMMON_PATH . 'errors/startup_error.php';
+}
 
-	require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php';
+require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php';
 
 /*
  *---------------------------------------------------------------
@@ -157,7 +157,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * as this file.
  *
  */
-	$system_path = NAILS_COMMON_PATH . 'CodeIgniter/system';
+    $system_path = NAILS_COMMON_PATH . 'CodeIgniter/system';
 
 /*
  *---------------------------------------------------------------
@@ -173,7 +173,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = 'application';
+    $application_folder = 'application';
 
 /*
  * --------------------------------------------------------------------
@@ -195,15 +195,15 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Un-comment the $routing array below to use this feature
  *
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
-	// if your controller is not in a sub-folder within the "controllers" folder
-	// $routing['directory'] = '';
+    // The directory name, relative to the "controllers" folder.  Leave blank
+    // if your controller is not in a sub-folder within the "controllers" folder
+    // $routing['directory'] = '';
 
-	// The controller class file name.  Example:  Mycontroller
-	// $routing['controller'] = '';
+    // The controller class file name.  Example:  Mycontroller
+    // $routing['controller'] = '';
 
-	// The controller function you wish to be called.
-	// $routing['function']	= '';
+    // The controller function you wish to be called.
+    // $routing['function'] = '';
 
 
 /*
@@ -221,7 +221,7 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * Un-comment the $assign_to_config array below to use this feature
  *
  */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
+    // $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
 
@@ -235,62 +235,62 @@ if ( ! function_exists( '_NAILS_ERROR' ) )
  * ---------------------------------------------------------------
  */
 
-	// Set the current directory correctly for CLI requests
-	if (defined('STDIN'))
-	{
-		chdir(dirname(__FILE__));
-	}
+    // Set the current directory correctly for CLI requests
+    if (defined('STDIN'))
+    {
+        chdir(dirname(__FILE__));
+    }
 
-	if (realpath($system_path) !== FALSE)
-	{
-		$system_path = realpath($system_path).'/';
-	}
+    if (realpath($system_path) !== FALSE)
+    {
+        $system_path = realpath($system_path).'/';
+    }
 
-	// ensure there's a trailing slash
-	$system_path = rtrim($system_path, '/').'/';
+    // ensure there's a trailing slash
+    $system_path = rtrim($system_path, '/').'/';
 
-	// Is the system path correct?
-	if ( ! is_dir($system_path))
-	{
-		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
-	}
+    // Is the system path correct?
+    if ( ! is_dir($system_path))
+    {
+        exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
+    }
 
 /*
  * -------------------------------------------------------------------
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-	// The name of THIS file
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+    // The name of THIS file
+    define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-	// The PHP file extension
-	// this global constant is deprecated.
-	define('EXT', '.php');
+    // The PHP file extension
+    // this global constant is deprecated.
+    define('EXT', '.php');
 
-	// Path to the system folder
-	define('BASEPATH', str_replace("\\", "/", $system_path));
+    // Path to the system folder
+    define('BASEPATH', str_replace("\\", "/", $system_path));
 
-	// Path to the front controller (this file)
-	define('FCPATH', str_replace(SELF, '', __FILE__));
+    // Path to the front controller (this file)
+    define('FCPATH', str_replace(SELF, '', __FILE__));
 
-	// Name of the "system folder"
-	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+    // Name of the "system folder"
+    define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
 
-	// The path to the "application" folder
-	if (is_dir($application_folder))
-	{
-		define('APPPATH', $application_folder.'/');
-	}
-	else
-	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
-		{
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
-		}
+    // The path to the "application" folder
+    if (is_dir($application_folder))
+    {
+        define('APPPATH', $application_folder.'/');
+    }
+    else
+    {
+        if ( ! is_dir(BASEPATH.$application_folder.'/'))
+        {
+            exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
+        }
 
-		define('APPPATH', BASEPATH.$application_folder.'/');
-	}
+        define('APPPATH', BASEPATH.$application_folder.'/');
+    }
 
 /*
  * --------------------------------------------------------------------
