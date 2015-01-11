@@ -10,7 +10,7 @@
  * Lead Developer: Pablo de la Peña (p@shedcollective.org, @hellopablo)
  * Lead Developer: Gary Duncan      (g@shedcollective.org, @gsdd)
  *
- * Documentation: http://nailsapp.co.uk
+ * Documentation: http://docs.nailsapp.co.uk
  */
 
 if (!function_exists('_NAILS_ERROR')) {
