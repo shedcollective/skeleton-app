@@ -1,18 +1,14 @@
 {
-	"name": "mycompany/myproject",
-	"description": "A description of the project.",
-	"license": "proprietary",
-	"repositories":
-	[
-		{
-			"type": "composer",
-			"url": "http://composer.nailsapp.co.uk"
-		}
-	],
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"require":
-	{
-		"nailsapp/nails" : "dev-develop"
-	}
+    "name": "mycompany/myproject",
+    "description": "A description of the project.",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist"
+    },
+    "require":
+    {
+        "nailsapp/nails": "dev-develop"
+    }
 }
