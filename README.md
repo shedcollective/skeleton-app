@@ -18,4 +18,5 @@ a case of following the on screen instructions:
 	nails install
 
 **Note:** In the future, now that you have the Nails command line utility, you can start
-a new Nails app simply by creating an empty directory and then issuing `nails new`.
+a new Nails app simply by creating an empty directory and then issuing `nails new` in
+that directory.
