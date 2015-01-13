@@ -46,7 +46,7 @@
 
     a {
         background: transparent;
-        color: #4183c4;
+        color: #4183C4;
         text-decoration: none;
     }
 
