@@ -14,9 +14,7 @@ Next, change to this app's directory and run the Nails installer; then it's simp
 a case of following the on screen instructions:
 
 	cd /path/to/app
-	composer update
 	nails install
 
-**Note:** In the future, now that you have the Nails command line utility, you can start
-a new Nails app simply by creating an empty directory and then issuing `nails new` in
-that directory.
+**Note:** Now that you have the Nails Command line utility, you can start a new Nails
+app simply issuing `nails new app-name` in your parent directory of choice.
