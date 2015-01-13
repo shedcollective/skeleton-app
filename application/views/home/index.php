@@ -64,7 +64,7 @@
 </style>
 <div id="container">
 <h1>
-    <img src="assets/img/nails-icon.png" width="125" height="125" />
+    <img src="<?=NAILS_ASSETS_URL?>img/nails/icon/icon@2x.png" width="125" height="125" />
 </h1>
 <p>
     You did it, you got yourself set up with a new Nails app. That was easy,
