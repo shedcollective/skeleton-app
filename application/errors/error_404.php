@@ -1,23 +1,9 @@
 <?php
 
-//  Load the Nails. error template, override this if you so desire
-if (file_exists(NAILS_COMMON_PATH . 'errors/error_404.php')) {
+/**
+ * This file is called when a 404 error is encountered. If you wish, you can
+ * override this and display a custom page.
+ */
 
-    require NAILS_COMMON_PATH . 'errors/error_404.php';
-
-} else {
-
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <title>404 Page Not Found</title>
-        </head>
-        <body>
-            <h1><?php echo $heading; ?></h1>
-            <?php echo $message; ?>
-        </body>
-    </html>
-    <?php
-
-}
+//  Load the Nails error template
+include NAILS_COMMON_PATH . 'errors/error_404.php';
