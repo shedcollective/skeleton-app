@@ -1,4 +1,4 @@
-#D efault log directory for Nails apps.
+# Default log directory for Nails apps.
 
 This directory is the default location for app logs. You can configure this in the deployment's
 `config/deploy.php` file.
