@@ -67,8 +67,10 @@
     <img src="<?=NAILS_ASSETS_URL?>img/nails/icon/icon@2x.png" width="125" height="125" />
 </h1>
 <p>
-    You did it, you got yourself set up with a new Nails app. That was easy,
-    wasn't it?
+    You did it, you got yourself set up with a new Nails app.
+</p>
+<p>
+    That was easy, wasn't it?
 </p>
 <p>
     The next step is to get stuck in and start coding something awesome.
