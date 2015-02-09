@@ -157,7 +157,7 @@ require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php';
  * as this file.
  *
  */
-    $system_path = NAILS_COMMON_PATH . 'CodeIgniter/system';
+    $system_path = 'vendor/rogeriopradoj/codeigniter/system';
 
 /*
  *---------------------------------------------------------------
