@@ -1,8 +1,10 @@
 {
-    "name": "mycompany/myproject",
+    "name": "mycompany/my-nails-project",
     "version": "0.0.0",
     "homepage": "http://www.example.com",
-    "authors": [],
+    "authors": [
+        "John Doe <john@example.com>"
+    ],
     "description": "A description of the project.",
     "license": "proprietary",
     "private": true,
