@@ -27,6 +27,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+        'autoprefixer': {
+            'options': {
+                'browsers': ['last 2 versions', 'ie 8', 'ie 9', '> 1%']
+            },
+            'main': {
+                'expand': true,
+                'flatten': true,
+                'src': 'assets/css/*.css',
+                'dest': 'assets/css/'
+            }
+        },
         'watch': {
             'less': {
                 'files': ['assets/less/**/*.less'],
@@ -62,6 +73,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('watch:less', ['watch:less']);
     grunt.registerTask('watch:js', ['watch:js']);
-    grunt.registerTask('build:less', ['less', 'notify:less']);
+    grunt.registerTask('build:less', ['less', 'autoprefixer', 'notify:less']);
     grunt.registerTask('build:js', ['uglify', 'notify:js']);
 };
