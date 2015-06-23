@@ -1,8 +1,10 @@
 # Nails Skeleton App
 
-This is a skeleton app for Nails, the absolute basics for a Nails application. To do anything exciting with this skeleton, you'll need the latest Nails dependencies.
 
-## Configuration
+This is a skeleton app for Nails, the absolute basics for a Nails application.
+
+## Basic Setup
+To do anything exciting with this skeleton, you'll need the latest Nails dependencies.
 
 The Nails [command line tool](https://github.com/nailsapp/command-line-tool) is a nifty little gadget to make dealing with your Nails apps a total breeze. If you haven't already, install it like so:
 
@@ -14,28 +16,35 @@ Next, change to this app's directory and run the Nails installer; then it's simp
     cd /path/to/app
     nails install
 
-**Note:** Now that you have the Nails Command line utility, you can start a new Nails app simply issuing `nails new app-name` in your parent directory of choice.
+**Note:** Now that you have the Nails Command line utility, you can start a new Nails app simply issuing `nails new app-name` in your parent directory of choice:
+
+    cd ~/Sites
+    nails new my-awesome-app
 
 ## Compiling Assets
 
-Included in the skeleton is an optional Grunt file for compiling your LESS and JS files. Use it like so:
+Included in the skeleton is an optional Grunt file for compiling your LESS and JS files. 
 
 Firstly, install `grunt-cli` tool globally. It's recommended to run the grunt client on a per-project basis.
 
     npm install -g grunt-cli
 
-Install the dev dependancies:
+Install the dev dependancies in your project:
 
     npm install --dev
     
-Calling grunt in the project root will start the watcher causing changes to the JS to be compiled automatically.
-
-    grunt
     
-If you want to compile just the LESS do this:
+The following Grunt commands are available to you for compiling the LESS and the JS of your project:
 
-	grunt watch-less
+	grunt build:less
+	grunt build:js
 	
-And likewise, if you want to justc ompile the JS do this:
+If you want to watch for changes in \*.less and \*.js files then you can use the following:
 
-	grunt watch-js
+	grunt watch:less
+	grunt watch:js
+	
+Finally, if you want to watch *both* JS and LESS files for changes then simply issue `grunt` with no arguments:
+
+	grunt
+    
