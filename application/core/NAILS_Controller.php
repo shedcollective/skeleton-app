@@ -20,17 +20,14 @@ class NAILS_Controller extends CORE_NAILS_Controller
 
         parent::__construct();
 
-        //  Load CSS from the App's `assets/bower_components` directory
-        $this->asset->load('bootstrap/dist/css/bootstrap.min.css', 'BOWER');
-
-        //  Load CSS from the App's `assets/css` directory
+        //  Load CSS from the app's `assets/css` directory
         $this->asset->load('styles.css');
 
-        //  Load JS from the App's `assets/bower_components` directory
+        //  Load JS from the app's `assets/bower_components` directory
         $this->asset->load('jquery/dist/jquery.min.js', 'BOWER');
         $this->asset->load('bootstrap/dist/js/bootstrap.min.js', 'BOWER');
 
-        //  Load JS from the App's `assets/js` directory
+        //  Load JS from the app's `assets/js` directory
         $this->asset->load('app.min.js');
     }
 }
