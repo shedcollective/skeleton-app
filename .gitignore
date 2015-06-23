@@ -1,4 +1,4 @@
-#	Numerous always-ignore extensions
+# Numerous always-ignore extensions
 *.diff
 *.err
 *.orig
@@ -12,7 +12,7 @@
 .~lock.*
 .buildpath
 
-#	OS or Editor folders
+# OS or Editor folders
 .DS_Store
 Thumbs.db
 .cache
@@ -24,15 +24,15 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 
-#	Dreamweaver added files
+# Dreamweaver added files
 _notes
 dwsync.xml
 
-#	Komodo
+# Komodo
 *.komodoproject
 .komodotools
 
-#	Folders to ignore
+# Folders to ignore
 .hg
 .svn
 .CVS
@@ -45,14 +45,14 @@ publish
 *config.codekit
 *compass_app_log.txt
 
-#	Grunt node modules
+# Grunt node modules
 node_modules
 
-#	Configs
+# Configs
 config/deploy.php
 
-#	Composer source files
+# Composer source files
 vendor/*
 
-#	Bower packages
+# Bower packages
 assets/bower_components/*
