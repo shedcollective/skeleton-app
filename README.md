@@ -21,7 +21,7 @@ Next, change to this app's directory and run the Nails installer; then it's simp
     cd ~/Sites
     nails new my-awesome-app
 
-## Compiling Assets
+## Compiling CSS & LESS
 
 Included in the skeleton is an optional Grunt file for compiling your LESS and JS files. 
 
@@ -33,18 +33,21 @@ Install the dev dependancies in your project:
 
     npm install --dev
     
-    
-The following Grunt commands are available to you for compiling the LESS and the JS of your project:
+The following Grunt task is available for compiling your LESS into CSS and for minimising your JS:
 
-	grunt build:less
+    grunt build
+    
+Or, to do them individually:
+
+	grunt build:css
 	grunt build:js
 	
-If you want to watch for changes in \*.less and \*.js files then you can use the following:
+If you want to watch for changes in \*.less and \*.js files then simply call Grunt with no arguments:
 
-	grunt watch:less
+    grunt
+
+Or, to watch only one or the other for changes:
+
+	grunt watch:css
 	grunt watch:js
 	
-Finally, if you want to watch *both* JS and LESS files for changes then simply issue `grunt` with no arguments:
-
-	grunt
-    
