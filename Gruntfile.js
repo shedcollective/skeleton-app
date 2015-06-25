@@ -41,12 +41,12 @@ module.exports = function(grunt) {
         'watch': {
             'less': {
                 'files': ['assets/less/**/*.less'],
-                'tasks': ['build:less'],
+                'tasks': ['build:css'],
                 'options': {
                     'nospawn': true
                 }
             },
-            'js': {
+            'uglify': {
                 'files': ['assets/js/**/*.js'],
                 'tasks': ['build:js'],
                 'options': {
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
                     'message': 'LESS compiled and minified'
                 },
             },
-            'js': {
+            'uglify': {
                 'options': {
                     'title': 'Task Complete (JS)',
                     'message': 'JS compiled and minified'
@@ -71,8 +71,9 @@ module.exports = function(grunt) {
     });
     grunt.loadNpmTasks('grunt-notify');
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('watch:less', ['watch:less']);
-    grunt.registerTask('watch:js', ['watch:js']);
-    grunt.registerTask('build:less', ['less', 'autoprefixer', 'notify:less']);
-    grunt.registerTask('build:js', ['uglify', 'notify:js']);
+    grunt.registerTask('watch:css', ['watch:less']);
+    grunt.registerTask('watch:js', ['watch:uglify']);
+    grunt.registerTask('build', ['build:css', 'build:js']);
+    grunt.registerTask('build:css', ['less', 'autoprefixer', 'notify:less']);
+    grunt.registerTask('build:js', ['uglify', 'notify:uglify']);
 };
