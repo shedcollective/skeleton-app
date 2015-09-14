@@ -1,53 +1,56 @@
 # Nails Skeleton App
+This is a skeleton app for Nails, the absolute basics for a Nails application. Update this README file with details about your project.
 
-
-This is a skeleton app for Nails, the absolute basics for a Nails application.
 
 ## Basic Setup
-To do anything exciting with this skeleton, you'll need the latest Nails dependencies.
-
-The Nails [command line tool](https://github.com/nailsapp/command-line-tool) is a nifty little gadget to make dealing with your Nails apps a total breeze. If you haven't already, install it like so:
+The [Nails Command Line Tool](https://github.com/nailsapp/command-line-tool) is a helpful tool to make dealing with your Nails apps a total breeze. If you haven't already, install it like so using [Homebrew](http://brew.sh):
 
     brew tap nailsapp/nailsapp
     brew install nails
 
-Next, change to this app's directory and run the Nails installer; then it's simply a case of following the on screen instructions:
+For other operating systems, or a manul install, please see instructions on the [tool's homepage](https://github.com/nailsapp/command-line-tool).
 
-    cd /path/to/app
+You can now setup the project simply and easily using:
+
     nails install
 
-**Note:** Now that you have the Nails Command line utility, you can start a new Nails app simply issuing `nails new app-name` in your parent directory of choice:
+If you wish to upgrade to the latest version of your dependencies then execute:
 
-    cd ~/Sites
-    nails new my-awesome-app
+    nails upgrade
 
-## Compiling CSS & LESS
+Finally, if at any time you wish to migrtate the database then simply execute:
 
-Included in the skeleton is an optional Grunt file for compiling your LESS and JS files. 
+    nails migrate
 
-Firstly, install `grunt-cli` tool globally. It's recommended to run the grunt client on a per-project basis.
 
-    npm install -g grunt-cli
+## Compiling Styles and JS
+Included in the skeleton is an optional Gulp file for compiling your Sass and JS files. By default compiled files are ignored from VCS so as to minimise conflicts.
 
-Install the dev dependancies in your project:
+Firstly, let's make sure you have Bower. If not, let's install it globally:
 
-    npm install --dev
-    
-The following Grunt task is available for compiling your LESS into CSS and for minimising your JS:
+    npm install -g bower
 
-    grunt build
-    
+Great, now let's install the asset dependencies:
+
+    bower install
+
+Install the compiling dependancies of your project:
+
+    npm install
+
+The following gulp task is available for compiling your Sass into CSS and for concatenating your JS:
+
+    gulp build
+
 Or, to do them individually:
 
-	grunt build:css
-	grunt build:js
-	
-If you want to watch for changes in \*.less and \*.js files then simply call Grunt with no arguments:
+	gulp css
+	gulp js
 
-    grunt
+If you want to watch for changes in \*.scss and \*.js files then simply call gulp with no arguments:
 
-Or, to watch only one or the other for changes:
+    gulp
 
-	grunt watch:css
-	grunt watch:js
-	
+
+## Concatenating JS
+Specify which JS files you'd like to concatenate in `gulpfile.js`.

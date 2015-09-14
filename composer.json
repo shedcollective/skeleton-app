@@ -1,6 +1,12 @@
 {
     "name": "mycompany/myproject",
     "description": "A description of the project.",
+    "authors": [
+        {
+          "name": "John Dow",
+          "email": "john@example.com"
+        }
+    ],
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
