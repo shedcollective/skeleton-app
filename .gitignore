@@ -45,14 +45,20 @@ publish
 *config.codekit
 *compass_app_log.txt
 
-# Grunt node modules
+# NPM node modules
 node_modules
-
-# Configs
-config/deploy.php
 
 # Composer source files
 vendor/*
 
 # Bower packages
 assets/bower_components/*
+
+# NAILS RECOMMENDED IGNORED FILES
+# Configs
+config/deploy.php
+
+# Built CSS & JS
+assets/css/*
+assets/js/*.min.js
+assets/js/*.min.js.map

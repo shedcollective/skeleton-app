@@ -1,24 +1,25 @@
 {
-  "name": "my-nails-project",
-  "description": "A description of the project.",
-  "license": "proprietary",
-  "version": "0.0.0",
-  "author": "John Doe <john@example.com>",
-  "keywords": [],
-  "devDependencies": {
-    "autoprefixer-core": "^5.2.1",
-    "grunt": "^0.4.5",
-    "grunt-autoprefixer": "^3.0.3",
-    "grunt-contrib-less": "~0.11.0",
-    "grunt-contrib-uglify": "~0.5.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-notify": "^0.4.1",
-    "jit-grunt": "^0.9.0"
-  },
-  "homepage": "http://example.com",
-  "main": "Gruntfile.js",
-  "dependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+    "name": "mycompany-myproject",
+    "version": "0.0.0",
+    "description": "A description of the project.",
+    "author": "John Doe <john@example.com>",
+    "contributors": [
+        {
+          "name": "John Doe",
+          "email": "john@example.com"
+        }
+    ],
+    "analyze": true,
+    "license": "proprietary",
+    "devDependencies": {
+        "gulp": "^3.9.0",
+        "gulp-autoprefixer": "^2.3.1",
+        "gulp-concat": "^2.6.0",
+        "gulp-minify-css": "^1.2.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^2.0.4",
+        "gulp-sourcemaps": "^1.5.2",
+        "gulp-uglify": "^1.4.0",
+        "run-sequence": "^1.1.2"
+    }
 }
