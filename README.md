@@ -18,13 +18,13 @@ If you wish to upgrade to the latest version of your dependencies then execute:
 
     nails upgrade
 
-Finally, if at any time you wish to migrtate the database then simply execute:
+Finally, if at any time you wish to migrate the database then simply execute:
 
     nails migrate
 
 
 ## Compiling Styles and JS
-Included in the skeleton is an optional Gulp file for compiling your Sass and JS files. By default compiled files are ignored from VCS so as to minimise conflicts.
+Included in the skeleton are optional Gulp files for compiling your Sass/Less and JS files (rename the one you want to use to `gulpfile.js`). By default compiled files are ignored from VCS so as to minimise conflicts.
 
 Firstly, let's make sure you have Bower. If not, let's install it globally:
 
@@ -38,7 +38,7 @@ Install the compiling dependancies of your project:
 
     npm install
 
-The following gulp task is available for compiling your Sass into CSS and for concatenating your JS:
+The following `gulp` task is available for compiling your Sass/Less into CSS and for minifying your JS and generating sourcemaps:
 
     gulp build
 
@@ -47,10 +47,6 @@ Or, to do them individually:
 	gulp css
 	gulp js
 
-If you want to watch for changes in \*.scss and \*.js files then simply call gulp with no arguments:
+If you want to watch for changes in `*.scss`, `*.less` and `*.js` files then simply call `gulp` with no arguments:
 
     gulp
-
-
-## Concatenating JS
-Specify which JS files you'd like to concatenate in `gulpfile.js`.
