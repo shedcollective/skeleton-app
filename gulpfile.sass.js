@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var less = require('gulp-less');
+var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
@@ -11,8 +11,8 @@ var path = require('path');
 
 //  Styles
 gulp.task('css', function() {
-    gulp.src(['assets/less/*.less'])
-        .pipe(less())
+    gulp.src(['assets/sass/*.scss'])
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'ie 8', 'ie 9'],
             cascade: false
@@ -29,7 +29,7 @@ gulp.task('css', function() {
         })
         .pipe(notify({
           title: 'Successfully compiled CSS',
-          message: 'All .less files were successfully compiled into CSS',
+          message: 'All .scss files were successfully compiled into CSS',
           sound: false,
           contentImage: path.join(__dirname, 'vendor/nailsapp/module-asset/assets/img/nails/icon/icon@2x.png'),
           icon: false,
@@ -68,9 +68,9 @@ gulp.task('js', function() {
         }));
 });
 
-//  Watches for changes in JS or less files and executes other tasks
+//  Watches for changes in JS or scss files and executes other tasks
 gulp.task('default', function() {
-    gulp.watch('assets/less/**/*.less',['css']);
+    gulp.watch('assets/scss/**/*.scss',['css']);
     gulp.watch('assets/js/**/*.js',['js']);
 });
 

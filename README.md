@@ -50,3 +50,7 @@ Or, to do them individually:
 If you want to watch for changes in `*.scss`, `*.less` and `*.js` files then simply call `gulp` with no arguments:
 
     gulp
+
+
+## JSHint
+The included `.jshintrc` file contains Nails standard rules. Feel free to change it to your preferences and/or project needs.
