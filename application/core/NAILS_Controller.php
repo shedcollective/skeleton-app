@@ -22,7 +22,7 @@ class NAILS_Controller extends \Nails\Common\Controller\Base
 
         //  Load JS from the app's `assets/bower_components` directory
         $this->asset->load('jquery/dist/jquery.min.js', 'BOWER');
-        $this->asset->load('bootstrap/dist/js/bootstrap.min.js', 'BOWER');
+        $this->asset->load('bootstrap-sass/assets/javascripts/bootstrap.min.js', 'BOWER');
 
         //  Load JS from the app's `assets/js` directory
         $this->asset->load('app.min.js');
