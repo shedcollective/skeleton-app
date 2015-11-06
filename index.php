@@ -7,8 +7,8 @@
  *
  * This is the kick off point for the main Nails Application.
  *
- * Lead Developer: Pablo de la Peña (p@shedcollective.org, @hellopablo)
- * Lead Developer: Gary Duncan      (g@shedcollective.org, @gsdd)
+ * Lead Developer: Pablo de la Peña (p@nailsapp.co.uk, @hellopablo)
+ * Lead Developer: Gary Duncan      (g@nailsapp.co.uk, @gsdd)
  *
  * Documentation: http://docs.nailsapp.co.uk
  */

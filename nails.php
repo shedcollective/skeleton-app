@@ -8,8 +8,8 @@
  *
  * This is the console application for Nails.
  *
- * Lead Developer: Pablo de la Peña (p@shedcollective.org, @hellopablo)
- * Lead Developer: Gary Duncan      (g@shedcollective.org, @gsdd)
+ * Lead Developer: Pablo de la Peña (p@nailsapp.co.uk, @hellopablo)
+ * Lead Developer: Gary Duncan      (g@nailsapp.co.uk, @gsdd)
  *
  * Documentation: http://docs.nailsapp.co.uk/console
  */
