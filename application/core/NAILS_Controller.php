@@ -1,6 +1,8 @@
 <?php
 
-class NAILS_Controller extends \Nails\Common\Controller\Base
+use Nails\Common\Controller\Base;
+
+class NAILS_Controller extends Base
 {
     /**
      * Construct the controller
