@@ -1,5 +1,6 @@
 <?php
 
+use Nails\Factory;
 use Nails\Common\Controller\Base;
 
 class NAILS_Controller extends Base
@@ -19,14 +20,16 @@ class NAILS_Controller extends Base
 
         parent::__construct();
 
+        $oAsset = Factory::service('Asset');
+
         //  Load CSS from the app's `assets/css` directory
-        $this->asset->load('styles.css');
+        $oAsset->load('styles.css');
 
         //  Load JS from the app's `assets/bower_components` directory
-        $this->asset->load('jquery/dist/jquery.min.js', 'BOWER');
-        $this->asset->load('bootstrap-sass/assets/javascripts/bootstrap.min.js', 'BOWER');
+        $oAsset->load('jquery/dist/jquery.min.js', 'BOWER');
+        $oAsset->load('bootstrap-sass/assets/javascripts/bootstrap.min.js', 'BOWER');
 
         //  Load JS from the app's `assets/js` directory
-        $this->asset->load('app.min.js');
+        $oAsset->load('app.min.js');
     }
 }
