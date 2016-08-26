@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
@@ -11,14 +12,20 @@ var path = require('path');
 
 //  Styles
 gulp.task('css', function() {
-    gulp.src(['assets/sass/*.scss'])
+
+    gulp
+        .src(['assets/sass/*.scss'])
         .pipe(sass().on('error', sass.logError))
+        .pipe(concat('main.css'))
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'ie 8', 'ie 9'],
             cascade: false
         }))
         .pipe(cleanCSS())
-        .pipe(gulp.dest('./assets/css/'))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(gulp.dest('./assets/build/css/'))
         .on('error', notify.onError({
             message: 'Error compiling CSS',
             title: '<%= error.message %>',
@@ -35,18 +42,20 @@ gulp.task('css', function() {
           icon: false,
           onLast: true
         }));
+
 });
 
 //  JS
 gulp.task('js', function() {
     gulp.src(['assets/js/*.js', '!assets/js/*.min.js', '!assets/js/*.min.js.map'])
         .pipe(sourcemaps.init())
+        .pipe(concat('app.js'))
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
         }))
         .pipe(sourcemaps.write('./', {includeContent: false}))
-        .pipe(gulp.dest('./assets/js/'))
+        .pipe(gulp.dest('./assets/build/js/'))
         .on('error', notify.onError({
             message: 'Error compiling JS',
             title: '<%= error.message %>',
@@ -71,7 +80,7 @@ gulp.task('js', function() {
 //  Watches for changes in JS or scss files and executes other tasks
 gulp.task('default', function() {
     gulp.watch('assets/sass/**/*.scss',['css']);
-    gulp.watch(['assets/js/*.js', '!assets/js/*.min.js', '!assets/js/*.min.js.map'],['js']);
+    gulp.watch(['assets/js/*.js'],['js']);
 });
 
 //  Builds both CSS and JS
