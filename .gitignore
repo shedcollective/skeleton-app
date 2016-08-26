@@ -59,6 +59,4 @@ assets/bower_components/*
 config/deploy.php
 
 # Built CSS & JS
-assets/css/*
-assets/js/*.min.js
-assets/js/*.min.js.map
+assets/build

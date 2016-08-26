@@ -13,8 +13,7 @@ _APP = function()
      * Construct the class
      * @return {Void}
      */
-    base.__construct = function()
-    {
+    base.__construct = function() {
 
     };
 
