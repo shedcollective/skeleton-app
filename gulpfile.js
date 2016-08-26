@@ -70,7 +70,7 @@ gulp.task('js', function() {
 
 //  Watches for changes in JS or scss files and executes other tasks
 gulp.task('default', function() {
-    gulp.watch('assets/scss/**/*.scss',['css']);
+    gulp.watch('assets/sass/**/*.scss',['css']);
     gulp.watch(['assets/js/*.js', '!assets/js/*.min.js', '!assets/js/*.min.js.map'],['js']);
 });
 
