@@ -1,6 +1,5 @@
 var _APP;
-_APP = function()
-{
+_APP = function() {
     /**
      * Avoid scope issues in callbacks and anonymous functions by referring to `this` as `base`
      * @type {Object}
@@ -11,10 +10,10 @@ _APP = function()
 
     /**
      * Construct the class
-     * @return {Void}
+     * @return {Object}
      */
     base.__construct = function() {
-
+        return base;
     };
 
     // --------------------------------------------------------------------------

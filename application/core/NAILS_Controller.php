@@ -22,14 +22,10 @@ class NAILS_Controller extends Base
 
         $oAsset = Factory::service('Asset');
 
-        //  Load CSS from the app's `assets/css` directory
-        $oAsset->load('styles.css');
+        //  Load CSS from the app's `assets/build/css` directory
+        $oAsset->load('app.css');
 
-        //  Load JS from the app's `assets/bower_components` directory
-        $oAsset->load('jquery/dist/jquery.min.js', 'BOWER');
-        $oAsset->load('bootstrap-sass/assets/javascripts/bootstrap.min.js', 'BOWER');
-
-        //  Load JS from the app's `assets/js` directory
+        //  Load JS from the app's `assets/build/js` directory
         $oAsset->load('app.min.js');
     }
 }
