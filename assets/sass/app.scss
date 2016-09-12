@@ -1,0 +1,37 @@
+// Bootstrap
+// =========
+
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables.scss";
+
+// Use custom palette and variables in Bootstrap elements
+@import "app/base/palette.scss";
+@import "app/base/variables.scss";
+
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/grid.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/utilities.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities.scss";
+
+// Vendor
+// ======
+
+// Project-specific
+@import "app/base/utility.scss";
+@import "app/base/typography.scss";
+
+@import "app/component/button.scss";
+@import "app/component/form.scss";
+@import "app/component/image.scss";
+@import "app/component/list.scss";
+
+@import "app/structure/footer.scss";
+@import "app/structure/header.scss";
+@import "app/structure/layout.scss";
+@import "app/structure/nav.scss";
+
+// Vendor Overrides
+// ================
+@import "app/vendor/example.scss";
+
