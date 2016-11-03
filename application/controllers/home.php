@@ -1,6 +1,9 @@
 <?php
 
-class Home extends NAILS_Controller
+use Nails\Factory;
+use App\Controller\Base;
+
+class Home extends Base
 {
     /**
      * Index Page for this controller.
@@ -37,8 +40,9 @@ class Home extends NAILS_Controller
         $this->data['headerOverride'] = 'structure/header/blank';
         $this->data['footerOverride'] = 'structure/footer/blank';
 
-        $this->load->view('structure/header', $this->data);
-        $this->load->view('home/index', $this->data);
-        $this->load->view('structure/footer', $this->data);
+        $oView = Factory::service('View');
+        $oView->load('structure/header', $this->data);
+        $oView->load('home/index', $this->data);
+        $oView->load('structure/footer', $this->data);
     }
 }
