@@ -108,8 +108,7 @@ $NAILS_CONTROLLER_DATA = array();
  *---------------------------------------------------------------
  */
 
-if (!file_exists(NAILS_COMMON_PATH . 'core/CORE_NAILS_Controller.php')) {
-
+if (!file_exists(NAILS_COMMON_PATH)) {
     _NAILS_ERROR('Cannot find a valid Nails installation, have you run <code>composer install</code>?');
 }
 
