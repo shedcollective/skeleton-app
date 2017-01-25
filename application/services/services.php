@@ -13,9 +13,7 @@ return array(
      * Once instantiated, a request for a service will always return the same instance.
      */
     'services' => array(
-        // 'ModelName' => function () {
-        //    return new \App\Service\ModelName();
-        //}
+        // GENERATOR[SERVICES]
     ),
 
 
@@ -24,9 +22,7 @@ return array(
      * Once instantiated, a request for a model will always return the same instance.
      */
     'models' => array(
-        // 'ModelName' => function () {
-        //    return new \App\Model\ModelName();
-        //}
+        // GENERATOR[MODELS]
     ),
 
 
@@ -34,8 +30,6 @@ return array(
      * A class for which a new instance is created each time it is requested.
      */
     'factories' => array(
-        // 'FactoryName' => function () {
-        //    return new \App\Factory\FactoryName();
-        //}
+        // GENERATOR[FACTORIES]
     )
 );
