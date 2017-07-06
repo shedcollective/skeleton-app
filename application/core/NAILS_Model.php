@@ -1,5 +1,7 @@
 <?php
 
-class NAILS_Model extends \Nails\Common\Model\Base
+use Nails\Common\Model\Base;
+
+class NAILS_Model extends Base
 {
 }

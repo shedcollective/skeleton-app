@@ -14,22 +14,36 @@
  */
 
 if (!function_exists('_NAILS_ERROR')) {
-
     function _NAILS_ERROR($error, $subject = '')
     {
         echo '<style type="text/css">';
-            echo 'p {font-family:monospace;margin:20px 10px;}';
-            echo 'strong { color:red;}';
-            echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
+        echo 'p {font-family:monospace;margin:20px 10px;}';
+        echo 'strong { color:red;}';
+        echo 'code { padding:5px;border:1px solid #CCC;background:#EEE }';
         echo '</style>';
         echo '<p>';
-            echo '<strong>ERROR:</strong> ';
-            echo $subject ? '<em>' . $subject . '</em> - ' : '';
-            echo $error;
+        echo '<strong>ERROR:</strong> ';
+        echo $subject ? '<em>' . $subject . '</em> - ' : '';
+        echo $error;
         echo '</p>';
         exit(0);
     }
 }
+
+/*
+ *---------------------------------------------------------------
+ * Autoloading
+ *---------------------------------------------------------------
+ *
+ * Load Composer's autoloader
+ *
+ */
+
+if (!file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    _NAILS_ERROR('Missing vendor/autoload.php; please run composer install.');
+}
+
+require_once dirname(__FILE__) . '/vendor/autoload.php';
 
 /*
  *---------------------------------------------------------------
@@ -41,12 +55,10 @@ if (!function_exists('_NAILS_ERROR')) {
  */
 
 if (!file_exists(dirname(__FILE__) . '/config/app.php')) {
-
     _NAILS_ERROR('Missing config/app.php; please run installer.');
 }
 
 require dirname(__FILE__) . '/config/app.php';
-
 
 /*
  *---------------------------------------------------------------
@@ -58,13 +70,10 @@ require dirname(__FILE__) . '/config/app.php';
  */
 
 if (!file_exists(dirname(__FILE__) . '/config/deploy.php')) {
-
     _NAILS_ERROR('Missing config/deploy.php; please run installer.');
-
 }
 
 require dirname(__FILE__) . '/config/deploy.php';
-
 
 /*
  *---------------------------------------------------------------
@@ -77,15 +86,12 @@ require dirname(__FILE__) . '/config/deploy.php';
  */
 
 if (!defined('NAILS_PATH')) {
-
     define('NAILS_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/') . '/');
 }
 
 if (!defined('NAILS_COMMON_PATH')) {
-
     define('NAILS_COMMON_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/common/') . '/');
 }
-
 
 /*
  *---------------------------------------------------------------
@@ -99,8 +105,7 @@ if (!defined('NAILS_COMMON_PATH')) {
  *
  */
 
-$NAILS_CONTROLLER_DATA = array();
-
+$NAILS_CONTROLLER_DATA = [];
 
 /*
  *---------------------------------------------------------------
@@ -112,7 +117,6 @@ if (!file_exists(NAILS_COMMON_PATH)) {
     _NAILS_ERROR('Cannot find a valid Nails installation, have you run <code>composer install</code>?');
 }
 
-
 /*
  *---------------------------------------------------------------
  * LOAD NAILS COMMON FUNCTIONS
@@ -122,19 +126,11 @@ if (!file_exists(NAILS_COMMON_PATH)) {
  * Nails Bootstrap initiating.
  *
  */
-
-if (!file_exists(NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php')) {
-
-    /**
-     * Use the Nails startup error template, as we've established
-     * Nails is available
-     */
-
-    $_ERROR = 'Could not find <code>CORE_NAILS_Common.php</code>, ensure that your Nails set up is correct.';
-    include NAILS_COMMON_PATH . 'errors/startup_error.php';
+if (!file_exists(NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Common.php')) {
+    _NAILS_ERROR('Could not find <code>Nails\Common\CodeIgniter\Common()</code>, ensure Nails is set up correctly.');
 }
 
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Common.php';
+require_once NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Common.php';
 
 /*
  *---------------------------------------------------------------
@@ -188,7 +184,6 @@ $application_folder = 'application';
  */
 $view_folder = '';
 
-
 /*
  * --------------------------------------------------------------------
  * DEFAULT CONTROLLER
@@ -218,7 +213,6 @@ $view_folder = '';
 // The controller function you wish to be called.
 // $routing['function']	= '';
 
-
 /*
  * -------------------------------------------------------------------
  *  CUSTOM CONFIG VALUES
@@ -235,8 +229,6 @@ $view_folder = '';
  */
 // $assign_to_config['name_of_config_item'] = 'value of config item';
 
-
-
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
@@ -248,30 +240,25 @@ $view_folder = '';
  */
 
 // Set the current directory correctly for CLI requests
-if (defined('STDIN'))
-{
+if (defined('STDIN')) {
     chdir(dirname(__FILE__));
 }
 
-if (($_temp = realpath($system_path)) !== FALSE)
-{
-    $system_path = $_temp.DIRECTORY_SEPARATOR;
-}
-else
-{
+if (($_temp = realpath($system_path)) !== false) {
+    $system_path = $_temp . DIRECTORY_SEPARATOR;
+} else {
     // Ensure there's a trailing slash
     $system_path = strtr(
             rtrim($system_path, '/\\'),
             '/\\',
-            DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
-        ).DIRECTORY_SEPARATOR;
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+        ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
-if ( ! is_dir($system_path))
-{
-    header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-    echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
+if (!is_dir($system_path)) {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
     exit(3); // EXIT_CONFIG
 }
 
@@ -287,80 +274,62 @@ define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 define('BASEPATH', $system_path);
 
 // Path to the front controller (this file) directory
-define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
+define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
 // Name of the "system" directory
 define('SYSDIR', basename(BASEPATH));
 
 // The path to the "application" directory
-if (is_dir($application_folder))
-{
-    if (($_temp = realpath($application_folder)) !== FALSE)
-    {
+if (is_dir($application_folder)) {
+    if (($_temp = realpath($application_folder)) !== false) {
         $application_folder = $_temp;
-    }
-    else
-    {
+    } else {
         $application_folder = strtr(
             rtrim($application_folder, '/\\'),
             '/\\',
-            DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
         );
     }
-}
-elseif (is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
-{
-    $application_folder = BASEPATH.strtr(
+} elseif (is_dir(BASEPATH . $application_folder . DIRECTORY_SEPARATOR)) {
+    $application_folder = BASEPATH . strtr(
             trim($application_folder, '/\\'),
             '/\\',
-            DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
         );
-}
-else
-{
-    header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-    echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+} else {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF;
     exit(3); // EXIT_CONFIG
 }
 
-define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+define('APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 
 // The path to the "views" directory
-if ( ! isset($view_folder[0]) && is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
-{
-    $view_folder = APPPATH.'views';
-}
-elseif (is_dir($view_folder))
-{
-    if (($_temp = realpath($view_folder)) !== FALSE)
-    {
+if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) {
+    $view_folder = APPPATH . 'views';
+} elseif (is_dir($view_folder)) {
+    if (($_temp = realpath($view_folder)) !== false) {
         $view_folder = $_temp;
-    }
-    else
-    {
+    } else {
         $view_folder = strtr(
             rtrim($view_folder, '/\\'),
             '/\\',
-            DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
         );
     }
-}
-elseif (is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
-{
-    $view_folder = APPPATH.strtr(
+} elseif (is_dir(APPPATH . $view_folder . DIRECTORY_SEPARATOR)) {
+    $view_folder = APPPATH . strtr(
             trim($view_folder, '/\\'),
             '/\\',
-            DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
         );
-}
-else
-{
-    header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-    echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+} else {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF;
     exit(3); // EXIT_CONFIG
 }
 
-define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 
 /*
  * --------------------------------------------------------------------
@@ -369,4 +338,4 @@ define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+require_once BASEPATH . 'core/CodeIgniter.php';

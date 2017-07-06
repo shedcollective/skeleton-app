@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Input.php';
+use Nails\Common\CodeIgniter\Input;
 
-class NAILS_Input extends CORE_NAILS_Input
+class NAILS_Input extends Input
 {
 }

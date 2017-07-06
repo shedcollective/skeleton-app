@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Exceptions.php';
+use Nails\Common\CodeIgniter\Exceptions;
 
-class NAILS_Exceptions extends CORE_NAILS_Exceptions
+class NAILS_Exceptions extends Exceptions
 {
 }

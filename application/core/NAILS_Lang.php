@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Lang.php';
+use Nails\Common\CodeIgniter\Lang;
 
-class NAILS_Lang extends CORE_NAILS_Lang
+class NAILS_Lang extends Lang
 {
 }

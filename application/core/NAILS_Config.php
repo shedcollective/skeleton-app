@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Config.php';
+use Nails\Common\CodeIgniter\Config;
 
-class NAILS_Config extends CORE_NAILS_Config
+class NAILS_Config extends Config
 {
 }
