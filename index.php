@@ -126,11 +126,13 @@ if (!file_exists(NAILS_COMMON_PATH)) {
  * Nails Bootstrap initiating.
  *
  */
-if (!file_exists(NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Common.php')) {
-    _NAILS_ERROR('Could not find <code>Nails\Common\CodeIgniter\Common()</code>, ensure Nails is set up correctly.');
+if (!file_exists(NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Core/Common.php')) {
+    _NAILS_ERROR(
+        'Could not find <code>Nails\Common\CodeIgniter\Core\Common()</code>, ensure Nails is set up correctly.'
+    );
 }
 
-require_once NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Common.php';
+require_once NAILS_COMMON_PATH . 'src/Common/CodeIgniter/Core/Common.php';
 
 /*
  *---------------------------------------------------------------

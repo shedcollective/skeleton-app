@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'libraries/CORE_NAILS_Form_validation.php';
+use Nails\Common\CodeIgniter\Libraries\FormValidation;
 
-class NAILS_Form_validation extends CORE_NAILS_Form_validation
+class NAILS_Form_validation extends FormValidation
 {
 }

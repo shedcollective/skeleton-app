@@ -1,6 +1,6 @@
 <?php
 
-use Nails\Common\CodeIgniter\Loader;
+use Nails\Common\CodeIgniter\Core\Loader;
 
 class NAILS_Loader extends Loader
 {
