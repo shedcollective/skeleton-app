@@ -70,7 +70,6 @@ var css = {
 var js = {
     'app': {
         'input': [
-            // 'assets/bower_components/jquery/dist/jquery.js',
             'assets/js/app/comp*.js',
             'assets/js/app.js'
         ],
