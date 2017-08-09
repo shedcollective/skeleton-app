@@ -22,14 +22,14 @@
  *      and, optionally, some sub files
  *
  *      Example folder structure:
- *      assets/js/app/component1.js
- *      assets/js/app/component2.js
+ *      assets/js/app/component/component1.js
+ *      assets/js/app/component/component2.js
  *      assets/js/app.js
  *
  *      Using the default gulp file, all of the above files will be watched for
  *      changes, and when detected the `js:app` task will be run - this will
  *      concatenates all of the above files (in the above order, i.e components
- *      first) into a single, compressed file at `assets/build/js/app.js`
+ *      first) into a single, compressed file at `assets/build/js/app.min.js`
  *
  * --------------------------------------------------------------------------
  *
@@ -70,9 +70,8 @@ var css = {
 var js = {
     'app': {
         'input': [
-            'assets/bower_components/jquery/dist/jquery.js',
-            'assets/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-            'assets/js/app/*.js',
+            // 'assets/bower_components/jquery/dist/jquery.js',
+            'assets/js/app/comp*.js',
             'assets/js/app.js'
         ],
         'output': 'app.js',
@@ -111,6 +110,17 @@ var uglify       = require('gulp-uglify');
 var sourceMap    = require('gulp-sourcemaps');
 var runSequence  = require('run-sequence');
 var notify       = require('gulp-notify');
+
+// ES2015 reqs
+var browserify   = require('browserify');
+var gulp         = require('gulp');
+var source       = require('vinyl-source-stream');
+var transform    = require('vinyl-transform');
+var buffer       = require('vinyl-buffer');
+var babelify     = require('babelify');
+
+
+
 
 // --------------------------------------------------------------------------
 
@@ -188,26 +198,36 @@ function compileCss(task, input, output) {
  * @returns {*}
  */
 function compileJs(task, input, output) {
-    return gulp
-        .src(input)
-        .pipe(sourceMap.init())
-        .pipe(concat(output))
-        .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(sourceMap.write('./', {includeContent: false}))
+
+    var b = browserify({
+        entries: './assets/js/app.js',
+        debug: true,
+        transform: [babelify.configure({
+          presets: ['es2015']
+        })]
+    });
+
+    return b.bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourceMap.init({loadMaps: true}))
+            // Add transformation tasks to the pipeline here.
+            .pipe(uglify())
+            .pipe(rename({
+                suffix: '.min'
+            }))
+            .on('error', notify.onError({
+                message: '[' + task + '] Error compiling JS',
+                title:   '<%= error.message %>',
+                sound:   'Funk',
+                icon:    false,
+                onLast:  true
+            }))
+            .on('error', function (err) {
+                console.log('Error compiling JS: ', err);
+            })
+        .pipe(sourceMap.write('./'))
         .pipe(gulp.dest('./assets/build/js/'))
-        .on('error', notify.onError({
-            message: '[' + task + '] Error compiling JS',
-            title:   '<%= error.message %>',
-            sound:   'Funk',
-            icon:    false,
-            onLast:  true
-        }))
-        .on('error', function (err) {
-            console.log('Error compiling JS: ', err);
-        })
         .pipe(notify({
             title:   'Successfully compiled JS',
             message: '[' + task + '] All .js files were successfully minified and sourceMap generated',
