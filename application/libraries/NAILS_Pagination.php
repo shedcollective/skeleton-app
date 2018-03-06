@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'libraries/CORE_NAILS_Pagination.php';
+use Nails\Common\CodeIgniter\Libraries\Pagination ;
 
-class NAILS_Pagination extends CORE_NAILS_Pagination
+class NAILS_Pagination  extends Pagination
 {
 }
