@@ -1,22 +1,14 @@
+'use strict';
 var _APP;
-_APP = function() {
-    /**
-     * Avoid scope issues in callbacks and anonymous functions by referring to `this` as `base`
-     * @type {Object}
-     */
-    var base = this;
 
-    // --------------------------------------------------------------------------
+import jquery from 'jquery';
+window.$ = window.jQuery = jquery;
 
-    /**
-     * Construct the class
-     * @return {Object}
-     */
-    base.__construct = function() {
-        return base;
-    };
+var Bootstrap = require('bootstrap-sass');
+Bootstrap.$ = $;
 
-    // --------------------------------------------------------------------------
+import Test from './app/components/Test.js';
 
-    return base.__construct();
-}();
+_APP = (function() {
+    const test = new Test();
+})();
