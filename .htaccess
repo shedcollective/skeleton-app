@@ -40,6 +40,11 @@ Options +FollowSymlinks -Indexes
     </IfModule>
 </IfModule>
 
+# Restrict certain files
+# ------------------------------------------------
+<FilesMatch "README\.md|composer\.json|package\.json|config/*|\.gitignore">
+    Require all denied
+</FilesMatch>
 
 # Rewriting magic.
 # ------------------------------------------------
