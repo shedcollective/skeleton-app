@@ -42,7 +42,7 @@ Options +FollowSymlinks -Indexes
 
 # Restrict certain files
 # ------------------------------------------------
-<FilesMatch "README\.md|composer\.json|package\.json|config/*|\.gitignore">
+<FilesMatch "README\.md|composer\.json|composer\.lock|package\.json|config/*|\.gitignore">
     Require all denied
 </FilesMatch>
 
