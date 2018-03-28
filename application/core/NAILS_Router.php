@@ -1,8 +1,7 @@
 <?php
 
-/* load the class from the package */
-require_once NAILS_COMMON_PATH . 'core/CORE_NAILS_Router.php';
+use Nails\Common\CodeIgniter\Core\Router;
 
-class NAILS_Router extends CORE_NAILS_Router
+class NAILS_Router extends Router
 {
 }
