@@ -2,7 +2,7 @@
   "name": "mycompany-myproject",
   "version": "0.0.0",
   "description": "A description of the project",
-  "author": "Shed Collective <hello@shedcollective.org>",
+  "author": "John Dow <john@example.com>",
   "contributors": [],
   "analyze": true,
   "license": "proprietary",
