@@ -42,4 +42,4 @@ fi
 # Execute the Gulp build command so that all JS and CSS is compiled
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
-./node_modules/.bin/gulp build
+npm run production
