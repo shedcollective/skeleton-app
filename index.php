@@ -14,7 +14,7 @@
  */
 
 if (!function_exists('_NAILS_ERROR')) {
-    function _NAILS_ERROR($error, $subject = '')
+    function _NAILS_ERROR($sError, $sSubject = '')
     {
         echo '<style type="text/css">';
         echo 'p {font-family:monospace;margin:20px 10px;}';
@@ -23,8 +23,8 @@ if (!function_exists('_NAILS_ERROR')) {
         echo '</style>';
         echo '<p>';
         echo '<strong>ERROR:</strong> ';
-        echo $subject ? '<em>' . $subject . '</em> - ' : '';
-        echo $error;
+        echo $sSubject ? '<em>' . $sSubject . '</em> - ' : '';
+        echo $sError;
         echo '</p>';
         exit(0);
     }
