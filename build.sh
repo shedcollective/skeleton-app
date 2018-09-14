@@ -24,7 +24,7 @@ npm install
 # --------------------------------------------------------------------------
 chmod -R 0755 vendor
 chmod g+w cache/public cache/private application/logs
-chmod +x ./vendor/nailsapp/module-console/console.php
+chmod +x ./vendor/nails/module-console/console.php
 
 
 # --------------------------------------------------------------------------
@@ -32,9 +32,9 @@ chmod +x ./vendor/nailsapp/module-console/console.php
 # through the installer
 # --------------------------------------------------------------------------
 if [ -f "config/app.php" ] && [ -f "config/deploy.php" ]; then
-    php ./vendor/nailsapp/module-console/console.php migrate --no-interaction
+    php ./vendor/nails/module-console/console.php migrate --no-interaction
 else
-    php ./vendor/nailsapp/module-console/console.php install
+    php ./vendor/nails/module-console/console.php install
 fi
 
 

@@ -86,11 +86,11 @@ require dirname(__FILE__) . '/config/deploy.php';
  */
 
 if (!defined('NAILS_PATH')) {
-    define('NAILS_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/') . '/');
+    define('NAILS_PATH', realpath(dirname(__FILE__) . '/vendor/nails/') . '/');
 }
 
 if (!defined('NAILS_COMMON_PATH')) {
-    define('NAILS_COMMON_PATH', realpath(dirname(__FILE__) . '/vendor/nailsapp/common/') . '/');
+    define('NAILS_COMMON_PATH', realpath(dirname(__FILE__) . '/vendor/nails/common/') . '/');
 }
 
 /*
