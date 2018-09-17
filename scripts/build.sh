@@ -15,8 +15,13 @@ fi
 # --------------------------------------------------------------------------
 # Make sure all dependencies are pulled down
 # --------------------------------------------------------------------------
-composer --no-interaction --optimize-autoloader --no-dev install
-npm install
+if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
+    composer --no-interaction --optimize-autoloader --no-dev install
+    npm install --production
+else
+    composer --no-interaction --optimize-autoloader install
+    npm install
+fi
 
 
 # --------------------------------------------------------------------------
