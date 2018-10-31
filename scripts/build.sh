@@ -27,8 +27,8 @@ fi
 # --------------------------------------------------------------------------
 # Ensure that the following directories have permissions set properly
 # --------------------------------------------------------------------------
-chmod -R 0755 vendor
-chmod g+w cache/public cache/private application/logs
+chmod -R 0755 ./vendor
+chmod g+w ./cache/public ./cache/private ./application/logs
 chmod +x ./vendor/nails/module-console/console.php
 
 
@@ -44,7 +44,11 @@ fi
 
 
 # --------------------------------------------------------------------------
-# Execute the Gulp build command so that all JS and CSS is compiled
+# Execute the NPM build command so that all JS and CSS is compiled
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
-npm run production
+if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
+    npm run production
+else
+    npm run development
+fi

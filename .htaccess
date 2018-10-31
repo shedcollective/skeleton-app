@@ -76,6 +76,16 @@ RewriteEngine on
 #RewriteCond http%1://%{HTTP_HOST} ^(https?://)(www\.)?(.+)$
 #RewriteRule ^ %1%3%{REQUEST_URI} [R=301,L]
 
+# Enforce a no-trailing-slash policy
+# ------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [R=301,L]
+
+# Enforce a trailing-slash policy
+# ------------------------------------------------
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.*[^/])$ /$1/ [R=301,L]
+
 # Block useragent libwww-perl to discourage simpler vulnerability scans
 # ------------------------------------------------
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.*
