@@ -21,6 +21,11 @@
     {
         "phpunit/phpunit": "7.*"
     },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/nails/module-console/console.php install:components"
+        ]
+    },
     "autoload":
     {
         "psr-4": {"App\\": "src/"}
