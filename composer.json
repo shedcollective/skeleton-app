@@ -23,7 +23,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@php vendor/nails/module-console/console.php install:components"
+            "@php vendor/nails/module-console/console.php install:components --ansi"
         ]
     },
     "autoload":
