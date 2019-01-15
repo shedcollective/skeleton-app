@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use Nails\Factory;
+// use Nails\Factory;
 
 class Bootstrap
 {
@@ -14,7 +14,7 @@ class Bootstrap
 
     /**
      * Set up the app's testing environment. This method will be called before any
-     * tests have been run, use it to configure anything that needs to eb avaialble
+     * tests have been run, use it to configure anything that needs to be available
      * throughout all the tests (e.g. create some users).
      *
      * Remember that database manipulations which happen here will persist during,
