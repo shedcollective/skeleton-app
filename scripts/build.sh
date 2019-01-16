@@ -6,8 +6,8 @@
 if ! [ -x "$(command -v composer)" ]; then
     echo 'ERROR: composer is not installed.' >&2
     exit 1
-elif ! [ -x "$(command -v npm)" ]; then
-    echo 'ERROR: npm is not installed.' >&2
+elif ! [ -x "$(command -v yarn)" ]; then
+    echo 'ERROR: yarn is not installed.' >&2
     exit 1
 fi
 
@@ -17,10 +17,10 @@ fi
 # --------------------------------------------------------------------------
 if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
     composer --no-interaction --optimize-autoloader --no-dev install
-    npm install --production
+    yarn install --production
 else
     composer --no-interaction --optimize-autoloader install
-    npm install
+    yarn install
 fi
 
 
@@ -48,7 +48,7 @@ fi
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
 if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
-    npm run production
+    yarn run production
 else
-    npm run development
+    yarn run development
 fi
