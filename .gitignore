@@ -54,10 +54,6 @@ vendor/*
 # Bower packages
 assets/bower_components/*
 
-# NAILS RECOMMENDED IGNORED FILES
-# Configs
-config/deploy.php
-
 # Built CSS & JS
 assets/build
 assets/mix-manifest.json
