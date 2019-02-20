@@ -37,7 +37,11 @@ chmod +x ./vendor/nails/module-console/console.php
 # through the installer
 # --------------------------------------------------------------------------
 if [ -f "config/app.php" ] && [ -f "config/deploy.php" ]; then
-    php ./vendor/nails/module-console/console.php migrate --no-interaction
+    if [ "$@" == "fresh" ]; then
+        php ./vendor/nails/module-console/console.php db:reset --no-interaction
+    else
+        php ./vendor/nails/module-console/console.php migrate --no-interaction
+    fi
 else
     php ./vendor/nails/module-console/console.php install
 fi
