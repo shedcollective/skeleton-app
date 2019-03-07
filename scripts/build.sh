@@ -17,7 +17,7 @@ fi
 # --------------------------------------------------------------------------
 if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
     composer --no-interaction --optimize-autoloader --no-dev install
-    yarn install --production
+    yarn install
 else
     composer --no-interaction --optimize-autoloader install
     yarn install
