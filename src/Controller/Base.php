@@ -105,7 +105,7 @@ abstract class Base extends \Nails\Common\Controller\Base
         $oMeta
             ->add('apple-mobile-web-app-title', APP_NAME)
             ->add('application-name', APP_NAME)
-            //->add('description', '')
+            //  ->add('description', '')
             ->add('theme-color', '#ffffff”');
 
         // --------------------------------------------------------------------------
