@@ -6,7 +6,7 @@ use Nails\Common\Service\Asset;
 use Nails\Common\Service\Meta;
 use Nails\Factory;
 
-class Base extends \Nails\Common\Controller\Base
+abstract class Base extends \Nails\Common\Controller\Base
 {
     /**
      * Construct the controller
@@ -47,7 +47,7 @@ class Base extends \Nails\Common\Controller\Base
             //  Load JS from the app's `assets/build/js` directory
             ->load('app.js')
             //  Load external fonts
-            ->load('https://fonts.googleapis.com/css?family=Open+Sans', 'JS');
+            ->load('https://fonts.googleapis.com/css?family=Open+Sans', null, 'CSS');
 
         return $this;
     }
