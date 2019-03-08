@@ -39,7 +39,7 @@ abstract class Base extends \Nails\Common\Controller\Base
      */
     protected function loadAssets(): self
     {
-        /** @var Asset $oAsset * */
+        /** @var Asset $oAsset **/
         $oAsset = Factory::service('Asset');
         $oAsset
             //  Load CSS from the app's `assets/build/css` directory
@@ -62,7 +62,7 @@ abstract class Base extends \Nails\Common\Controller\Base
      */
     private function loadMeta(): self
     {
-        /** @var Meta $oMeta * */
+        /** @var Meta $oMeta **/
         $oMeta = Factory::service('Meta');
 
         // Favicons
@@ -105,8 +105,8 @@ abstract class Base extends \Nails\Common\Controller\Base
         $oMeta
             ->add('apple-mobile-web-app-title', APP_NAME)
             ->add('application-name', APP_NAME)
-            ->add('theme-color', '#ffffff”')
-            ->add('description', '@todo.');
+            //->add('description', '')
+            ->add('theme-color', '#ffffff”');
 
         // --------------------------------------------------------------------------
 
@@ -122,26 +122,26 @@ abstract class Base extends \Nails\Common\Controller\Base
                 'property' => 'og:type',
                 'content'  => 'website',
             ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'og:locale',
-                'content'  => 'en_GB',
-            ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'og:image',
-                'content'  => site_url('/assets/img/share/facebook.jpg'),
-            ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'og:image:width',
-                'content'  => 1200,
-            ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'og:image:height',
-                'content'  => 630,
-            ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'og:locale',
+            //      'content'  => 'en_GB',
+            //  ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'og:image',
+            //      'content'  => '',
+            //  ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'og:image:width',
+            //      'content'  => 1920,
+            //  ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'og:image:height',
+            //      'content'  => 720,
+            //  ])
             ->addRaw([
                 'tag'      => 'meta',
                 'property' => 'og:site_name',
@@ -152,16 +152,16 @@ abstract class Base extends \Nails\Common\Controller\Base
                 'property' => 'og:url',
                 'content'  => site_url(),
             ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'og:description',
-                'content'  => '@todo',
-            ])
-            ->addRaw([
-                'tag'      => 'meta',
-                'property' => 'fb:app_id',
-                'content'  => '@todo',
-            ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'og:description',
+            //      'content'  => '',
+            //  ])
+            //  ->addRaw([
+            //      'tag'      => 'meta',
+            //      'property' => 'fb:app_id',
+            //      'content'  => '',
+            //  ])
             ->addRaw([
                 'tag'     => 'meta',
                 'name'    => 'theme-color',
@@ -172,25 +172,25 @@ abstract class Base extends \Nails\Common\Controller\Base
 
         // Twitter card config
         $oMeta
+             // ->addRaw([
+             //     'name'    => 'twitter:site',
+             //     'content' => '',
+             // ])
+             // ->addRaw([
+             //     'name'    => 'twitter:title',
+             //     'content' => '',
+             // ])
+             // ->addRaw([
+             //     'name'    => 'twitter:description',
+             //     'content' => '',
+             // ])
+            //  ->addRaw([
+            //      'name'    => 'twitter:image',
+            //      'content' => site_url('assets/img/share/twitter.jpg'),
+            //  ])
             ->addRaw([
                 'name'    => 'twitter:card',
                 'content' => 'summary_large_image',
-            ])
-            ->addRaw([
-                'name'    => 'twitter:site',
-                'content' => '@todo',
-            ])
-            ->addRaw([
-                'name'    => 'twitter:title',
-                'content' => '@todo',
-            ])
-            ->addRaw([
-                'name'    => 'twitter:description',
-                'content' => '@todo.',
-            ])
-            ->addRaw([
-                'name'    => 'twitter:image',
-                'content' => site_url('/assets/img/share/twitter.jpg'),
             ]);
 
         // --------------------------------------------------------------------------
