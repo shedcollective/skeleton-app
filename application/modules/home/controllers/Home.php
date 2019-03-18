@@ -23,26 +23,22 @@ class Home extends Base
      *
      *     http://example.com/
      *
+     * @throws \Nails\Common\Exception\FactoryException
      */
-    public function index()
+    public function index(): void
     {
         /**
          * To override the default Nails header you can create a view
          * at `application/views/structure/header/default`.
          *
-         * Alternatively you can set $this->data['headerOverride'] to
-         * the view you wish to load.
-         *
-         * The same rules apply to the footer, but substitute the word
+         * The same rule applies to the footer, but substitute the word
          * header with footer.
          */
-
-        $this->data['headerOverride'] = 'structure/header/blank';
-        $this->data['footerOverride'] = 'structure/footer/blank';
-
-        $oView = Factory::service('View');
-        $oView->load('structure/header', $this->data);
-        $oView->load('home/index', $this->data);
-        $oView->load('structure/footer', $this->data);
+        Factory::service('View')
+            ->load([
+                'structure/header/blank',
+                'home/index',
+                'structure/footer/blank',
+            ]);
     }
 }
