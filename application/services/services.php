@@ -8,7 +8,6 @@
 
 return [
 
-
     /**
      * Classes/libraries which don't necessarily relate to a database table.
      * Once instantiated, a request for a service will always return the same instance.
@@ -16,7 +15,6 @@ return [
     'services'  => [
         // GENERATOR[SERVICES]
     ],
-
 
     /**
      * Models generally represent database tables.
@@ -26,11 +24,17 @@ return [
         // GENERATOR[MODELS]
     ],
 
-
     /**
      * A class for which a new instance is created each time it is requested.
      */
     'factories' => [
         // GENERATOR[FACTORIES]
+    ],
+
+    /**
+     * A class which represents an object from the database
+     */
+    'resources' => [
+        // GENERATOR[RESOURCES]
     ],
 ];
