@@ -3,10 +3,10 @@
 # --------------------------------------------------------------------------
 # Test everything is available
 # --------------------------------------------------------------------------
-if ! [ -x "$(command -v composer)" ]; then
+if ! [[ -x "$(command -v composer)" ]]; then
     echo 'ERROR: composer is not installed.' >&2
     exit 1
-elif ! [ -x "$(command -v yarn)" ]; then
+elif ! [[ -x "$(command -v yarn)" ]]; then
     echo 'ERROR: yarn is not installed.' >&2
     exit 1
 fi
@@ -15,7 +15,7 @@ fi
 # --------------------------------------------------------------------------
 # Make sure all dependencies are pulled down
 # --------------------------------------------------------------------------
-if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
+if [[ $ENVIRONMENT == "PRODUCTION" ]]; then
     composer --no-interaction --optimize-autoloader --no-dev install
     yarn install --production
 else
@@ -36,11 +36,11 @@ chmod +x ./vendor/nails/module-console/console.php
 # If config files exist then simply migrate the database, if not, go
 # through the installer
 # --------------------------------------------------------------------------
-if [ -f "config/app.php" ] && [ -f "config/deploy.php" ]; then
-    if [ "$@" == "fresh" ]; then
-        php ./vendor/nails/module-console/console.php db:reset --no-interaction
+if [[ -f "config/app.php" ]] && [[ -f "config/deploy.php" ]]; then
+    if [[ $@ == "fresh" ]]; then
+        php ./vendor/nails/module-console/console.php db:rebuild --no-interaction
     else
-        php ./vendor/nails/module-console/console.php migrate --no-interaction
+        php ./vendor/nails/module-console/console.php db:migrate --no-interaction
     fi
 else
     php ./vendor/nails/module-console/console.php install
@@ -51,7 +51,7 @@ fi
 # Execute the NPM build command so that all JS and CSS is compiled
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
-if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
+if [[ $ENVIRONMENT == "PRODUCTION" ]]; then
     yarn run production
 else
     yarn run development
