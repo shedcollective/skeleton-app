@@ -21,14 +21,14 @@ class Migration1 extends Base
      *
      * @var int
      */
-    const USER_GROUP_SUPERUSER = 0;
+    const USER_GROUP_SUPERUSER = 1;
 
     /**
      * The ID of the administrator group
      *
      * @var int
      */
-    const USER_GROUP_ADMIN = 1;
+    const USER_GROUP_ADMIN = 2;
 
     // --------------------------------------------------------------------------
 
