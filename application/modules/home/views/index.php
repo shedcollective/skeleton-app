@@ -59,7 +59,6 @@
         50%  { width: 20px; opacity: 0.5; }
         100% { width: 35px; }
     }
-
 </style>
 <div id="welcome">
     <h1>
