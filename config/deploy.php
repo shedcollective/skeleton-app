@@ -26,10 +26,16 @@ define('DEPLOY_DB_DATABASE', getenv('DB_DATABASE'));
 // --------------------------------------------------------------------------
 
 //  Email
-define('DEPLOY_EMAIL_HOST', getenv('MAIL_HOST'));
-define('DEPLOY_EMAIL_USER', getenv('MAIL_USERNAME'));
-define('DEPLOY_EMAIL_PASS', getenv('MAIL_PASSWORD'));
-define('DEPLOY_EMAIL_PORT', getenv('MAIL_PORT'));
+define('EMAIL_HOST', getenv('MAIL_HOST'));
+define('EMAIL_USERNAME', getenv('MAIL_USERNAME'));
+define('EMAIL_PASSWORD', getenv('MAIL_PASSWORD'));
+define('EMAIL_PORT', getenv('MAIL_PORT'));
+define('EMAIL_WHITELIST', getenv('MAIL_WHITELIST'));
+
+// --------------------------------------------------------------------------
+
+//  Deployment Revision
+define('DEPLOY_REVISION', getenv('DEPLOY_REVISION'));
 
 // --------------------------------------------------------------------------
 
