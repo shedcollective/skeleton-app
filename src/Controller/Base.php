@@ -70,33 +70,33 @@ abstract class Base extends \Nails\Common\Controller\Base
             ->addRaw([
                 'tag'  => 'link',
                 'rel'  => 'icon',
-                'href' => site_url('favicon.ico'),
+                'href' => siteUrl('favicon.ico'),
             ])
             ->addRaw([
                 'tag'   => 'link',
                 'rel'   => 'icon',
                 'type'  => 'image/png',
-                'href'  => site_url('assets/img/favicons/favicon-16x16.png'),
+                'href'  => siteUrl('assets/img/favicons/favicon-16x16.png'),
                 'sizes' => '16x16',
             ])
             ->addRaw([
                 'tag'   => 'link',
                 'rel'   => 'icon',
                 'type'  => 'image/png',
-                'href'  => site_url('assets/img/favicons/favicon-32x32.png'),
+                'href'  => siteUrl('assets/img/favicons/favicon-32x32.png'),
                 'sizes' => '32x32',
             ])
             ->addRaw([
                 'tag'   => 'link',
                 'rel'   => 'apple-touch-icon',
                 'sizes' => '180x180',
-                'href'  => site_url('assets/img/favicons/apple-touch-icon.png'),
+                'href'  => siteUrl('assets/img/favicons/apple-touch-icon.png'),
             ])
             ->addRaw([
                 'tag'  => 'link',
                 'rel'  => 'mask-icon',
                 'type' => 'image/svg+xml',
-                'href' => site_url('assets/img/favicons/safari-pinned-tab.svg'),
+                'href' => siteUrl('assets/img/favicons/safari-pinned-tab.svg'),
             ]);
 
         // --------------------------------------------------------------------------
@@ -150,7 +150,7 @@ abstract class Base extends \Nails\Common\Controller\Base
             ->addRaw([
                 'tag'      => 'meta',
                 'property' => 'og:url',
-                'content'  => site_url(),
+                'content'  => siteUrl(),
             ])
             //  ->addRaw([
             //      'tag'      => 'meta',
@@ -186,7 +186,7 @@ abstract class Base extends \Nails\Common\Controller\Base
              // ])
             //  ->addRaw([
             //      'name'    => 'twitter:image',
-            //      'content' => site_url('assets/img/share/twitter.jpg'),
+            //      'content' => siteUrl('assets/img/share/twitter.jpg'),
             //  ])
             ->addRaw([
                 'name'    => 'twitter:card',
