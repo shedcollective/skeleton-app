@@ -51,6 +51,7 @@ abstract class Base extends \Nails\Common\Controller\Base
             //  Load CSS from the app's `assets/build/css` directory
             ->load('app.css')
             //  Load JS from the app's `assets/build/js` directory
+            ->load('vendor.js')
             ->load('app.js')
             //  Load external fonts
             ->load('https://fonts.googleapis.com/css?family=Open+Sans', null, 'CSS');
