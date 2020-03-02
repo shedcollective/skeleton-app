@@ -7,5 +7,5 @@
     <p>
         Nails is installed and working.
     </p>
-    <p><a href="https://nailsapp.co.uk" target="_blank">Read the docs</a></p>
+    <p><a href="https://docs.nailsapp.co.uk" target="_blank">Read the docs</a></p>
 </div>
