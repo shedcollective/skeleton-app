@@ -42,8 +42,6 @@ if [[ -f "config/app.php" ]] && [[ -f "config/deploy.php" ]]; then
     else
         php ./vendor/nails/module-console/console.php db:migrate --no-interaction
     fi
-else
-    php ./vendor/nails/module-console/console.php install
 fi
 
 
