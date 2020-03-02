@@ -1,0 +1,7 @@
+# Set target browsers for `babel-preset-env`
+# See for further information and configuration:
+# - https://www.npmjs.com/package/browserslist
+# - https://browserl.ist/
+
+> 0.25%
+not op_mini all
