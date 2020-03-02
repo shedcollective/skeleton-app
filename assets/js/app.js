@@ -1,5 +1,5 @@
 'use strict';
-var _APP;
+let _APP;
 
 // Import app.scss to kick off compilation
 import '../sass/app.scss';
