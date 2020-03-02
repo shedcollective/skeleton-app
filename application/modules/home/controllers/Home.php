@@ -1,8 +1,12 @@
 <?php
 
-use Nails\Factory;
 use App\Controller\Base;
+use Nails\Common\Exception\FactoryException;
+use Nails\Factory;
 
+/**
+ * Class Home
+ */
 class Home extends Base
 {
     /**
@@ -23,10 +27,13 @@ class Home extends Base
      *
      *     http://example.com/
      *
-     * @throws \Nails\Common\Exception\FactoryException
+     * @throws FactoryException
      */
     public function index(): void
     {
+        //  Set a friendly page title
+        $this->oMetaData->setTitles(['Welcome to Nails']);
+
         /**
          * To override the default Nails header you can create a view
          * at `application/views/structure/header/default`.
