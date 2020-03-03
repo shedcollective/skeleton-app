@@ -1,8 +1,8 @@
 {
-    "name": "mycompany-myproject",
+    "name": "shedcolelctive-client-project",
     "version": "0.0.0",
-    "description": "A description of the project",
-    "author": "John Dow <john@example.com>",
+    "description": "A project by Shed Collective.",
+    "author": "Shed Collective <hello@shedcollective.org>",
     "contributors": [],
     "analyze": true,
     "license": "UNLICENSED",
