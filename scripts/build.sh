@@ -33,18 +33,13 @@ chmod +x ./vendor/nails/module-console/console.php
 
 
 # --------------------------------------------------------------------------
-# If config files exist then simply migrate the database, if not, go
-# through the installer
+# Migrate the Database
 # --------------------------------------------------------------------------
-if [[ -f "config/app.php" ]] && [[ -f "config/deploy.php" ]]; then
-    if [[ $@ == "fresh" ]]; then
-        php ./vendor/nails/module-console/console.php db:rebuild --no-interaction
-    else
-        php ./vendor/nails/module-console/console.php db:migrate --no-interaction
-    fi
-else
-    php ./vendor/nails/module-console/console.php install
-fi
+  if [[ $@ == "fresh" ]]; then
+      php ./vendor/nails/module-console/console.php db:rebuild --no-interaction
+  else
+      php ./vendor/nails/module-console/console.php db:migrate --no-interaction
+  fi
 
 
 # --------------------------------------------------------------------------

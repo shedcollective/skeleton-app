@@ -1,0 +1,74 @@
+#welcome {
+    position: relative;
+    top: 50%;
+    transform: translateY(-75%);
+    display: block;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+.animate {
+    animation-timing-function: ease;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+h1 {
+    img {
+        width: 75px;
+        height: 75px;
+        margin-bottom: 1.5rem;
+        animation-name: fiesta;
+    }
+
+    .shadow {
+        margin: auto;
+        width: 35px;
+        height: 5px;
+        border-radius: 50%;
+        background: #e6e6e6;
+        animation-name: shadow;
+    }
+}
+
+h2 {
+    font-size: 1.75em;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: #d53354;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ea3357;
+}
+
+@keyframes fiesta {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes shadow {
+    0% {
+        width: 35px;
+    }
+    50% {
+        width: 20px;
+        opacity: 0.5;
+    }
+    100% {
+        width: 35px;
+    }
+}
