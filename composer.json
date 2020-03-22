@@ -15,7 +15,8 @@
     },
     "require":
     {
-        "nails/nails": "dev-develop"
+        "nails/nails": "dev-develop",
+        "nails/module-cms": "dev-develop"
     },
     "require-dev":
     {
