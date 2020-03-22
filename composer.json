@@ -36,5 +36,15 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "nails": {
+            "data": {
+                "nails/module-cdn": {
+                    "permitted-image-dimensions": [
+                    ]
+                }
+            }
+        }
     }
 }

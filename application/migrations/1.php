@@ -54,6 +54,7 @@ class Migration1 extends Base
             ->addCmsAreas()
             ->addCmsPages()
             ->addCmsMenu()
+            ->addCdnBuckets()
             ->addUserGroups()
             ->addUsers();
     }
@@ -102,8 +103,13 @@ class Migration1 extends Base
     {
         $aBlocks = [
             [
-                'label' => 'A CMS Block',
+                'label' => 'Default Site Meta Description',
                 'type'  => 'text',
+                'value' => '',
+            ],
+            [
+                'label' => 'Default Site Meta Image',
+                'type'  => 'image',
                 'value' => '',
             ],
         ];
@@ -239,6 +245,35 @@ class Migration1 extends Base
     // --------------------------------------------------------------------------
 
     /**
+     * Adds initial CDN buckets
+     *
+     * @return $this
+     * @throws FactoryException
+     * @throws ModelException
+     */
+    protected function addCdnBuckets(): self
+    {
+        $aBuckets = [
+            [
+                'label'     => 'Seed',
+                'is_hidden' => true,
+            ],
+        ];
+
+        /** @var Cdn\Model\Bucket $oModel */
+        $oModel = Factory::model('Bucket', Cdn\Constants::MODULE_SLUG);
+        foreach ($aBuckets as $aBucket) {
+            $oModel->create($aBucket);
+        }
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Adds/resets user groups
+     *
      * @return $this
      * @throws FactoryException
      * @throws ModelException
@@ -262,7 +297,7 @@ class Migration1 extends Base
 
         $this->iGroupAdminId = $oGroupModel->create([
             'slug'             => 'admin',
-            'label'            => 'Superuser',
+            'label'            => 'Administrator',
             'description'      => 'Administrators have access to specific areas within admin.',
             'default_homepage' => '/admin',
             'acl'              => json_encode([
@@ -322,93 +357,6 @@ class Migration1 extends Base
                 );
             }
         }
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Add initial CMS Blocks
-     *
-     * @return $this
-     * @throws FactoryException
-     * @throws ModelException
-     */
-    protected function addCmsBlocks(): self
-    {
-        $aBlocks = [
-            [
-                'label' => 'Example CMS Block',
-                'type'  => 'plaintext',
-                'value' => null,
-            ],
-        ];
-
-        /** @var Block $oModel */
-        $oModel = Factory::model('Block', 'nails/module-cms');
-        foreach ($aBlocks as $aBlock) {
-
-            $aBlock['slug'] = strtolower($aBlock['label']);
-            $aBlock['slug'] = preg_replace('/[^a-z ]/', '', $aBlock['slug']);
-            $aBlock['slug'] = trim($aBlock['slug']);
-            $aBlock['slug'] = preg_replace('/\s{1,}/', '-', $aBlock['slug']);
-            $aBlock['slug'] = trim($aBlock['slug']);
-
-            $oModel->create($aBlock);
-        }
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Add initial CMS Menus
-     *
-     * @return $this
-     * @throws FactoryException
-     * @throws ModelException
-     */
-    protected function addCmsMenu(): self
-    {
-        $aMenus = [
-            [
-                'label' => 'Example CMS Block',
-            ],
-        ];
-
-        /** @var Block $oModel */
-        $oModel = Factory::model('Menu', 'nails/module-cms');
-        foreach ($aMenus as $aMenu) {
-            $oModel->create($aMenu);
-        }
-
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Add initial CMS Pages
-     *
-     * @return $this
-     * @throws FactoryException
-     * @throws ModelException
-     */
-    protected function addCmsPage(): self
-    {
-        $aPages = [
-            [
-                'label' => 'Example CMS Block',
-            ],
-        ];
-
-        /** @var Block $oModel */
-        $oModel = Factory::model('Page', 'nails/module-cms');
-        foreach ($aPages as $aPage) {
-            $oModel->create($aPage);
-        }
-
         return $this;
     }
 }
