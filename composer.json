@@ -45,8 +45,8 @@
                     "autoload": {
                         "assets": {
                             "js": [
-                                "vendor.js"
-                                "admin.js",
+                                "vendor.js",
+                                "admin.js"
                             ],
                             "css": [
                                 "admin.css"
