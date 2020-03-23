@@ -41,6 +41,19 @@
     "extra": {
         "nails": {
             "data": {
+                "nails/module-admin": {
+                    "autoload": {
+                        "assets": {
+                            "js": [
+                                "vendor.js"
+                                "admin.js",
+                            ],
+                            "css": [
+                                "admin.css"
+                            ]
+                        }
+                    }
+                },
                 "nails/module-cdn": {
                     "permitted-image-dimensions": [
                     ]
