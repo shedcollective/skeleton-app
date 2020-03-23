@@ -8,6 +8,7 @@
 namespace Nails\Database\Migration\App;
 
 use Nails\Auth;
+use Nails\Cdn;
 use Nails\Cms;
 use Nails\Common\Console\Migrate\Base;
 use Nails\Common\Exception\FactoryException;
