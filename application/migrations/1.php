@@ -71,8 +71,8 @@ class Migration1 extends Base
     private function addSettings(): self
     {
         $aSetting = [
-            '{{SETTINGS_GROUP}}' => [
-                '{{SETTING_KEY}}' => 'value',
+            'site' => [
+                'google_analytics_account' => '',
             ],
         ];
 
