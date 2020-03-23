@@ -104,7 +104,7 @@ class Migration1 extends Base
         $aBlocks = [
             [
                 'label' => 'Default Site Meta Description',
-                'type'  => 'text',
+                'type'  => 'plaintext',
                 'value' => '',
             ],
             [
