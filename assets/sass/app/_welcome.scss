@@ -1,3 +1,8 @@
+body,
+html {
+    height: 100%;
+}
+
 #welcome {
     position: relative;
     top: 50%;
@@ -27,7 +32,7 @@ h1 {
         width: 35px;
         height: 5px;
         border-radius: 50%;
-        background: #e6e6e6;
+        background: rgba(0, 0, 0, 0.15);
         animation-name: shadow;
     }
 }
@@ -46,6 +51,14 @@ a {
     display: inline-block;
     padding: 0.5rem 1rem;
     border: 1px solid #ea3357;
+}
+
+@media (prefers-color-scheme: dark) {
+    body,
+    html {
+        background-color: #353535;
+        color: #ffffff;
+    }
 }
 
 @keyframes fiesta {
