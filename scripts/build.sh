@@ -35,11 +35,11 @@ chmod +x ./vendor/nails/module-console/console.php
 # --------------------------------------------------------------------------
 # Migrate the Database
 # --------------------------------------------------------------------------
-  if [[ $@ == "fresh" ]]; then
-      php ./vendor/nails/module-console/console.php db:rebuild --no-interaction
-  else
-      php ./vendor/nails/module-console/console.php db:migrate --no-interaction
-  fi
+if [[ $@ == "fresh" ]]; then
+    php ./vendor/nails/module-console/console.php db:rebuild --no-interaction
+else
+    php ./vendor/nails/module-console/console.php db:migrate --no-interaction
+fi
 
 
 # --------------------------------------------------------------------------
