@@ -3,7 +3,6 @@
 ![license](https://img.shields.io/badge/license-MIT-green.svg)
 [![CircleCI branch](https://img.shields.io/circleci/project/github/nails/skeleton-app.svg)](https://circleci.com/gh/nails/skeleton-app)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nails/skeleton-app/badges/quality-score.png)](https://scrutinizer-ci.com/g/nails/skeleton-app)
-[![Join the chat on Slack!](https://now-examples-slackin-rayibnpwqe.now.sh/badge.svg)](https://nails-app.slack.com/shared_invite/MTg1NDcyNjI0ODcxLTE0OTUwMzA1NTYtYTZhZjc5YjExMQ)
 
 This is a skeleton app for Nails, the absolute basics for a Nails application. Update this README file with details about your project.
 

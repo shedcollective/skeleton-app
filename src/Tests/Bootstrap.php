@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+// use Nails\Auth;
 // use Nails\Factory;
 
 class Bootstrap
@@ -22,7 +23,8 @@ class Bootstrap
      */
     public static function setUp()
     {
-        // $oUserModel          = Factory::model('User', 'nails/module-auth');
+        // /** @var Auth\Model\User $oUserModel */
+        // $oUserModel          = Factory::model('User', Auth\Constants::MODULE_SLUG);
         // static::$oUserSuper  = $oUserModel->create(
         //     [
         //         'group_id'   => 1,
@@ -62,7 +64,8 @@ class Bootstrap
      */
     public static function tearDown()
     {
-        // $oUserModel = Factory::model('User', 'nails/module-auth');
+        // /** @var Auth\Model\User $oUserModel */
+        // $oUserModel = Factory::model('User', Auth\Constants::MODULE_SLUG);
         // $oUserModel->delete(static::$oUserSuper->id);
         // $oUserModel->delete(static::$oUserAdmin->id);
         // $oUserModel->delete(static::$oUserMember->id);
