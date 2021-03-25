@@ -4,4 +4,4 @@
 # Watch JS and styles for changes
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
-npm run watch
+yarn run watch
