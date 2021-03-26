@@ -1,12 +1,6 @@
 
-# Created by https://www.gitignore.io/api/linux,macos,windows,phpstorm,visualstudiocode,composer,node,bower
-# Edit at https://www.gitignore.io/?templates=linux,macos,windows,phpstorm,visualstudiocode,composer,node,bower
-
-### Bower ###
-bower_components
-.bower-cache
-.bower-registry
-.bower-tmp
+# Created by https://www.gitignore.io/api/linux,macos,windows,phpstorm,visualstudiocode,composer,node
+# Edit at https://www.gitignore.io/?templates=linux,macos,windows,phpstorm,visualstudiocode,composer,node
 
 ### Composer ###
 composer.phar
@@ -84,8 +78,6 @@ coverage
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
-
-# Bower dependency directory (https://bower.io/)
 
 # node-waf configuration
 .lock-wscript
@@ -255,7 +247,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/linux,macos,windows,phpstorm,visualstudiocode,composer,node,bower
+# End of https://www.gitignore.io/api/linux,macos,windows,phpstorm,visualstudiocode,composer,node
 
 # Built CSS & JS
 assets/build
