@@ -44,18 +44,6 @@ fi
 
 
 # --------------------------------------------------------------------------
-# Default Settings
-# --------------------------------------------------------------------------
-php ./vendor/nails/module-console/console.php install:settings --no-interaction
-
-
-# --------------------------------------------------------------------------
-# Rewrite Routes
-# --------------------------------------------------------------------------
-php ./vendor/nails/module-console/console.php routes:rewrite --no-interaction
-
-
-# --------------------------------------------------------------------------
 # Execute the NPM build command so that all JS and CSS is compiled
 # --------------------------------------------------------------------------
 rm -rf assets/build/css assets/build/js
