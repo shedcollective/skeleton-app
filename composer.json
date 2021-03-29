@@ -1,13 +1,13 @@
 {
-    "name": "mycompany/myproject",
-    "description": "A description of the project.",
+    "name": "shedcollective/client-project",
+    "description": "A project by Shed Collective.",
     "authors": [
         {
-          "name": "John Dow",
-          "email": "john@example.com"
+          "name": "Shed Collective",
+          "email": "hello@shedcollective.org"
         }
     ],
-    "license": "proprietary",
+    "license": "UNLICENSED",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
@@ -15,7 +15,8 @@
     },
     "require":
     {
-        "nails/nails": "dev-develop"
+        "nails/nails": "dev-develop",
+        "nails/module-cms": "dev-develop"
     },
     "require-dev":
     {
@@ -28,11 +29,36 @@
     },
     "autoload":
     {
-        "psr-4": {"App\\": "src/"}
+        "psr-4": {
+            "App\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "nails": {
+            "data": {
+                "nails/module-admin": {
+                    "autoload": {
+                        "assets": {
+                            "js": [
+                                "vendor.js",
+                                "admin.js"
+                            ],
+                            "css": [
+                                "admin.css"
+                            ]
+                        }
+                    }
+                },
+                "nails/module-cdn": {
+                    "permitted-image-dimensions": [
+                    ]
+                }
+            }
         }
     }
 }
