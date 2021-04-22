@@ -50,4 +50,7 @@ jobs:
           key: yarn-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: ./vendor/bin/phpunit
+      - run:
+          command: ./vendor/bin/phpunit
+          environment:
+            PRIVATE_KEY: abc123
